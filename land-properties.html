@@ -638,33 +638,33 @@
                   </tr>
                 </thead>
                 <tbody id="faas-appraisal-tbody">
-                  <tr class="active-row">
-                    <td>Residential</td>
+                  <tr class="active-row" style="cursor: pointer;" onclick="window.openAppraisalSubModal(false)" title="Click or press F7 to Edit Land Appraisal Record">
+                    <td id="faas-app-class">Residential</td>
                     <td class="mono" id="faas-app-subclass">R-2</td>
                     <td class="mono" id="faas-app-actualuse">R-2</td>
                     <td class="mono" style="text-align: right;" id="faas-app-area">463.00 Sq. M.</td>
-                    <td class="mono">None</td>
+                    <td class="mono" id="faas-app-stripping">None</td>
                     <td class="mono" style="text-align: right;" id="faas-app-unitval">540.00</td>
-                    <td class="mono">None</td>
+                    <td class="mono" id="faas-app-adjustment">None</td>
                     <td class="mono" style="text-align: right; font-weight: 700; color: #1DB954;" id="faas-app-mktval">
                       250,020.00</td>
-                    <td class="mono" style="text-align: center;">T</td>
+                    <td class="mono" style="text-align: center;" id="faas-app-exempt">T</td>
                   </tr>
                 </tbody>
               </table>
 
               <div class="faas-table-bottom-bar">
                 <div style="display: flex; align-items: center; gap: 6px;">
-                  <button class="faas-grid-btn primary" onclick="window.promptEditAppraisalArea()"><svg width="12"
+                  <button class="faas-grid-btn primary" id="btn-faas-add-appraisal" onclick="window.openAppraisalSubModal(true)" title="Add Land Appraisal Record (F6)"><svg width="12"
                       height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                     </svg> F6 Add</button>
-                  <button class="faas-grid-btn" onclick="window.promptEditAppraisalArea()"><svg width="12" height="12"
+                  <button class="faas-grid-btn" id="btn-faas-edit-appraisal" onclick="window.openAppraisalSubModal(false)" title="Edit Land Appraisal Record (F7)"><svg width="12" height="12"
                       fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round"
                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg> F7 Edit</button>
-                  <button class="faas-grid-btn" style="color: #E22134;"><svg width="12" height="12" fill="none"
+                  <button class="faas-grid-btn" id="btn-faas-del-appraisal" style="color: #E22134;" onclick="window.deleteAppraisalRow()" title="Delete Land Appraisal Record (F8)"><svg width="12" height="12" fill="none"
                       stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round"
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -911,6 +911,141 @@
       <div class="fr-change-footer">
         <button class="land-tool-btn" onclick="window.closeChangeTransferModal()">Cancel</button>
         <button class="land-tool-btn primary" onclick="window.processChangeTransfer()">Process Change</button>
+      </div>
+  <!-- ==========================================================================
+     SUB-MODAL: LAND APPRAISAL RECORD UPDATE (Fr-LandDtl from LAND-UPD.p)
+     ========================================================================== -->
+  <div class="faas-modal-backdrop" id="land-appraisal-edit-modal" style="display: none; z-index: 10400;">
+    <div class="progress-dialog-frame" style="width: 560px;">
+      <div class="progress-dialog-titlebar">
+        <span>Land Appraisal Record Update</span>
+        <button class="progress-dialog-close-btn" onclick="window.closeAppraisalSubModal()">&times;</button>
+      </div>
+
+      <div class="progress-dialog-body">
+        <div class="progress-form-grid">
+          <!-- Classification -->
+          <div class="prog-row">
+            <label class="prog-lbl">Classification :</label>
+            <div class="prog-val-group">
+              <input type="text" id="dtl-class-code" class="prog-txt-code" value="R" maxlength="5">
+              <input type="text" id="dtl-class-desc" class="prog-txt-desc" value="Residential" readonly>
+            </div>
+          </div>
+
+          <!-- Actual Use -->
+          <div class="prog-row">
+            <label class="prog-lbl">Actual Use :</label>
+            <div class="prog-val-group">
+              <input type="text" id="dtl-actual-use-code" class="prog-txt-code" value="RES" maxlength="5">
+              <input type="text" id="dtl-actual-use-desc" class="prog-txt-desc" value="R-2" readonly>
+              <button class="prog-folder-btn" title="Lookup Land Unit Value (landuv.p)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></button>
+            </div>
+          </div>
+
+          <!-- Sub Class -->
+          <div class="prog-row">
+            <label class="prog-lbl">Sub Class :</label>
+            <div class="prog-val-group">
+              <input type="text" id="dtl-subclass-code" class="prog-txt-code" value="R2" maxlength="5">
+              <input type="text" id="dtl-subclass-desc" class="prog-txt-desc" value="R-2" readonly>
+            </div>
+          </div>
+
+          <div class="prog-divider"></div>
+
+          <!-- Stripping -->
+          <div class="prog-row">
+            <label class="prog-lbl">Stripping :</label>
+            <select id="dtl-strip-sel" class="prog-select" onchange="window.recalcAppraisalSubModal()">
+              <option value="0 - No Stripping" selected>0 - No Stripping</option>
+              <option value="1 - 1st Strip (100%)">1 - 1st Strip (100%)</option>
+              <option value="2 - 2nd Strip (80%)">2 - 2nd Strip (80%)</option>
+              <option value="3 - 3rd Strip (60%)">3 - 3rd Strip (60%)</option>
+            </select>
+          </div>
+
+          <!-- Land Area -->
+          <div class="prog-row">
+            <label class="prog-lbl">Land Area :</label>
+            <div class="prog-val-group">
+              <input type="number" step="0.0000001" id="dtl-area" class="prog-num-input" value="463.0000000" oninput="window.recalcAppraisalSubModal()">
+              <span class="prog-unit-lbl">in</span>
+              <select id="dtl-area-unit" class="prog-unit-sel" onchange="window.recalcAppraisalSubModal()">
+                <option value="Square Meter" selected>Square Meter</option>
+                <option value="Hectare">Hectare</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Unit Value -->
+          <div class="prog-row">
+            <label class="prog-lbl">Unit Value :</label>
+            <div class="prog-val-group">
+              <input type="number" step="0.01" id="dtl-unit-value" class="prog-num-input" value="540.00" oninput="window.recalcAppraisalSubModal()">
+              <span class="prog-unit-lbl">per</span>
+              <input type="text" id="dtl-uv-unit" class="prog-unit-desc" value="Square Meter" readonly>
+            </div>
+          </div>
+
+          <!-- Base Market Value -->
+          <div class="prog-row">
+            <label class="prog-lbl">Base Market Value :</label>
+            <input type="text" id="dtl-base-mv" class="prog-num-input prog-readonly" value="250,020.00" readonly>
+          </div>
+
+          <div class="prog-divider"></div>
+
+          <!-- Influence Type -->
+          <div class="prog-row">
+            <label class="prog-lbl">Influence Type :</label>
+            <div class="prog-val-group">
+              <select id="dtl-influence-sel" class="prog-select" onchange="window.onInfluenceChanged()">
+                <option value="0" selected>Not Applicable</option>
+                <option value="1">Corner Lot (+10%)</option>
+                <option value="2">Flooding / Low Elevation (-20%)</option>
+                <option value="3">Along Provincial Road (+15%)</option>
+                <option value="4">Irregular Shape (-10%)</option>
+              </select>
+              <button class="prog-folder-btn" title="Lookup Influence Factor (adjfactor.p)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></button>
+            </div>
+          </div>
+
+          <!-- Influence Value -->
+          <div class="prog-row">
+            <label class="prog-lbl">Influence Value :</label>
+            <div class="prog-val-group">
+              <input type="number" step="0.01" id="dtl-influence-val" class="prog-num-input" value="0.00" oninput="window.recalcAppraisalSubModal()">
+              <span class="prog-unit-lbl">in</span>
+              <input type="text" id="dtl-influence-desc" class="prog-unit-desc" value="Percentage (%)" readonly>
+            </div>
+          </div>
+
+          <!-- Net Base Market Value & Assessment Level -->
+          <div class="prog-row prog-split-row">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <label class="prog-lbl-sm">Net Base Market Value :</label>
+              <input type="text" id="dtl-net-mv" class="prog-num-input prog-readonly" style="width: 120px;" value="250,020.00" readonly>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <label class="prog-lbl-sm">Assessment Level :</label>
+              <input type="text" id="dtl-level-percent" class="prog-num-input" style="width: 70px;" value="6.00%">
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-Modal Footer -->
+        <div class="progress-dialog-footer">
+          <div style="display: flex; gap: 8px;">
+            <button class="progress-btn-save" onclick="window.saveAppraisalSubModal()" title="Save Appraisal Line (Alt-S)"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 4px;"><path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V7l-4-4zm-5 16a3 3 0 110-6 3 3 0 010 6zm3-10H5V5h10v4z"/></svg>Save</button>
+            <button class="progress-btn-cancel" onclick="window.closeAppraisalSubModal()" title="Cancel (Esc)"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 4px;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>Cancel</button>
+          </div>
+
+          <label class="progress-tax-exempt-label">
+            <input type="checkbox" id="dtl-exempted">
+            <span>Tax Exempted</span>
+          </label>
+        </div>
       </div>
     </div>
   </div>

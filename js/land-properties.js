@@ -560,31 +560,159 @@ document.addEventListener('DOMContentLoaded', () => {
     openFaasModal();
   };
 
-  window.promptEditAppraisalArea = function() {
+  const INFLUENCE_FACTORS = [
+    { code: '0', desc: 'Not Applicable', percent: 0, type: 'None' },
+    { code: '1', desc: 'Corner Lot (+10%)', percent: 10, type: 'Percentage (%)' },
+    { code: '2', desc: 'Flooding / Low Elevation (-20%)', percent: -20, type: 'Percentage (%)' },
+    { code: '3', desc: 'Along Provincial Road (+15%)', percent: 15, type: 'Percentage (%)' },
+    { code: '4', desc: 'Irregular Shape (-10%)', percent: -10, type: 'Percentage (%)' }
+  ];
+
+  window.openAppraisalSubModal = function(isAdd) {
+    const subModal = document.getElementById('land-appraisal-edit-modal');
+    if (!subModal) return;
+
+    const sel = displayedRecords[selectedRowIndex] || {
+      classification: 'Residential',
+      subclass: 'R-2',
+      actualUse: 'R-2',
+      area: 463.00,
+      unitValue: 540.00,
+      marketValue: 250020.00,
+      assessedValue: 15000.00,
+      taxable: true
+    };
+
+    if (isAdd) {
+      document.getElementById('dtl-class-code').value = 'R';
+      document.getElementById('dtl-class-desc').value = 'Residential';
+      document.getElementById('dtl-actual-use-code').value = 'RES';
+      document.getElementById('dtl-actual-use-desc').value = 'R-2';
+      document.getElementById('dtl-subclass-code').value = 'R2';
+      document.getElementById('dtl-subclass-desc').value = 'R-2';
+      document.getElementById('dtl-strip-sel').value = '0 - No Stripping';
+      document.getElementById('dtl-area').value = '100.0000000';
+      document.getElementById('dtl-area-unit').value = 'Square Meter';
+      document.getElementById('dtl-unit-value').value = '540.00';
+      document.getElementById('dtl-uv-unit').value = 'Square Meter';
+      document.getElementById('dtl-influence-sel').value = '0';
+      document.getElementById('dtl-influence-val').value = '0.00';
+      document.getElementById('dtl-influence-desc').value = 'Percentage (%)';
+      document.getElementById('dtl-level-percent').value = '6.00%';
+      document.getElementById('dtl-exempted').checked = false;
+    } else {
+      document.getElementById('dtl-class-code').value = 'R';
+      document.getElementById('dtl-class-desc').value = sel.classification || 'Residential';
+      document.getElementById('dtl-actual-use-code').value = 'RES';
+      document.getElementById('dtl-actual-use-desc').value = sel.actualUse || 'R-2';
+      document.getElementById('dtl-subclass-code').value = 'R2';
+      document.getElementById('dtl-subclass-desc').value = sel.subclass || 'R-2';
+      document.getElementById('dtl-strip-sel').value = '0 - No Stripping';
+      document.getElementById('dtl-area').value = Number(sel.area || 463).toFixed(7);
+      document.getElementById('dtl-area-unit').value = 'Square Meter';
+      document.getElementById('dtl-unit-value').value = Number(sel.unitValue || 540).toFixed(2);
+      document.getElementById('dtl-uv-unit').value = 'Square Meter';
+      document.getElementById('dtl-influence-sel').value = '0';
+      document.getElementById('dtl-influence-val').value = '0.00';
+      document.getElementById('dtl-influence-desc').value = 'Percentage (%)';
+      document.getElementById('dtl-level-percent').value = '6.00%';
+      document.getElementById('dtl-exempted').checked = !sel.taxable;
+    }
+
+    window.recalcAppraisalSubModal();
+    subModal.style.display = 'flex';
+  };
+
+  window.closeAppraisalSubModal = function() {
+    const subModal = document.getElementById('land-appraisal-edit-modal');
+    if (subModal) subModal.style.display = 'none';
+  };
+
+  window.onInfluenceChanged = function() {
+    const sel = document.getElementById('dtl-influence-sel');
+    const factor = INFLUENCE_FACTORS.find(f => f.code === sel.value);
+    if (factor) {
+      document.getElementById('dtl-influence-val').value = factor.percent.toFixed(2);
+      document.getElementById('dtl-influence-desc').value = factor.type === 'None' ? 'None' : 'Percentage (%)';
+    }
+    window.recalcAppraisalSubModal();
+  };
+
+  window.recalcAppraisalSubModal = function() {
+    const area = parseFloat(document.getElementById('dtl-area')?.value) || 0;
+    const uv = parseFloat(document.getElementById('dtl-unit-value')?.value) || 0;
+    const inflVal = parseFloat(document.getElementById('dtl-influence-val')?.value) || 0;
+    const lvlStr = (document.getElementById('dtl-level-percent')?.value || '6.00').replace('%', '').trim();
+    const levelPercent = parseFloat(lvlStr) || 6.00;
+
+    const baseMV = area * uv;
+    const adj = baseMV * (inflVal / 100);
+    const netMV = baseMV + adj;
+
+    const elBase = document.getElementById('dtl-base-mv');
+    const elNet = document.getElementById('dtl-net-mv');
+
+    if (elBase) elBase.value = baseMV.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (elNet) elNet.value = netMV.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+
+  window.saveAppraisalSubModal = function() {
     const sel = displayedRecords[selectedRowIndex];
     if (!sel) return;
 
-    const newArea = parseFloat(prompt("Edit Land Area (Sq. M.):", sel.area.toFixed(2)));
-    if (isNaN(newArea) || newArea <= 0) return;
+    const area = parseFloat(document.getElementById('dtl-area').value) || 0;
+    const uv = parseFloat(document.getElementById('dtl-unit-value').value) || 0;
+    const inflVal = parseFloat(document.getElementById('dtl-influence-val').value) || 0;
+    const lvlStr = (document.getElementById('dtl-level-percent').value || '6.00').replace('%', '').trim();
+    const levelPercent = parseFloat(lvlStr) || 6.00;
+    const isExempt = document.getElementById('dtl-exempted').checked;
 
-    const newUV = parseFloat(prompt("Edit Unit Value (₱ per Sq. M.):", sel.unitValue.toFixed(2))) || sel.unitValue;
+    const baseMV = area * uv;
+    const adj = baseMV * (inflVal / 100);
+    const netMV = baseMV + adj;
+    const av = isExempt ? 0 : (netMV * (levelPercent / 100));
 
-    sel.area = newArea;
-    sel.unitValue = newUV;
-    sel.marketValue = newArea * newUV;
-    sel.assessedValue = sel.marketValue * 0.06; // 6% assessment level for R-2
+    sel.area = area;
+    sel.unitValue = uv;
+    sel.marketValue = netMV;
+    sel.assessedValue = av;
+    sel.classification = document.getElementById('dtl-class-desc').value;
+    sel.actualUse = document.getElementById('dtl-actual-use-desc').value;
+    sel.subclass = document.getElementById('dtl-subclass-desc').value;
+    sel.taxable = !isExempt;
 
-    // Update UI elements in modal
-    const elAppArea = document.getElementById('faas-app-area'); if (elAppArea) elAppArea.textContent = `${newArea.toFixed(2)} Sq. M.`;
-    const elAppUV = document.getElementById('faas-app-unitval'); if (elAppUV) elAppUV.textContent = newUV.toFixed(2);
-    const elAppMV = document.getElementById('faas-app-mktval'); if (elAppMV) elAppMV.textContent = sel.marketValue.toLocaleString('en-US', { minimumFractionDigits: 2 });
-    const elBaseMV = document.getElementById('faas-base-market-badge'); if (elBaseMV) elBaseMV.textContent = sel.marketValue.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    // Update UI elements in the FAAS modal
+    const elClass = document.getElementById('faas-app-class'); if (elClass) elClass.textContent = sel.classification;
+    const elSubClass = document.getElementById('faas-app-subclass'); if (elSubClass) elSubClass.textContent = sel.subclass;
+    const elActUse = document.getElementById('faas-app-actualuse'); if (elActUse) elActUse.textContent = sel.actualUse;
+    const elAppArea = document.getElementById('faas-app-area'); if (elAppArea) elAppArea.textContent = `${area.toFixed(2)} Sq. M.`;
+    const elStrip = document.getElementById('faas-app-stripping'); if (elStrip) elStrip.textContent = document.getElementById('dtl-strip-sel').value.split(' - ')[0] === '0' ? 'None' : document.getElementById('dtl-strip-sel').value;
+    const elAppUV = document.getElementById('faas-app-unitval'); if (elAppUV) elAppUV.textContent = uv.toFixed(2);
+    const elAdj = document.getElementById('faas-app-adjustment'); if (elAdj) elAdj.textContent = inflVal !== 0 ? `${inflVal > 0 ? '+' : ''}${inflVal}%` : 'None';
+    const elAppMV = document.getElementById('faas-app-mktval'); if (elAppMV) elAppMV.textContent = netMV.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    const elExempt = document.getElementById('faas-app-exempt'); if (elExempt) elExempt.textContent = isExempt ? 'E' : 'T';
 
-    const elAssMV = document.getElementById('faas-ass-mktval'); if (elAssMV) elAssMV.textContent = sel.marketValue.toLocaleString('en-US', { minimumFractionDigits: 2 });
-    const elAssVal = document.getElementById('faas-ass-val'); if (elAssVal) elAssVal.textContent = sel.assessedValue.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    const elBaseMV = document.getElementById('faas-base-market-badge'); if (elBaseMV) elBaseMV.textContent = netMV.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    const elAssMV = document.getElementById('faas-ass-mktval'); if (elAssMV) elAssMV.textContent = netMV.toLocaleString('en-US', { minimumFractionDigits: 2 });
+    const elAssLev = document.getElementById('faas-ass-level'); if (elAssLev) elAssLev.textContent = `${levelPercent.toFixed(2)} %`;
+    const elAssVal = document.getElementById('faas-ass-val'); if (elAssVal) elAssVal.textContent = av.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
-    const elTotMV = document.getElementById('faas-footer-total-mv'); if (elTotMV) elTotMV.textContent = `₱ ${sel.marketValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-    const elTotAV = document.getElementById('faas-footer-total-av'); if (elTotAV) elTotAV.textContent = `₱ ${sel.assessedValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+    const elTotMV = document.getElementById('faas-footer-total-mv'); if (elTotMV) elTotMV.textContent = `₱ ${netMV.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+    const elTotAV = document.getElementById('faas-footer-total-av'); if (elTotAV) elTotAV.textContent = `₱ ${av.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+
+    window.closeAppraisalSubModal();
+    if (window.showToast) {
+      window.showToast(`✓ Land Appraisal Line Updated: Market Value ₱ ${netMV.toLocaleString('en-US', { minimumFractionDigits: 2 })}`);
+    }
+  };
+
+  window.deleteAppraisalRow = function() {
+    if (!confirm('Are you sure you want to delete this Land Appraisal line?')) return;
+    const elAppMV = document.getElementById('faas-app-mktval'); if (elAppMV) elAppMV.textContent = '0.00';
+    const elAssVal = document.getElementById('faas-ass-val'); if (elAssVal) elAssVal.textContent = '0.00';
+    const elTotMV = document.getElementById('faas-footer-total-mv'); if (elTotMV) elTotMV.textContent = '₱ 0.00';
+    const elTotAV = document.getElementById('faas-footer-total-av'); if (elTotAV) elTotAV.textContent = '₱ 0.00';
+    if (window.showToast) window.showToast('Land Appraisal line cleared.');
   };
 
   window.recomputeFaasTotals = function() {
