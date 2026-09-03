@@ -715,6 +715,207 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.showToast) window.showToast('Land Appraisal line cleared.');
   };
 
+  // ==============================================================================
+  // 11B. HELP (CODE LIST) CONTROLLER (Classification, Actual Use, Sub Class)
+  // ==============================================================================
+  const CLASSIFICATION_CODES = [
+    { code: 'R', desc: 'Residential', rate: '6.00%', defaultUse: 'RES', defaultUseDesc: 'R-2', defaultSub: 'R2', defaultSubDesc: 'R-2', uv: 540.00, unit: 'Square Meter' },
+    { code: 'A', desc: 'Agricultural', rate: '40.00%', defaultUse: 'AGR', defaultUseDesc: 'A-1 (Riceland Irrigated)', defaultSub: 'A1', defaultSubDesc: 'A-1', uv: 350000.00, unit: 'Hectare' },
+    { code: 'C', desc: 'Commercial', rate: '50.00%', defaultUse: 'COM', defaultUseDesc: 'C-1 (Commercial CBD)', defaultSub: 'C1', defaultSubDesc: 'C-1', uv: 1250.00, unit: 'Square Meter' },
+    { code: 'I', desc: 'Industrial', rate: '50.00%', defaultUse: 'IND', defaultUseDesc: 'I-1 (Heavy Industry)', defaultSub: 'I1', defaultSubDesc: 'I-1', uv: 1600.00, unit: 'Square Meter' },
+    { code: 'M', desc: 'Mineral', rate: '50.00%', defaultUse: 'MIN', defaultUseDesc: 'Mineral Land', defaultSub: 'M1', defaultSubDesc: 'M-1', uv: 800.00, unit: 'Square Meter' },
+    { code: 'T', desc: 'Timberland', rate: '20.00%', defaultUse: 'TIM', defaultUseDesc: 'Timberland / Forest', defaultSub: 'T1', defaultSubDesc: 'T-1', uv: 150000.00, unit: 'Hectare' },
+    { code: 'S', desc: 'Special Purpose (Govt / School / Hospital)', rate: '10.00%', defaultUse: 'SPC', defaultUseDesc: 'Special Purpose', defaultSub: 'S1', defaultSubDesc: 'S-1', uv: 600.00, unit: 'Square Meter' }
+  ];
+
+  const ACTUAL_USE_CODES = [
+    { code: 'RES', classCode: 'R', desc: 'Residential Land (General)', rate: '6.00%', subClassCode: 'R2', subClassDesc: 'R-2', uv: 540.00, unit: 'Square Meter' },
+    { code: 'R-1', classCode: 'R', desc: 'Residential 1st Class (National Highway / CBD)', rate: '6.00%', subClassCode: 'R1', subClassDesc: 'R-1', uv: 650.00, unit: 'Square Meter' },
+    { code: 'R-2', classCode: 'R', desc: 'Residential 2nd Class (Provincial / Paved Road)', rate: '6.00%', subClassCode: 'R2', subClassDesc: 'R-2', uv: 540.00, unit: 'Square Meter' },
+    { code: 'R-3', classCode: 'R', desc: 'Residential 3rd Class (Barangay Road)', rate: '6.00%', subClassCode: 'R3', subClassDesc: 'R-3', uv: 420.00, unit: 'Square Meter' },
+    { code: 'R-4', classCode: 'R', desc: 'Residential 4th Class (Interior / Pathway Only)', rate: '6.00%', subClassCode: 'R4', subClassDesc: 'R-4', uv: 320.00, unit: 'Square Meter' },
+    { code: 'AGR', classCode: 'A', desc: 'Agricultural Land (General)', rate: '40.00%', subClassCode: 'A1', subClassDesc: 'A-1', uv: 350000.00, unit: 'Hectare' },
+    { code: 'A-1', classCode: 'A', desc: 'Riceland Irrigated (1st Class Yield)', rate: '40.00%', subClassCode: 'A1', subClassDesc: 'A-1', uv: 350000.00, unit: 'Hectare' },
+    { code: 'A-2', classCode: 'A', desc: 'Riceland Rainfed (2nd Class Yield)', rate: '40.00%', subClassCode: 'A2', subClassDesc: 'A-2', uv: 280000.00, unit: 'Hectare' },
+    { code: 'A-3', classCode: 'A', desc: 'Cornland / Upland (3rd Class Yield)', rate: '40.00%', subClassCode: 'A3', subClassDesc: 'A-3', uv: 190000.00, unit: 'Hectare' },
+    { code: 'A-4', classCode: 'A', desc: 'Pasture / Cogonal Land', rate: '40.00%', subClassCode: 'A4', subClassDesc: 'A-4', uv: 95000.00, unit: 'Hectare' },
+    { code: 'A-5', classCode: 'A', desc: 'Orchard / Agro-Forestry Plantation', rate: '40.00%', subClassCode: 'A5', subClassDesc: 'A-5', uv: 220000.00, unit: 'Hectare' },
+    { code: 'COM', classCode: 'C', desc: 'Commercial Land (General)', rate: '50.00%', subClassCode: 'C1', subClassDesc: 'C-1', uv: 1250.00, unit: 'Square Meter' },
+    { code: 'C-1', classCode: 'C', desc: 'Commercial 1st Class (Central Business District / Plaza)', rate: '50.00%', subClassCode: 'C1', subClassDesc: 'C-1', uv: 1250.00, unit: 'Square Meter' },
+    { code: 'C-2', classCode: 'C', desc: 'Commercial 2nd Class (Secondary Commercial Arterial)', rate: '50.00%', subClassCode: 'C2', subClassDesc: 'C-2', uv: 950.00, unit: 'Square Meter' },
+    { code: 'C-3', classCode: 'C', desc: 'Commercial 3rd Class (Neighborhood / Peripheral)', rate: '50.00%', subClassCode: 'C3', subClassDesc: 'C-3', uv: 750.00, unit: 'Square Meter' },
+    { code: 'IND', classCode: 'I', desc: 'Industrial Land (General)', rate: '50.00%', subClassCode: 'I1', subClassDesc: 'I-1', uv: 1600.00, unit: 'Square Meter' },
+    { code: 'I-1', classCode: 'I', desc: 'Heavy Industrial / Manufacturing / Grain Silos', rate: '50.00%', subClassCode: 'I1', subClassDesc: 'I-1', uv: 1600.00, unit: 'Square Meter' },
+    { code: 'I-2', classCode: 'I', desc: 'Light Industrial / Warehouses / Depots', rate: '50.00%', subClassCode: 'I2', subClassDesc: 'I-2', uv: 1200.00, unit: 'Square Meter' },
+    { code: 'SPC', classCode: 'S', desc: 'Special Purpose / Government / Educational', rate: '10.00%', subClassCode: 'S1', subClassDesc: 'S-1', uv: 600.00, unit: 'Square Meter' }
+  ];
+
+  const SUBCLASS_CODES = [
+    { code: 'R1', classCode: 'R', desc: 'R-1 (Main Road / 1st Class)', uv: 650.00, unit: 'Square Meter', rate: '6.00%' },
+    { code: 'R2', classCode: 'R', desc: 'R-2 (Secondary / 2nd Class)', uv: 540.00, unit: 'Square Meter', rate: '6.00%' },
+    { code: 'R3', classCode: 'R', desc: 'R-3 (Interior / 3rd Class)', uv: 420.00, unit: 'Square Meter', rate: '6.00%' },
+    { code: 'R4', classCode: 'R', desc: 'R-4 (Pathway / 4th Class)', uv: 320.00, unit: 'Square Meter', rate: '6.00%' },
+    { code: 'A1', classCode: 'A', desc: 'A-1 (Riceland Irrigated)', uv: 350000.00, unit: 'Hectare', rate: '40.00%' },
+    { code: 'A2', classCode: 'A', desc: 'A-2 (Riceland Rainfed)', uv: 280000.00, unit: 'Hectare', rate: '40.00%' },
+    { code: 'A3', classCode: 'A', desc: 'A-3 (Cornland / Upland)', uv: 190000.00, unit: 'Hectare', rate: '40.00%' },
+    { code: 'A4', classCode: 'A', desc: 'A-4 (Pasture / Grazing)', uv: 95000.00, unit: 'Hectare', rate: '40.00%' },
+    { code: 'A5', classCode: 'A', desc: 'A-5 (Orchard / Plantation)', uv: 220000.00, unit: 'Hectare', rate: '40.00%' },
+    { code: 'C1', classCode: 'C', desc: 'C-1 (Commercial CBD)', uv: 1250.00, unit: 'Square Meter', rate: '50.00%' },
+    { code: 'C2', classCode: 'C', desc: 'C-2 (Commercial Secondary)', uv: 950.00, unit: 'Square Meter', rate: '50.00%' },
+    { code: 'C3', classCode: 'C', desc: 'C-3 (Commercial Tertiary)', uv: 750.00, unit: 'Square Meter', rate: '50.00%' },
+    { code: 'I1', classCode: 'I', desc: 'I-1 (Heavy Industry)', uv: 1600.00, unit: 'Square Meter', rate: '50.00%' },
+    { code: 'I2', classCode: 'I', desc: 'I-2 (Light Industry / Warehousing)', uv: 1200.00, unit: 'Square Meter', rate: '50.00%' }
+  ];
+
+  let currentHelpType = 'classification';
+
+  window.openHelpCodeList = function(type) {
+    currentHelpType = type || 'classification';
+    const modal = document.getElementById('help-codelist-modal');
+    const title = document.getElementById('help-codelist-title');
+    const searchInput = document.getElementById('help-codelist-search');
+    const colExtra = document.getElementById('help-col-extra');
+    if (!modal) return;
+
+    if (type === 'classification') {
+      if (title) title.textContent = 'Help (Code List) - Property Classification';
+      if (colExtra) colExtra.textContent = 'Assessment Level';
+    } else if (type === 'actualuse') {
+      if (title) title.textContent = 'Help (Code List) - Actual Use (landuv.p)';
+      if (colExtra) colExtra.textContent = 'Unit Value / Rate';
+    } else if (type === 'subclass') {
+      if (title) title.textContent = 'Help (Code List) - Sub Class Schedule';
+      if (colExtra) colExtra.textContent = 'Unit Value (₱)';
+    }
+
+    if (searchInput) searchInput.value = '';
+    renderHelpCodeListTable();
+    modal.style.display = 'flex';
+    setTimeout(() => { if (searchInput) searchInput.focus(); }, 50);
+  };
+
+  window.closeHelpCodeList = function() {
+    const modal = document.getElementById('help-codelist-modal');
+    if (modal) modal.style.display = 'none';
+  };
+
+  function getHelpListSource() {
+    if (currentHelpType === 'classification') return CLASSIFICATION_CODES;
+    if (currentHelpType === 'actualuse') return ACTUAL_USE_CODES;
+    return SUBCLASS_CODES;
+  }
+
+  function renderHelpCodeListTable(filteredList) {
+    const tbody = document.getElementById('help-codelist-tbody');
+    if (!tbody) return;
+
+    const list = filteredList || getHelpListSource();
+    tbody.innerHTML = list.map(item => {
+      let extraVal = '';
+      if (currentHelpType === 'classification') {
+        extraVal = `<span class="mono" style="color: #1DB954; font-weight: 700;">${item.rate}</span>`;
+      } else if (currentHelpType === 'actualuse') {
+        extraVal = `<span class="mono" style="color: #1DB954; font-weight: 700;">₱ ${item.uv.toLocaleString('en-US', {minimumFractionDigits: 2})}</span> <small style="color: #888;">(${item.rate})</small>`;
+      } else {
+        extraVal = `<span class="mono" style="color: #1DB954; font-weight: 700;">₱ ${item.uv.toLocaleString('en-US', {minimumFractionDigits: 2})}</span> <small style="color: #888;">/${item.unit === 'Hectare' ? 'ha' : 'sq.m.'}</small>`;
+      }
+
+      return `
+        <tr onclick="window.selectHelpCodeItem('${currentHelpType}', '${item.code}')" style="cursor: pointer;">
+          <td><strong class="mono" style="color: #1DB954; font-size: 13px;">${item.code}</strong></td>
+          <td>${item.desc}</td>
+          <td style="text-align: right;">${extraVal}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  window.filterHelpCodeList = function() {
+    const q = (document.getElementById('help-codelist-search')?.value || '').toLowerCase().trim();
+    const source = getHelpListSource();
+    const filtered = source.filter(i => 
+      i.code.toLowerCase().includes(q) || 
+      i.desc.toLowerCase().includes(q)
+    );
+    renderHelpCodeListTable(filtered);
+  };
+
+  window.selectHelpCodeItem = function(type, code) {
+    if (type === 'classification') {
+      const item = CLASSIFICATION_CODES.find(c => c.code.toUpperCase() === code.toUpperCase());
+      if (item) {
+        document.getElementById('dtl-class-code').value = item.code;
+        document.getElementById('dtl-class-desc').value = item.desc;
+        document.getElementById('dtl-actual-use-code').value = item.defaultUse;
+        document.getElementById('dtl-actual-use-desc').value = item.defaultUseDesc;
+        document.getElementById('dtl-subclass-code').value = item.defaultSub;
+        document.getElementById('dtl-subclass-desc').value = item.defaultSubDesc;
+        document.getElementById('dtl-unit-value').value = Number(item.uv).toFixed(2);
+        document.getElementById('dtl-area-unit').value = item.unit;
+        document.getElementById('dtl-uv-unit').value = item.unit;
+        document.getElementById('dtl-level-percent').value = item.rate;
+      }
+    } else if (type === 'actualuse') {
+      const item = ACTUAL_USE_CODES.find(u => u.code.toUpperCase() === code.toUpperCase());
+      if (item) {
+        document.getElementById('dtl-actual-use-code').value = item.code;
+        document.getElementById('dtl-actual-use-desc').value = item.desc;
+        const cls = CLASSIFICATION_CODES.find(c => c.code === item.classCode);
+        if (cls) {
+          document.getElementById('dtl-class-code').value = cls.code;
+          document.getElementById('dtl-class-desc').value = cls.desc;
+        }
+        document.getElementById('dtl-subclass-code').value = item.subClassCode;
+        document.getElementById('dtl-subclass-desc').value = item.subClassDesc;
+        document.getElementById('dtl-unit-value').value = Number(item.uv).toFixed(2);
+        document.getElementById('dtl-area-unit').value = item.unit;
+        document.getElementById('dtl-uv-unit').value = item.unit;
+        document.getElementById('dtl-level-percent').value = item.rate;
+      }
+    } else if (type === 'subclass') {
+      const item = SUBCLASS_CODES.find(s => s.code.toUpperCase() === code.toUpperCase());
+      if (item) {
+        document.getElementById('dtl-subclass-code').value = item.code;
+        document.getElementById('dtl-subclass-desc').value = item.desc;
+        document.getElementById('dtl-unit-value').value = Number(item.uv).toFixed(2);
+        document.getElementById('dtl-area-unit').value = item.unit;
+        document.getElementById('dtl-uv-unit').value = item.unit;
+        document.getElementById('dtl-level-percent').value = item.rate;
+      }
+    }
+
+    window.recalcAppraisalSubModal();
+    window.closeHelpCodeList();
+  };
+
+  window.onCodeInputTyped = function(type) {
+    if (type === 'classification') {
+      const val = (document.getElementById('dtl-class-code')?.value || '').toUpperCase().trim();
+      const match = CLASSIFICATION_CODES.find(c => c.code === val);
+      if (match) {
+        document.getElementById('dtl-class-desc').value = match.desc;
+        document.getElementById('dtl-level-percent').value = match.rate;
+        window.recalcAppraisalSubModal();
+      }
+    } else if (type === 'actualuse') {
+      const val = (document.getElementById('dtl-actual-use-code')?.value || '').toUpperCase().trim();
+      const match = ACTUAL_USE_CODES.find(u => u.code === val);
+      if (match) {
+        document.getElementById('dtl-actual-use-desc').value = match.desc;
+        document.getElementById('dtl-level-percent').value = match.rate;
+        window.recalcAppraisalSubModal();
+      }
+    } else if (type === 'subclass') {
+      const val = (document.getElementById('dtl-subclass-code')?.value || '').toUpperCase().trim();
+      const match = SUBCLASS_CODES.find(s => s.code === val);
+      if (match) {
+        document.getElementById('dtl-subclass-desc').value = match.desc;
+        document.getElementById('dtl-unit-value').value = Number(match.uv).toFixed(2);
+        window.recalcAppraisalSubModal();
+      }
+    }
+  };
+
   window.recomputeFaasTotals = function() {
     const sel = displayedRecords[selectedRowIndex];
     if (!sel) return;
@@ -871,10 +1072,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 12. Keyboard Shortcuts (matching Progress 4GL in new-land.p)
   window.addEventListener('keydown', (e) => {
+    const helpModal = document.getElementById('help-codelist-modal');
     const subModal = document.getElementById('land-appraisal-edit-modal');
     const faasModal = document.getElementById('land-faas-modal');
 
     if (e.key === 'Escape') {
+      if (helpModal && helpModal.style.display !== 'none') {
+        e.preventDefault();
+        window.closeHelpCodeList();
+        return;
+      }
       if (subModal && subModal.style.display !== 'none') {
         e.preventDefault();
         window.closeAppraisalSubModal();
@@ -883,6 +1090,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (faasModal && faasModal.style.display !== 'none') {
         e.preventDefault();
         window.closeFaasModal();
+        return;
+      }
+    }
+
+    if (e.key === 'F1') {
+      if (subModal && subModal.style.display !== 'none') {
+        e.preventDefault();
+        const activeId = document.activeElement ? document.activeElement.id : '';
+        if (activeId === 'dtl-class-code') window.openHelpCodeList('classification');
+        else if (activeId === 'dtl-actual-use-code') window.openHelpCodeList('actualuse');
+        else if (activeId === 'dtl-subclass-code') window.openHelpCodeList('subclass');
+        else window.openHelpCodeList('actualuse');
         return;
       }
     }

@@ -931,8 +931,9 @@
           <div class="prog-row">
             <label class="prog-lbl">Classification :</label>
             <div class="prog-val-group">
-              <input type="text" id="dtl-class-code" class="prog-txt-code" value="R" maxlength="5">
+              <input type="text" id="dtl-class-code" class="prog-txt-code" value="R" maxlength="5" oninput="window.onCodeInputTyped('classification')" placeholder="Code" title="Press F1 or Click Help for Code List">
               <input type="text" id="dtl-class-desc" class="prog-txt-desc" value="Residential" readonly>
+              <button type="button" class="prog-folder-btn" onclick="window.openHelpCodeList('classification')" title="Help (Code List) for Classification (F1)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px;"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Help</button>
             </div>
           </div>
 
@@ -940,9 +941,9 @@
           <div class="prog-row">
             <label class="prog-lbl">Actual Use :</label>
             <div class="prog-val-group">
-              <input type="text" id="dtl-actual-use-code" class="prog-txt-code" value="RES" maxlength="5">
+              <input type="text" id="dtl-actual-use-code" class="prog-txt-code" value="RES" maxlength="5" oninput="window.onCodeInputTyped('actualuse')" placeholder="Code" title="Press F1 or Click Help for Code List">
               <input type="text" id="dtl-actual-use-desc" class="prog-txt-desc" value="R-2" readonly>
-              <button class="prog-folder-btn" title="Lookup Land Unit Value (landuv.p)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></button>
+              <button type="button" class="prog-folder-btn" onclick="window.openHelpCodeList('actualuse')" title="Help (Code List) for Actual Use (F1)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px;"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Help</button>
             </div>
           </div>
 
@@ -950,8 +951,9 @@
           <div class="prog-row">
             <label class="prog-lbl">Sub Class :</label>
             <div class="prog-val-group">
-              <input type="text" id="dtl-subclass-code" class="prog-txt-code" value="R2" maxlength="5">
+              <input type="text" id="dtl-subclass-code" class="prog-txt-code" value="R2" maxlength="5" oninput="window.onCodeInputTyped('subclass')" placeholder="Code" title="Press F1 or Click Help for Code List">
               <input type="text" id="dtl-subclass-desc" class="prog-txt-desc" value="R-2" readonly>
+              <button type="button" class="prog-folder-btn" onclick="window.openHelpCodeList('subclass')" title="Help (Code List) for Sub Class (F1)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px;"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Help</button>
             </div>
           </div>
 
@@ -1049,6 +1051,35 @@
             <span>Tax Exempted</span>
           </label>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+     SUB-MODAL: HELP (CODE LIST) PICKER (Classification, Actual Use, Sub Class)
+     ========================================================================== -->
+  <div class="faas-modal-backdrop" id="help-codelist-modal" style="display: none; z-index: 10600;">
+    <div class="lookup-dialog-frame" style="width: 620px;">
+      <div class="lookup-dialog-header">
+        <span id="help-codelist-title">Help (Code List)</span>
+        <button class="progress-dialog-close-btn" onclick="window.closeHelpCodeList()">&times;</button>
+      </div>
+      <div class="lookup-dialog-body">
+        <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+          <input type="text" id="help-codelist-search" class="land-filter-input" placeholder="Type to filter code or description..." oninput="window.filterHelpCodeList()" autofocus>
+        </div>
+        <table class="lookup-table">
+          <thead>
+            <tr id="help-codelist-thead">
+              <th style="width: 70px;">Code</th>
+              <th>Description / Particulars</th>
+              <th id="help-col-extra" style="text-align: right; width: 140px;">Rate / Value</th>
+            </tr>
+          </thead>
+          <tbody id="help-codelist-tbody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
