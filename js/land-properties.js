@@ -871,12 +871,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 12. Keyboard Shortcuts (matching Progress 4GL in new-land.p)
   window.addEventListener('keydown', (e) => {
+    const subModal = document.getElementById('land-appraisal-edit-modal');
+    const faasModal = document.getElementById('land-faas-modal');
+
+    if (e.key === 'Escape') {
+      if (subModal && subModal.style.display !== 'none') {
+        e.preventDefault();
+        window.closeAppraisalSubModal();
+        return;
+      }
+      if (faasModal && faasModal.style.display !== 'none') {
+        e.preventDefault();
+        window.closeFaasModal();
+        return;
+      }
+    }
+
     if (e.key === 'F6' || (e.altKey && e.key.toLowerCase() === 'a')) {
       e.preventDefault();
-      handleAddProperty();
+      if (faasModal && faasModal.style.display !== 'none') {
+        window.openAppraisalSubModal(true);
+      } else {
+        handleAddProperty();
+      }
     } else if (e.key === 'F7' || (e.altKey && e.key.toLowerCase() === 'e')) {
       e.preventDefault();
-      handleEditProperty();
+      if (faasModal && faasModal.style.display !== 'none') {
+        window.openAppraisalSubModal(false);
+      } else {
+        handleEditProperty();
+      }
     } else if (e.key === 'F8' || (e.altKey && e.key.toLowerCase() === 'd')) {
       e.preventDefault();
       handleDeleteProperty();
