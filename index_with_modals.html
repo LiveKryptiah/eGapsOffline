@@ -3,7 +3,18 @@
 <html lang="en">
 
 <head>
-
+  <script>
+    (function () {
+      try {
+        const session = sessionStorage.getItem('erpas_user');
+        if (!session) {
+          window.location.replace('login.html');
+        }
+      } catch (e) {
+        window.location.replace('login.html');
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
