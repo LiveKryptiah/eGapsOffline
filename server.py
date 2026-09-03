@@ -648,6 +648,18 @@ class RPASApiHandler(http.server.SimpleHTTPRequestHandler):
             })
             return
 
+        if parsed.path == '/api/tunnel':
+            url = ""
+            txt_path = os.path.join(DIRECTORY, "tunnel_url.txt")
+            if os.path.exists(txt_path):
+                try:
+                    with open(txt_path, "r", encoding="utf-8") as f:
+                        url = f.read().strip()
+                except Exception:
+                    pass
+            self.send_json({"status": "ok", "url": url})
+            return
+
         if parsed.path == '/api/database/sources':
             script = r"C:\eGaps\rpas-ui\pull_folder_db.p"
             req_id = uuid.uuid4().hex[:8]

@@ -31,7 +31,23 @@
     }
   };
 
-  // --- Auto-Resolve Tunnel URL from Passkey ---
+  // Check for ?bridge= or ?tunnel= URL query parameter on page load
+  (function checkUrlBridgeParam() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const bridgeUrl = params.get('bridge') || params.get('tunnel') || params.get('db');
+      if (bridgeUrl && (bridgeUrl.startsWith('http://') || bridgeUrl.startsWith('https://'))) {
+        const clean = bridgeUrl.trim().replace(/\/+$/, '');
+        window.setApiBaseUrl(clean);
+        // Clean URL in address bar without full reload
+        const newUrl = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, '', newUrl);
+        showNotification('DB Bridge Linked', `Auto-connected to ${clean}`, '#059669');
+      }
+    } catch (e) { }
+  })();
+
+  // --- Auto-Resolve Tunnel URL from Passkey or Local Server ---
   async function resolveTopicFromPasskey(passkey) {
     // Fast path for default passkey
     if (passkey.trim() === DEFAULT_PASSKEY) {
@@ -49,34 +65,62 @@
   }
 
   window.resolveTunnelUrl = async function (passkey) {
-    const key = passkey.trim();
-    // If user entered an actual http/https URL directly, support it
+    const key = (passkey || '').trim();
+    // 1. If user entered an actual http/https URL directly, support it immediately
     if (key.startsWith('http://') || key.startsWith('https://')) {
       return key.replace(/\/+$/, '');
     }
 
-    const topic = await resolveTopicFromPasskey(key);
-    const res = await originalFetch(`https://ntfy.sh/${topic}/json?poll=1`, { method: 'GET' });
-    if (!res.ok) throw new Error('Relay server error');
-    
-    const text = await res.text();
-    const lines = text.trim().split('\n').filter(Boolean);
-    let latestUrl = '';
-
-    for (const line of lines) {
+    // 2. If locally hosted (localhost / 127.0.0.1), check local server
+    if (!isCloudHosted()) {
       try {
-        const data = JSON.parse(line);
-        if (data.event === 'message' && data.message && data.message.startsWith('http')) {
-          latestUrl = data.message.trim();
+        const localRes = await originalFetch('/api/tunnel', { method: 'GET' });
+        if (localRes.ok) {
+          const d = await localRes.json();
+          if (d && d.url) return d.url.replace(/\/+$/, '');
         }
       } catch (e) { }
+      return 'http://127.0.0.1:8080';
     }
 
-    if (!latestUrl) {
-      throw new Error(`No active tunnel found for passkey "${key}". Make sure start_tunnel.bat is running on your office PC.`);
+    // 3. Try auto-pairing relay with a 3-second timeout
+    try {
+      const topic = await resolveTopicFromPasskey(key || DEFAULT_PASSKEY);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+      const res = await originalFetch(`https://ntfy.sh/${topic}/json?poll=1`, {
+        method: 'GET',
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const text = await res.text();
+        const lines = text.trim().split('\n').filter(Boolean);
+        let latestUrl = '';
+
+        for (const line of lines) {
+          try {
+            const data = JSON.parse(line);
+            if (data.event === 'message' && data.message && data.message.startsWith('http')) {
+              latestUrl = data.message.trim();
+            }
+          } catch (e) { }
+        }
+
+        if (latestUrl) {
+          return latestUrl.replace(/\/+$/, '');
+        }
+      }
+    } catch (err) {
+      console.warn('Auto-pair relay unavailable:', err);
     }
 
-    return latestUrl.replace(/\/+$/, '');
+    // Friendly error message guiding the user
+    throw new Error(
+      `Auto-pairing relay unreachable on your network. Please copy your Cloudflare Tunnel URL from your start_tunnel terminal (or tunnel_url.txt) and paste it into the box.`
+    );
   };
 
   // --- Offline Outbox Management ---
@@ -230,17 +274,57 @@
     return { success: true, count: successCount, remaining: remaining.length };
   };
 
-  // Auto reconnect and sync every 15 seconds
+  // --- Instant Auto-Connect Engine for Vercel & Mobile Devices ---
+  async function initAutoConnect() {
+    if (!isCloudHosted()) return;
+
+    const currentUrl = window.getApiBaseUrl();
+    if (currentUrl) {
+      const test = await window.testApiConnection(currentUrl);
+      if (test.success) {
+        updateBridgeStatus();
+        return;
+      }
+    }
+
+    // Stored URL is empty or dead. Auto-resolve latest active tunnel from relay.
+    const passkey = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
+    try {
+      const freshUrl = await window.resolveTunnelUrl(passkey);
+      if (freshUrl) {
+        const testRes = await window.testApiConnection(freshUrl);
+        if (testRes.success) {
+          window.setApiBaseUrl(freshUrl);
+          updateBridgeStatus();
+          showNotification('Office Database Linked', 'Auto-connected to office OpenEdge database.', '#059669');
+        }
+      }
+    } catch (e) {
+      console.warn('Auto-connect attempt:', e.message);
+      updateBridgeStatus();
+    }
+  }
+
+  // Auto reconnect and sync every 12 seconds
   setInterval(async () => {
-    // If cloud-hosted, try to auto-refresh tunnel URL using saved passkey if currently offline
-    const savedPasskey = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
-    if (isCloudHosted() && savedPasskey) {
-      const test = await window.testApiConnection();
-      if (!test.success) {
+    if (isCloudHosted()) {
+      const currentUrl = window.getApiBaseUrl();
+      let isAlive = false;
+      if (currentUrl) {
+        const test = await window.testApiConnection(currentUrl);
+        isAlive = test.success;
+      }
+
+      if (!isAlive) {
+        const passkey = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
         try {
-          const freshUrl = await window.resolveTunnelUrl(savedPasskey);
-          if (freshUrl && freshUrl !== window.getApiBaseUrl()) {
-            window.setApiBaseUrl(freshUrl);
+          const freshUrl = await window.resolveTunnelUrl(passkey);
+          if (freshUrl && freshUrl !== currentUrl) {
+            const test2 = await window.testApiConnection(freshUrl);
+            if (test2.success) {
+              window.setApiBaseUrl(freshUrl);
+              updateBridgeStatus();
+            }
           }
         } catch (e) { }
       }
@@ -249,7 +333,7 @@
     if (window.getOfflineQueue().length > 0) {
       window.triggerBackgroundSync();
     }
-  }, 15000);
+  }, 12000);
 
   // Check connection to server
   window.testApiConnection = async function (testUrl) {
@@ -429,8 +513,8 @@
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
               </div>
               <div>
-                <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #ffffff;">Office DB Passkey Connect</h3>
-                <span style="font-size: 11px; color: #9ca3af;">Connect automatically using password &bull; No link copying!</span>
+                <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #ffffff;">Office DB Bridge & Tunnel</h3>
+                <span style="font-size: 11px; color: #9ca3af;">Link remote app to local OpenEdge 9.1E database</span>
               </div>
             </div>
             <button id="rpas-bridge-close" style="background: none; border: none; color: #9ca3af; font-size: 20px; cursor: pointer; line-height: 1;">&times;</button>
@@ -438,25 +522,37 @@
 
           <!-- Body Scroll -->
           <div style="padding: 20px; overflow-y: auto;">
-            <!-- Passkey Section -->
+            <!-- Input Section -->
             <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-bottom: 6px;">
-              Enter Office Passkey:
+              Cloudflare Tunnel URL or Passkey:
             </label>
-            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-              <input type="text" id="rpas-bridge-passkey-input" placeholder="${DEFAULT_PASSKEY}" value="${DEFAULT_PASSKEY}" style="
+            <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+              <input type="text" id="rpas-bridge-passkey-input" placeholder="https://xxx.trycloudflare.com or 33Land25PA0" style="
                 flex: 1;
+                min-width: 200px;
                 padding: 10px 12px;
                 background: #1f2937;
                 border: 1px solid #374151;
                 border-radius: 6px;
                 color: #ffffff;
                 font-family: 'JetBrains Mono', monospace;
-                font-weight: 700;
-                font-size: 14px;
+                font-weight: 600;
+                font-size: 13px;
                 outline: none;
-                letter-spacing: 0.05em;
+                letter-spacing: 0.02em;
               ">
-              <button id="rpas-bridge-save" style="
+              <button id="rpas-bridge-paste" type="button" style="
+                padding: 10px 12px;
+                background: #374151;
+                border: 1px solid #4b5563;
+                border-radius: 6px;
+                color: #e5e7eb;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                white-space: nowrap;
+              " title="Paste Cloudflare URL from Clipboard">📋 Paste</button>
+              <button id="rpas-bridge-save" type="button" style="
                 padding: 10px 18px;
                 border-radius: 6px;
                 border: none;
@@ -471,6 +567,12 @@
 
             <!-- Result Box -->
             <div id="rpas-bridge-test-result" style="display: none; padding: 10px 12px; border-radius: 6px; font-size: 12px; margin-bottom: 14px; line-height: 1.4;"></div>
+
+            <!-- Current Connection Status Pill -->
+            <div id="rpas-bridge-current-info" style="display: none; margin-bottom: 12px; padding: 8px 12px; background: #064e3b; border: 1px solid #059669; border-radius: 6px; font-size: 11.5px; color: #a7f3d0; align-items: center; justify-content: space-between;">
+              <span id="rpas-bridge-current-url" style="font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+              <button id="rpas-bridge-disconnect" type="button" style="background: transparent; border: 1px solid #34d399; color: #ffffff; font-size: 10.5px; padding: 2px 6px; border-radius: 4px; cursor: pointer; margin-left: 8px; flex-shrink: 0;">Disconnect</button>
+            </div>
 
             <!-- Offline Outbox Section -->
             <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #1f2937;">
@@ -504,11 +606,12 @@
             </div>
 
             <!-- Quick Info -->
-            <div style="margin-top: 14px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 10px 12px; font-size: 11px; color: #94a3b8; line-height: 1.4;">
-              <strong style="color: #38bdf8;">How to Connect:</strong><br>
-              1. On your office PC, double-click <code style="color:#e2e8f0;">start_tunnel.bat</code>.<br>
-              2. On your phone/laptop, just enter passkey <strong style="color:#a7f3d0;">${DEFAULT_PASSKEY}</strong> and click Connect.<br>
-              3. You never have to copy or send random links!
+            <div style="margin-top: 14px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 10px 12px; font-size: 11.5px; color: #94a3b8; line-height: 1.5;">
+              <strong style="color: #38bdf8;">How to Connect from Vercel / Phone:</strong><br>
+              1. On your PC, run <code style="color:#e2e8f0;">start_tunnel.bat</code>.<br>
+              2. The live Cloudflare URL is automatically copied to your clipboard.<br>
+              3. Click <strong>📋 Paste</strong> (or paste with Ctrl+V) and click <strong>Connect</strong>!<br>
+              <span style="color: #64748b; font-size: 10.5px;">(Tip: You can also open on your phone: <code>https://your-domain/?bridge=YOUR_TUNNEL_URL</code>)</span>
             </div>
           </div>
         </div>
@@ -522,15 +625,30 @@
     const closeBtn = document.getElementById('rpas-bridge-close');
     const passkeyInput = document.getElementById('rpas-bridge-passkey-input');
     const saveBtn = document.getElementById('rpas-bridge-save');
+    const pasteBtn = document.getElementById('rpas-bridge-paste');
+    const currentInfo = document.getElementById('rpas-bridge-current-info');
+    const currentUrlText = document.getElementById('rpas-bridge-current-url');
+    const disconnectBtn = document.getElementById('rpas-bridge-disconnect');
     const manualSyncBtn = document.getElementById('rpas-bridge-manual-sync');
     const clearQueueBtn = document.getElementById('rpas-bridge-clear-queue');
     const resultBox = document.getElementById('rpas-bridge-test-result');
 
-    const savedKey = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
-    passkeyInput.value = savedKey;
+    const updateModalView = () => {
+      const active = window.getApiBaseUrl();
+      if (active) {
+        currentInfo.style.display = 'flex';
+        currentUrlText.textContent = `Connected: ${active}`;
+        passkeyInput.value = active;
+      } else {
+        currentInfo.style.display = 'none';
+        passkeyInput.value = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
+      }
+    };
+
+    updateModalView();
 
     badge.addEventListener('click', () => {
-      passkeyInput.value = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
+      updateModalView();
       resultBox.style.display = 'none';
       renderQueueList();
       modal.style.display = 'flex';
@@ -543,6 +661,33 @@
     modal.addEventListener('click', (e) => {
       if (e.target === modal) modal.style.display = 'none';
     });
+
+    if (pasteBtn) {
+      pasteBtn.addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text && text.trim()) {
+            passkeyInput.value = text.trim();
+            saveBtn.click();
+          }
+        } catch (err) {
+          passkeyInput.focus();
+          passkeyInput.select();
+        }
+      });
+    }
+
+    if (disconnectBtn) {
+      disconnectBtn.addEventListener('click', () => {
+        window.setApiBaseUrl('');
+        localStorage.removeItem(PASSKEY_KEY);
+        updateModalView();
+        resultBox.style.display = 'block';
+        resultBox.style.background = '#1e293b';
+        resultBox.style.color = '#93c5fd';
+        resultBox.textContent = 'Disconnected from remote database.';
+      });
+    }
 
     manualSyncBtn.addEventListener('click', async () => {
       manualSyncBtn.disabled = true;
@@ -571,16 +716,17 @@
     });
 
     saveBtn.addEventListener('click', async () => {
-      const passkey = passkeyInput.value.trim();
+      const inputVal = passkeyInput.value.trim();
       saveBtn.disabled = true;
       saveBtn.textContent = 'Connecting...';
       resultBox.style.display = 'none';
 
-      if (!passkey) {
+      if (!inputVal) {
         window.setApiBaseUrl('');
         localStorage.removeItem(PASSKEY_KEY);
         saveBtn.disabled = false;
         saveBtn.textContent = 'Connect';
+        updateModalView();
         modal.style.display = 'none';
         return;
       }
@@ -589,17 +735,22 @@
         resultBox.style.display = 'block';
         resultBox.style.background = '#1e293b';
         resultBox.style.color = '#93c5fd';
-        resultBox.textContent = `Looking up office computer for passkey "${passkey}"...`;
 
-        const resolvedUrl = await window.resolveTunnelUrl(passkey);
+        const isDirectUrl = inputVal.startsWith('http://') || inputVal.startsWith('https://');
+        resultBox.textContent = isDirectUrl
+          ? `Testing connection to ${inputVal}...`
+          : `Looking up office computer for passkey "${inputVal}"...`;
+
+        const resolvedUrl = await window.resolveTunnelUrl(inputVal);
         const testRes = await window.testApiConnection(resolvedUrl);
 
         saveBtn.disabled = false;
         saveBtn.textContent = 'Connect';
 
         if (testRes.success) {
-          localStorage.setItem(PASSKEY_KEY, passkey);
+          if (!isDirectUrl) localStorage.setItem(PASSKEY_KEY, inputVal);
           window.setApiBaseUrl(resolvedUrl);
+          updateModalView();
           resultBox.style.background = '#064e3b';
           resultBox.style.color = '#a7f3d0';
           resultBox.innerHTML = `✓ <strong>Connected!</strong> Paired with office OpenEdge database (192.168.4.1).`;
@@ -619,15 +770,11 @@
       }
     });
 
-    // Auto-connect on page load if cloud-hosted and passkey is present
-    if (isCloudHosted() && savedKey && !window.getApiBaseUrl()) {
-      window.resolveTunnelUrl(savedKey).then(url => {
-        if (url) window.setApiBaseUrl(url);
-      }).catch(() => { });
-    }
-
     updateBridgeStatus();
     renderQueueList();
+
+    // Trigger instant auto-connect on load
+    initAutoConnect();
   }
 
   if (document.readyState === 'loading') {

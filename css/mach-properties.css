@@ -23,7 +23,8 @@
 .mach-table-wrap {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   background-color: var(--color-surface-1);
   width: 100%;
   box-sizing: border-box;
@@ -145,4 +146,25 @@
 .mach-cadastral-table tbody td.for-approval {
   color: var(--badge-pending);
   font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .mach-cadastral-table {
+    min-width: 900px;
+  }
+  .mach-column-filters-strip {
+    min-width: 900px;
+    overflow-x: auto;
+  }
+  .mach-table-wrap::before {
+    content: '↔ Swipe table horizontally to view all columns';
+    display: block;
+    background: var(--stat-bg);
+    color: var(--stat-num);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-align: center;
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--stat-border);
+  }
 }

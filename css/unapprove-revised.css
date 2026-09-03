@@ -13,17 +13,25 @@ body {
   background-color: var(--color-bg);
   color: var(--text-primary);
   font-family: var(--font-body, 'DM Sans', sans-serif);
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+@media (min-width: 769px) {
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
 .unapp-app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   background-color: var(--color-bg);
 }
 
@@ -1023,5 +1031,97 @@ body {
 .btn-wizard-pri:hover {
   background: linear-gradient(135deg, #1ED760 0%, #1DB954 100%);
   transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE ADAPTATIONS (Android Phones & Tablets)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .unapp-app-container {
+    height: auto !important;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .unapp-top-header {
+    height: auto;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .unapp-window-title {
+    font-size: 13.5px;
+  }
+
+  .unapp-filter-strip {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .unapp-bgy-selector-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .unapp-bgy-banner-info {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+  }
+
+  .unapp-toolbar-strip {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 12px;
+    gap: 10px;
+  }
+
+  .unapp-sort-options {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .unapp-kind-filters {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .unapp-grid-container {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .unapp-grid-container::before {
+    content: '↔ Swipe table horizontally to view all property columns';
+    display: block;
+    background: var(--stat-bg);
+    color: var(--stat-num);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-align: center;
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--stat-border);
+  }
+
+  .unapp-bottom-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .unapp-batch-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .unapp-btn-approve,
+  .unapp-btn-action {
+    width: 100%;
+    height: 40px;
+    justify-content: center;
+  }
 }
 

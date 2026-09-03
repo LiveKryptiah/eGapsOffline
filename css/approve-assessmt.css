@@ -13,17 +13,25 @@ body {
   background-color: var(--color-bg);
   color: var(--text-primary);
   font-family: var(--font-body, 'DM Sans', sans-serif);
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+@media (min-width: 769px) {
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
 .wizard-page-layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   background-color: var(--color-bg);
 }
 
@@ -561,4 +569,112 @@ body {
 .btn-wizard-pri:hover {
   background: linear-gradient(135deg, #1ED760 0%, #1DB954 100%);
   transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE WIZARD ADAPTATIONS (Android Phones & Tablets)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .wizard-page-layout {
+    height: auto !important;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .wizard-nav-header {
+    padding: 0 14px;
+    height: 48px;
+  }
+
+  .wizard-workspace-body {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .wizard-sidebar {
+    width: 100% !important;
+    padding: 16px 14px;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    gap: 12px;
+  }
+
+  .wizard-sidebar-title {
+    font-size: 16px;
+  }
+
+  .wizard-steps-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .wizard-step-card {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .wizard-step-badge {
+    width: 22px;
+    height: 22px;
+    font-size: 10.5px;
+  }
+
+  .wizard-step-heading {
+    font-size: 11.5px;
+  }
+
+  .wizard-sidebar-tips {
+    display: none;
+  }
+
+  .wizard-main-panel {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .wizard-scrollable-content {
+    padding: 16px 14px;
+    gap: 16px;
+  }
+
+  .wizard-section-title {
+    font-size: 17px;
+  }
+
+  .wizard-sign-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .wizard-sign-field {
+    width: 100%;
+  }
+
+  .wizard-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .wizard-data-table {
+    min-width: 520px;
+  }
+
+  .wizard-footer-bar {
+    padding: 12px 14px;
+    gap: 8px;
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+  }
+
+  .btn-wizard-sec,
+  .btn-wizard-pri {
+    flex: 1;
+    height: 42px;
+    justify-content: center;
+    font-size: 14px;
+  }
 }

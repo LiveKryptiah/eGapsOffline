@@ -8,10 +8,17 @@
 .land-viewport-layout {
   display: flex;
   flex-direction: row;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   background-color: var(--color-bg);
+}
+
+@media (min-width: 769px) {
+  .land-viewport-layout {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
 /* Small Width, Max Height Green Side Navigation */
@@ -508,7 +515,8 @@
 .land-table-container {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   background-color: var(--color-surface-1);
   position: relative;
   width: 100%;
@@ -755,4 +763,205 @@
   background-color: var(--color-error);
   border-color: var(--color-error);
   color: #FFFFFF;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE ADAPTATIONS (Android Phones & Tablets)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .land-viewport-layout {
+    flex-direction: column;
+    height: auto !important;
+    min-height: 100dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Transform vertical rail into a mobile bottom app navigation bar */
+  .land-side-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 56px !important;
+    border-right: none;
+    border-top: 1px solid var(--color-border);
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 12px;
+    z-index: 9999;
+    background: var(--color-surface-1);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  .land-nav-group {
+    flex-direction: row;
+    width: auto;
+    gap: 8px;
+  }
+
+  .land-nav-divider {
+    display: none;
+  }
+
+  .land-nav-bottom {
+    flex-direction: row;
+    margin-top: 0;
+    width: auto;
+    gap: 8px;
+  }
+
+  .land-nav-brand-btn {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0;
+  }
+
+  .land-nav-icon-btn {
+    width: 38px;
+    height: 38px;
+    color: var(--text-secondary);
+  }
+
+  .land-nav-icon-btn.active {
+    background-color: var(--color-primary);
+    color: var(--text-on-primary);
+  }
+
+  .land-nav-icon-btn.active::before {
+    display: none;
+  }
+
+  /* Main container space for mobile bottom nav */
+  .land-app-container {
+    width: 100%;
+    height: auto !important;
+    min-height: 100dvh;
+    padding-bottom: 66px;
+    overflow: visible;
+  }
+
+  .land-top-title-bar {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .land-window-title {
+    font-size: 13px;
+    white-space: normal;
+  }
+
+  .land-assessor-badge {
+    font-size: 10.5px;
+    padding: 2px 6px;
+  }
+
+  .btn-back-master {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  .land-controls-panel {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .land-box-bgy-input {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+  }
+
+  .land-box-bgy-name {
+    width: 100%;
+    max-width: 100%;
+    min-width: auto;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .land-box-stats {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Ensure table preserves legible column sizes with horizontal touch scrolling */
+  .land-cadastral-grid {
+    min-width: 960px;
+  }
+
+  .land-column-filters-strip {
+    min-width: 960px;
+    overflow-x: auto;
+  }
+
+  /* Mobile scroll hint bar */
+  .land-table-container::before {
+    content: '↔ Swipe table horizontally to view all columns';
+    display: block;
+    background: var(--stat-bg);
+    color: var(--stat-num);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-align: center;
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--stat-border);
+  }
+
+  .land-bottom-toolbar,
+  .land-action-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .land-toolbar-left,
+  .land-toolbar-left-group {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .land-tool-btn {
+    width: 100%;
+    height: 38px;
+    justify-content: center;
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  .land-tool-btn.close-btn {
+    width: 100%;
+    margin-top: 4px;
+    justify-content: center;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .land-toolbar-left,
+  .land-toolbar-left-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .land-bgy-input-label {
+    font-size: 11px;
+  }
+
+  .btn-back-master span {
+    display: none;
+  }
 }

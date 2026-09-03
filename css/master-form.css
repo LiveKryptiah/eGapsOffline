@@ -16,30 +16,44 @@ html,
 body {
   margin: 0 !important;
   padding: 0 !important;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: var(--color-bg) !important;
   color: var(--text-primary);
-  overflow: hidden;
   font-family: var(--font-body, 'DM Sans', sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (min-width: 901px) {
+  html,
+  body {
+    overflow: hidden;
+  }
 }
 
 /* Main Master Form Wrapper */
 .master-window-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   margin: 0;
   padding: 0;
   background-color: var(--color-bg);
   font-family: var(--font-body, 'DM Sans', sans-serif);
   color: var(--text-primary);
-  overflow: hidden;
   user-select: none;
+}
+
+@media (min-width: 901px) {
+  .master-window-container {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1789,4 +1803,141 @@ body {
 
 .wizard-sign-input:focus {
   border-color: #1DB954;
+}
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE ADAPTATIONS (Android / Touchscreens)
+   ========================================================================== */
+@media (max-width: 960px) {
+  .master-window-container {
+    height: auto !important;
+    min-height: 100dvh;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .master-window-header {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .master-seal-brand-box {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-right: 0;
+    padding-bottom: 10px;
+  }
+
+  .master-title-meta-area {
+    padding-left: 0;
+    gap: 10px;
+  }
+
+  .master-title-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .master-title-watermark-right {
+    align-items: flex-start;
+  }
+
+  .master-hero-system-title {
+    font-size: 20px;
+  }
+
+  .master-meta-inputs-strip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .master-window-body {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    padding: 12px 16px;
+    gap: 16px;
+  }
+
+  /* Order on mobile: Primary Quick-Access Card FIRST */
+  .master-col-detail-card {
+    order: 1;
+    border-radius: var(--radius-md, 12px);
+    padding: 18px 16px;
+    overflow: visible;
+  }
+
+  .master-col-modules {
+    order: 2;
+    padding: 12px;
+  }
+
+  .master-col-setup {
+    order: 3;
+    max-height: 380px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 4px;
+    background-color: var(--color-surface-1);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 10px);
+    padding: 12px;
+  }
+
+  .master-detail-action-row {
+    min-height: 44px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+  }
+
+  .master-bottom-approval-bar {
+    padding: 12px 14px;
+  }
+
+  .master-module-item {
+    min-height: 42px;
+    padding: 10px 12px;
+  }
+
+  .master-setup-pill-btn {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .master-window-header {
+    padding: 10px 12px;
+  }
+
+  .master-province-main {
+    font-size: 16px;
+  }
+
+  .master-hero-system-title {
+    font-size: 18px;
+  }
+
+  .master-window-body {
+    padding: 10px 12px 24px;
+    gap: 12px;
+  }
+
+  .master-col-detail-card {
+    padding: 14px 12px;
+  }
+
+  .master-detail-action-row {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .master-bottom-approval-bar {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
 }
