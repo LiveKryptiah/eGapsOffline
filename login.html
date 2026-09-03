@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - Real Property Assessment System (eRPAS) | Province of Isabela</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/login.css">
+  <script>
+    (function () {
+      const theme = localStorage.getItem('rpas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+      else document.documentElement.classList.add('light-theme');
+    })();
+  </script>
+</head>
+<body>
+
+<!-- MODERN SPLIT-SCREEN eRPAS LOGIN PORTAL (eLogin.p) -->
+<div class="login-split-layout">
+  
+  <!-- ==========================================================================
+       LEFT PANE: ISABELA PROVINCIAL CAPITOL PHOTO & BRANDING SHOWCASE
+       ========================================================================== -->
+  <aside class="login-hero-pane">
+    <div class="login-hero-bg"></div>
+    <div class="login-hero-overlay"></div>
+
+    <!-- Top Provincial Crest -->
+    <div class="login-hero-top">
+      <div class="hero-seal-wrapper">
+        <img src="images/seal.jpg" alt="Provincial Seal of Isabela" class="hero-seal-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; color: #1DB954;">
+          <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        </div>
+      </div>
+      <div class="hero-seal-text">
+        <div class="hero-seal-rep">Republic of the Philippines</div>
+        <div class="hero-seal-title">Province of Isabela</div>
+        <div class="hero-seal-sub">Office of the Provincial Assessor</div>
+      </div>
+    </div>
+
+    <!-- Main Center Hero Content -->
+    <div class="login-hero-body">
+      <div class="hero-badge-pill">
+        <span class="hero-badge-dot"></span>
+        <span>Live OpenEdge RPADB Database Engine</span>
+      </div>
+      
+      <h1 class="hero-main-title">
+        PAMAHALAANG PANLALAWIGAN NG <span>ISABELA</span>
+      </h1>
+      
+      <p class="hero-main-desc">
+        Comprehensive Real Property Assessment Administration System (eRPAS) for the 37 Municipalities and Cities of Isabela.
+      </p>
+
+      <div class="hero-stat-chips">
+        <div class="hero-chip-card">
+          <div class="hero-chip-val">37 Localities</div>
+          <div class="hero-chip-lbl">Assessment Coverage</div>
+        </div>
+        <div class="hero-chip-card">
+          <div class="hero-chip-val">General Revision</div>
+          <div class="hero-chip-lbl">Cycle Year 2024</div>
+        </div>
+        <div class="hero-chip-card">
+          <div class="hero-chip-val">Progress 9.1E</div>
+          <div class="hero-chip-lbl">Global Live Sync</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Watermark -->
+    <div class="login-hero-footer">
+      <span>Pamahalaang Panlalawigan ng Isabela • Ilagan City</span>
+      <span>e-GAPS Enterprise Suite</span>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       RIGHT PANE: USER AUTHENTICATION SECTION FORM
+       ========================================================================== -->
+  <main class="login-form-pane">
+    <div class="login-form-card">
+      
+      <!-- Card Header -->
+      <div class="login-card-header" style="position: relative;">
+        <div style="position: absolute; right: 0; top: 0;">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="window.toggleTheme()" title="Toggle Light / Dark Mode">
+            <!-- Icon injected by theme.js -->
+          </button>
+        </div>
+        <div class="login-brand-icon-box">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+        <h2 class="login-card-title">Sign In to eRPAS</h2>
+        <div class="login-card-sub">Enter your authorized assessor credentials to access the Provincial Roll.</div>
+      </div>
+
+      <!-- Instructions Box -->
+      <div class="login-instructions-box">
+        Please input valid <strong>User ID</strong> and correct <strong>Password.</strong>
+      </div>
+
+      <!-- Authentication Form -->
+      <form id="login-form" autocomplete="off">
+        
+        <!-- User ID Field -->
+        <div class="login-field-group">
+          <div class="login-field-header">
+            <label for="login-username" class="login-field-label">User ID</label>
+            <div class="login-user-verified-badge" id="display-username-val"></div>
+          </div>
+          <div class="login-input-wrapper">
+            <svg class="login-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <input 
+              type="text" 
+              id="login-username" 
+              class="login-text-input" 
+              placeholder="Key in User ID" 
+              list="staff-users-datalist"
+              value="Guillermo B. Barretto"
+              required
+              autofocus
+            >
+          </div>
+          <datalist id="staff-users-datalist"></datalist>
+        </div>
+
+        <!-- Password Field -->
+        <div class="login-field-group">
+          <div class="login-field-header">
+            <label for="login-password" class="login-field-label">Password</label>
+            <div class="login-err-msg" id="display-errpass-val"></div>
+          </div>
+          <div class="login-input-wrapper">
+            <svg class="login-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            </svg>
+            <input 
+              type="password" 
+              id="login-password" 
+              class="login-text-input" 
+              placeholder="Key in Password" 
+              value="Barretto"
+              required
+            >
+            <button type="button" class="login-pwd-toggle-btn" id="btn-toggle-pwd" title="Toggle password visibility">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scope Row: Municipality & Revision Year -->
+        <div class="login-scope-row">
+          <div class="login-select-col">
+            <label for="login-locality">Municipality / Locality</label>
+            <select id="login-locality" class="login-custom-select">
+              <option value="22" selected>22 - Ramon (Default)</option>
+              <option value="35">35 - City of Ilagan (Capital)</option>
+              <option value="01">01 - Alicia</option>
+              <option value="02">02 - Angadanan</option>
+              <option value="03">03 - Aurora</option>
+              <option value="04">04 - Benito Soliven</option>
+              <option value="05">05 - Burgos</option>
+              <option value="06">06 - Cabagan</option>
+              <option value="07">07 - Cabatuan</option>
+              <option value="08">08 - Cordon</option>
+              <option value="09">09 - Delfin Albano</option>
+              <option value="10">10 - Dinapigue</option>
+              <option value="11">11 - Divilacan</option>
+              <option value="12">12 - Echague</option>
+              <option value="13">13 - Gamu</option>
+              <option value="14">14 - Jones</option>
+              <option value="15">15 - Luna</option>
+              <option value="16">16 - Maconacon</option>
+              <option value="17">17 - Mallig</option>
+              <option value="18">18 - Naguilian</option>
+              <option value="19">19 - Palanan</option>
+              <option value="20">20 - Quezon</option>
+              <option value="21">21 - Quirino</option>
+              <option value="23">23 - Reina Mercedes</option>
+              <option value="24">24 - Roxas</option>
+              <option value="25">25 - San Agustin</option>
+              <option value="26">26 - San Guillermo</option>
+              <option value="27">27 - San Isidro</option>
+              <option value="28">28 - San Manuel</option>
+              <option value="29">29 - San Mariano</option>
+              <option value="30">30 - San Mateo</option>
+              <option value="31">31 - San Pablo</option>
+              <option value="32">32 - Sta Maria</option>
+              <option value="33">33 - Sto Tomas</option>
+              <option value="34">34 - Tumauini</option>
+              <option value="99">99 - Province of Isabela (Provincial Capitol)</option>
+            </select>
+          </div>
+
+          <div class="login-select-col">
+            <label for="login-rev-year">Revision Year</label>
+            <select id="login-rev-year" class="login-custom-select">
+              <option value="2026">2026 (GR Cycle 4)</option>
+              <option value="2024" selected>2024 (Current)</option>
+              <option value="2023">2023 (Previous)</option>
+              <option value="2018">2018 (Historical)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Buttons Stack -->
+        <div class="login-buttons-stack">
+          <button type="submit" class="login-btn-primary" id="btn-login-submit">
+            <span>Sign In to eRPAS</span>
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+
+          <button type="button" class="login-btn-clear" id="btn-login-cancel">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span>Clear Fields</span>
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Card Security Footer -->
+      <div class="login-card-footer">
+        <div class="login-security-tag">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          <span>OpenEdge 9.1E LIVE</span>
+        </div>
+        <div class="login-version-tag">e-GAPS v5.0</div>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<script src="js/theme.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+/* ==========================================================================
+   GREEN DECK DESIGN SYSTEM - APP LAYOUT & NAVIGATION
+   Dark-first, 240px pitch-black sidebar (#000000), #121212 canvas, #1DB954 accents.
+   ========================================================================== */
+
+.app-shell {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--color-bg, #121212);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  color: var(--text-primary, #FFFFFF);
+}
+
+/* ==========================================================================
+   Left Navigation Sidebar (Green Deck: 240px, #000000 Pitch Black)
+   ========================================================================== */
+.permanent-left-sidebar {
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+  height: 100vh;
+  background-color: #000000;
+  color: var(--text-primary, #FFFFFF);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--color-border, #282828);
+  position: relative;
+  z-index: 50;
+  overflow: hidden;
+}
+
+/* Sidebar Top Brand Header */
+.sidebar-top-brand {
+  padding: 24px 20px 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-seal-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: var(--color-surface-1, #181818);
+  border: 1px solid var(--color-primary, #1DB954);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary, #1DB954);
+  flex-shrink: 0;
+}
+
+.sidebar-seal-badge svg {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar-brand-name {
+  font-family: var(--font-display, 'DM Sans', sans-serif);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary, #FFFFFF);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.sidebar-brand-sub {
+  font-size: var(--text-label, 11px);
+  color: var(--color-primary, #1DB954);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label, 0.1em);
+}
+
+/* Sidebar Navigation Menu List */
+.sidebar-menu-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-section-label {
+  font-size: var(--text-label, 11px);
+  font-weight: 700;
+  letter-spacing: var(--track-label, 0.1em);
+  text-transform: uppercase;
+  color: var(--text-secondary, #A7A7A7);
+  padding: 16px 12px 6px 12px;
+}
+
+.sidebar-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm, 4px);
+  background: transparent;
+  border: none;
+  color: var(--color-neutral, #B3B3B3);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: var(--text-body, 14px);
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: color var(--transition-fast, 150ms ease), background-color var(--transition-fast, 150ms ease);
+}
+
+.sidebar-nav-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: color var(--transition-fast, 150ms ease);
+}
+
+.sidebar-nav-btn:hover {
+  color: var(--text-primary, #FFFFFF);
+  background-color: var(--color-surface-1, #181818);
+}
+
+.sidebar-nav-btn.active {
+  color: var(--text-primary, #FFFFFF);
+  background-color: var(--color-surface-2, #282828);
+}
+
+.sidebar-nav-btn.active svg {
+  color: var(--color-primary, #1DB954);
+}
+
+.sidebar-nav-btn .nav-badge {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: var(--color-primary, #1DB954);
+  color: #000000;
+}
+
+/* Sidebar User Footer Profile */
+.sidebar-bottom-user-box {
+  padding: 14px 16px;
+  border-top: 1px solid var(--color-border, #282828);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #000000;
+}
+
+.sidebar-user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: var(--color-surface-2, #282828);
+  border: 1.5px solid var(--color-primary, #1DB954);
+  color: var(--color-primary, #1DB954);
+  font-weight: 700;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-user-meta {
+  flex: 1;
+  margin-left: 10px;
+  overflow: hidden;
+}
+
+.sidebar-user-meta-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary, #FFFFFF);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user-meta-role {
+  font-size: 11px;
+  color: var(--text-secondary, #A7A7A7);
+}
+
+.sidebar-logout-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary, #A7A7A7);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm, 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast, 150ms ease), transform var(--transition-fast, 150ms ease);
+}
+
+.sidebar-logout-btn:hover {
+  color: var(--color-error, #E22134);
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   Main Viewport & Header Layout
+   ========================================================================== */
+.main-app-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-bg, #121212);
+}
+
+/* Top App Bar */
+.top-app-header {
+  height: 64px;
+  background-color: var(--color-bg, #121212);
+  border-bottom: 1px solid var(--color-border, #282828);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  gap: 16px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+/* Search Bar in Top Bar (Green Deck 48px Pill) */
+.header-search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 440px;
+  height: 40px;
+  background-color: var(--color-surface-2, #282828);
+  border-radius: var(--radius-pill, 9999px);
+  padding: 0 16px;
+  gap: 10px;
+  transition: background-color var(--transition-fast, 150ms ease), box-shadow var(--transition-fast, 150ms ease);
+}
+
+.header-search-container:focus-within {
+  background-color: var(--color-surface-3, #333333);
+  box-shadow: 0 0 0 1px #FFFFFF;
+}
+
+.header-search-icon {
+  color: var(--color-neutral, #B3B3B3);
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.header-search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: var(--text-body, 14px);
+  color: var(--text-primary, #FFFFFF);
+}
+
+.header-search-input::placeholder {
+  color: var(--text-secondary, #A7A7A7);
+}
+
+/* Top Bar Right Tools */
+.header-right-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-surface-1, #181818);
+  border: 1px solid var(--color-border, #282828);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill, 9999px);
+  font-size: var(--text-body-small, 12px);
+  font-weight: 700;
+  color: var(--text-primary, #FFFFFF);
+}
+
+.header-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-primary, #1DB954);
+  box-shadow: 0 0 8px rgba(29, 185, 84, 0.6);
+}
+
+/* App Canvas Content Area */
+.app-content-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 32px;
+  background-color: var(--color-bg, #121212);
+}
+
+/* Bottom Context Bar (Green Deck Now-Playing Bar Style) */
+.app-bottom-status-bar {
+  height: 48px;
+  background-color: var(--color-surface-1, #181818);
+  border-top: 1px solid var(--color-border, #282828);
+  box-shadow: var(--shadow-bar, 0 -8px 24px rgba(0,0,0,0.5));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  font-size: var(--text-body-small, 12px);
+  color: var(--text-secondary, #A7A7A7);
+  flex-shrink: 0;
+}
+
+.app-bottom-status-bar strong {
+  color: var(--text-primary, #FFFFFF);
+}

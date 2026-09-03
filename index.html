@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Property Assessment System (eRPAS) - Province of Isabela</title>
+  <link rel="stylesheet" href="css/prisma-tokens.css">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/land-properties.css">
+  <link rel="stylesheet" href="css/property-modal.css">
+  <link rel="stylesheet" href="css/master-form.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<!-- REAL PROPERTY ASSESSMENT SYSTEM MASTER WINDOW (FAITHFULLY MATCHING REFERENCE SCREENSHOT IN GREEN DECK) -->
+<div class="master-window-container" id="master-window-view">
+  
+  <!-- 1. TOP HEADER BANNER -->
+  <header class="master-window-header">
+    <!-- Left Seal & Province Branding -->
+    <div class="master-seal-brand-box">
+      <div class="master-seal-emblem">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      </div>
+      <div class="master-province-text">
+        <span class="master-province-sub">Province of</span>
+        <span class="master-province-main">Isabela</span>
+        <span class="master-province-tag">Provincial Government</span>
+      </div>
+    </div>
+
+    <!-- Center & Right Title Area -->
+    <div class="master-title-meta-area">
+      <div class="master-title-top-row">
+        <div class="master-title-group">
+          <div class="master-hero-system-title">
+            Real Property <span class="highlight-green">Assessment System</span>
+          </div>
+          <div class="master-hero-system-sub">
+            electronic Government Application System
+          </div>
+        </div>
+
+        <div class="master-title-watermark-right">
+          <span class="master-version-pill">Version 5.0</span>
+          <span class="master-watermark-text">Pamahalaang Panlalawigan ng Isabela</span>
+          <span class="master-watermark-cursive">Assessor Services</span>
+        </div>
+      </div>
+
+      <!-- Top Meta Input Strip (Date, User, Office) -->
+      <div class="master-meta-inputs-strip">
+        <div class="master-input-field-box readonly">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span class="text-val" id="master-header-date">20 August 2026</span>
+        </div>
+
+        <div class="master-input-field-box">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <span class="text-val" id="master-header-user">Editha Q Medrano</span>
+          <div class="master-field-arrow-btn">
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </div>
+        </div>
+
+        <div class="master-input-field-box readonly">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          <span class="text-val" id="master-header-office">Office of the Provincial Assessor</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. MAIN 3-COLUMN MASTER BODY -->
+  <div class="master-window-body">
+    
+    <!-- COLUMN 1: Master Setup Buttons (18 Items) -->
+    <aside class="master-col-setup">
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>System Parameter</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Property Classification File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Locational Valuation Grouping</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Land Unit Value</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Plants/Trees File & Unit Value</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Influence/Adjustment Factor</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Building Kind & Structural Type</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Building Additional Item File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Building Unit Value Schedule</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Appraiser/Signatories File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Assessment Level (%) File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>City/Municipality File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Barangay File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Street/Subdivision File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Building/Condominium File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>Update Code File</span>
+      </div>
+
+      <div class="master-setup-pill-btn">
+        <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>General Revision Year File</span>
+      </div>
+
+      <!-- Special 18th Button at Bottom -->
+      <div class="master-setup-special-card">
+        <div class="master-special-icon-box">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
+        </div>
+        <div>
+          <div class="master-special-title">Set Locality &</div>
+          <div class="master-special-sub">Active Revision Year</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- COLUMN 2: Master Transaction Categories (Middle Column) -->
+    <section class="master-col-modules">
+      <div class="master-modules-list">
+        
+        <!-- Active 1st Module: Real Properties File -->
+        <div class="master-module-item active" id="mod-btn-realprop" onclick="window.selectMasterModule('realprop')">
+          <div class="master-cube-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+          <div class="master-module-text-group">
+            <span class="master-module-title">Real Properties File</span>
+          </div>
+        </div>
+
+        <!-- 2nd Module: Owners File -->
+        <div class="master-module-item" id="mod-btn-owners" onclick="window.selectMasterModule('owners')">
+          <div class="master-cube-indicator">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect width="12" height="12" x="6" y="6" rx="2"/></svg>
+          </div>
+          <div class="master-module-text-group">
+            <span class="master-module-title">Owners File</span>
+            <span class="master-module-sub">(Ownership, Payment & Delinquent)</span>
+          </div>
+        </div>
+
+        <!-- 3rd Module: Assessment List -->
+        <div class="master-module-item" id="mod-btn-assesslist" onclick="window.selectMasterModule('assesslist')">
+          <div class="master-cube-indicator">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect width="12" height="12" x="6" y="6" rx="2"/></svg>
+          </div>
+          <div class="master-module-text-group">
+            <span class="master-module-title">Assessment List</span>
+            <span class="master-module-sub">(Tax Declaration & PRF)</span>
+          </div>
+        </div>
+
+        <!-- 4th Module: General Revision -->
+        <div class="master-module-item" id="mod-btn-grev" onclick="window.selectMasterModule('grev')">
+          <div class="master-cube-indicator">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect width="12" height="12" x="6" y="6" rx="2"/></svg>
+          </div>
+          <div class="master-module-text-group">
+            <span class="master-module-title">General Revision</span>
+            <span class="master-module-sub">(Revision Year, Rates and Schedule)</span>
+          </div>
+        </div>
+
+        <!-- 5th Module: Notices & Forms -->
+        <div class="master-module-item" id="mod-btn-notices" onclick="window.selectMasterModule('notices')">
+          <div class="master-cube-indicator">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect width="12" height="12" x="6" y="6" rx="2"/></svg>
+          </div>
+          <div class="master-module-text-group">
+            <span class="master-module-title">Notices & Forms</span>
+            <span class="master-module-sub">(Assessments & Cancellations)</span>
+          </div>
+        </div>
+
+        <!-- 6th Module: Certifications -->
+        <div class="master-module-item" id="mod-btn-cert" onclick="window.selectMasterModule('cert')">
+          <div class="master-cube-indicator">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect width="12" height="12" x="6" y="6" rx="2"/></svg>
+          </div>
+          <div class="master-module-text-group">
+            <span class="master-module-title">Certifications</span>
+            <span class="master-module-sub">(Preparation & Printing)</span>
+          </div>
+        </div>
+
+        <!-- 7th Module: Inquiries -->
+        <div class="master-module-item" id="mod-btn-inquiries" onclick="window.selectMasterModule('inquiries')">
+          <div class="master-cube-indicator">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect width="12" height="12" x="6" y="6" rx="2"/></svg>
+          </div>
+          <div class="master-module-text-group">
+            <span class="master-module-title">Inquiries</span>
+            <span class="master-module-sub">( By ARP, Names, Lot No. & etc. )</span>
+          </div>
+        </div>
+
+        <!-- 8th Module: Reports -->
+        <div class="master-module-item" id="mod-btn-reports" onclick="window.selectMasterModule('reports')">
+          <div class="master-cube-indicator">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect width="12" height="12" x="6" y="6" rx="2"/></svg>
+          </div>
+          <div class="master-module-text-group">
+            <span class="master-module-title">Reports</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Close Module at the bottom -->
+      <div class="master-close-module-item" onclick="window.location.href='login.html'">
+        <div class="master-close-indicator">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </div>
+        <div>
+          <div class="master-close-title">Close Module</div>
+          <div class="master-close-sub">Go Back to Login</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLUMN 3: Right Detail Panel Card (Matching Reference Screenshot) -->
+    <main class="master-col-detail-card" id="master-detail-card-container">
+      <div>
+        <!-- Section 1: Real Properties... -->
+        <div class="master-card-section">
+          <div class="master-section-head-title">Real Properties...</div>
+          <div class="master-action-items-stack">
+            <div class="master-detail-action-row highlighted" onclick="window.location.href='land-properties.html'">
+              <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+              <span>Land Property Units File</span>
+            </div>
+
+            <div class="master-detail-action-row" onclick="window.location.href='building-properties.html'">
+              <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              <span>Buildings / Improvements File</span>
+            </div>
+
+            <div class="master-detail-action-row" onclick="window.location.href='machine-properties.html'">
+              <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
+              <span>Machine Property Units File</span>
+            </div>
+
+            <div class="master-detail-action-row" onclick="window.location.href='proproll.html'">
+              <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Real Property Units File (by TD)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Data Transfer... -->
+        <div class="master-card-section">
+          <div class="master-section-head-title">Data Transfer...</div>
+          <div class="master-action-items-stack">
+            <div class="master-detail-action-row" onclick="alert('Download Records initiated')">
+              <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>Download Records</span>
+            </div>
+
+            <div class="master-detail-action-row" onclick="alert('Upload Records initiated')">
+              <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+              <span>Upload Records</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Bottom For-Approval Bar -->
+      <div class="master-bottom-approval-bar" onclick="window.location.href='unapprove-revised.html'">
+        <div class="master-approval-check-sq">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <span>For-approval Assessment Transaction Records</span>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- Notice of Assessment (NOA) Modal -->
+<div class="modal-backdrop-layer" id="noa-modal-backdrop" style="display: none;">
+  <div class="modal-window-card noa-card">
+    <div class="modal-header-bar">
+      <div class="modal-title-wrap">
+        <div class="modal-icon-badge"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
+        <div>
+          <h2 class="modal-main-heading">Notice of Assessment (NOA)</h2>
+          <span class="modal-sub-heading">Official Notice per Sec. 223, R.A. 7160</span>
+        </div>
+      </div>
+      <button class="modal-close-x modal-close-trigger" onclick="closeNoaModal()">&times;</button>
+    </div>
+    <div class="modal-scroll-body">
+      <div class="noa-document-sheet" id="printable-noa-doc">
+        <div class="noa-header">
+          <div style="font-size: 0.85rem; text-transform: uppercase;">Republic of the Philippines</div>
+          <div style="font-size: 1.15rem; font-weight: bold;">PROVINCE OF ISABELA</div>
+          <div style="font-size: 0.95rem; font-weight: bold;">OFFICE OF THE PROVINCIAL ASSESSOR</div>
+          <div style="font-size: 0.82rem; color: #444;">Capitol Compound, Alibagu, City of Ilagan, Isabela</div>
+          <div style="font-size: 1.25rem; font-weight: 900; margin-top: 10px; letter-spacing: 0.05em;">NOTICE OF REVISED ASSESSMENT</div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 0.9rem;">
+          <div><strong>Date:</strong> <span id="noa-doc-date">20 August 2026</span></div>
+          <div><strong>Notice Ref No:</strong> <span id="noa-doc-ref">NOA-2026-00412</span></div>
+        </div>
+        <div style="margin-bottom: 14px; font-size: 0.95rem;">
+          <div><strong>To:</strong> <span id="noa-doc-owner" style="font-weight: bold; text-decoration: underline;">MENDOZA, ROBERTO S.</span></div>
+          <div><strong>Address:</strong> <span id="noa-doc-address">City of Ilagan, Isabela</span></div>
+        </div>
+        <p class="noa-body-text">
+          Sir / Madam:<br>
+          Please be informed that pursuant to Section 219 and Section 223 of Republic Act No. 7160, a <strong>General Revision of Real Property Assessments</strong> has been undertaken for the Year <strong>2026</strong>. The real property described hereunder has been appraised as follows:
+        </p>
+        <table class="noa-comparison-table">
+          <thead>
+            <tr><th>Assessment Particulars</th><th>Previous Assessment</th><th>New / Revised Assessment (2026)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Tax Declaration (TD) No.</strong></td><td id="noa-doc-prev-td">99-01-001-00014</td><td><strong id="noa-doc-new-td">2026-01-004-01294</strong></td></tr>
+            <tr><td><strong>Property Index No. (PIN)</strong></td><td colspan="2" align="center"><span id="noa-doc-pin" style="font-family: monospace; font-weight: bold;">024-01-004-05-012</span></td></tr>
+            <tr><td><strong>Classification & Actual Use</strong></td><td id="noa-doc-class">Residential</td><td id="noa-doc-new-class">Residential Regular (R-1)</td></tr>
+            <tr><td><strong>Land / Floor Area</strong></td><td id="noa-doc-prev-area">900.00 sq.m.</td><td id="noa-doc-new-area">900.00 sq.m.</td></tr>
+            <tr><td><strong>Market Value</strong></td><td id="noa-doc-prev-mv">₱ 262,080.00</td><td><strong id="noa-doc-new-mv">₱ 327,600.00</strong></td></tr>
+            <tr><td><strong>Assessed Value (Taxable Base)</strong></td><td id="noa-doc-prev-av">₱ 17,140.00</td><td><strong id="noa-doc-new-av" style="color: #064e3b; font-size: 1.05rem;">₱ 19,660.00</strong></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top: 32px; display: flex; justify-content: flex-end; text-align: center;">
+          <div style="width: 260px;">
+            <div style="border-top: 1px solid #000; font-weight: bold; padding-top: 4px;" id="noa-doc-sign-assessor">GUILLERMO B. BARRETTO</div>
+            <div style="font-size: 0.8rem;">Provincial Assessor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer-bar">
+      <button class="btn-secondary" onclick="closeNoaModal()">Close</button>
+      <button class="btn-emerald" onclick="window.print()"><span>Print Notice of Assessment</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Property Details Modal -->
+<div class="modal-backdrop-layer" id="property-modal-backdrop" style="display: none;">
+  <div class="modal-window-card">
+    <div class="modal-header-bar">
+      <div class="modal-title-wrap">
+        <div class="modal-icon-badge"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
+        <div>
+          <h2 class="modal-main-heading" id="modal-arp-title">ARP No: 00001</h2>
+          <span class="modal-sub-heading" id="modal-pin-sub">Tax Declaration of Real Property</span>
+        </div>
+      </div>
+      <button class="modal-close-x modal-close-trigger" onclick="document.getElementById('property-modal-backdrop').style.display='none'">&times;</button>
+    </div>
+    <div class="modal-scroll-body">
+      <div class="tax-declaration-document" id="printable-tax-declaration">
+        <div class="td-header">
+          <div class="td-republic">Republic of the Philippines</div>
+          <div class="td-province">PROVINCE OF ISABELA</div>
+          <div class="td-office">OFFICE OF THE PROVINCIAL ASSESSOR</div>
+          <div class="td-title-badge">TAX DECLARATION OF REAL PROPERTY</div>
+        </div>
+        <table class="td-grid-table">
+          <tr><td width="35%"><strong>TD / ARP No:</strong> <span id="td-doc-arp">00001</span></td><td width="65%"><strong>Property Index No. (PIN):</strong> <span id="td-doc-pin">001 - 001</span></td></tr>
+          <tr><td><strong>Owner:</strong></td><td><strong id="td-doc-owner">LADDARAN, PEDRO</strong></td></tr>
+          <tr><td><strong>Address:</strong></td><td id="td-doc-address">Gen. Aguinaldo, Ramon, Isabela</td></tr>
+          <tr><td><strong>Lot & Survey No:</strong></td><td id="td-doc-lot">Lot 32 / PSD-(AF)-02-01646</td></tr>
+          <tr><td><strong>Certificate of Title:</strong></td><td id="td-doc-oct">165-2017001138</td></tr>
+        </table>
+        <div style="font-weight: bold; margin: 12px 0 4px 0; font-size: 0.85rem; text-transform: uppercase;">Property Assessment Breakdown</div>
+        <table class="td-grid-table">
+          <thead><tr><th>Classification</th><th>Area</th><th>Market Value</th><th>Assessment Level</th><th>Assessed Value</th></tr></thead>
+          <tbody>
+            <tr>
+              <td align="center" id="td-doc-class">Residential (R-2)</td>
+              <td align="center" id="td-doc-area">463.00 sq.m.</td>
+              <td align="right" id="td-doc-market">₱ 250,020.00</td>
+              <td align="center" id="td-doc-level">20%</td>
+              <td align="right"><strong id="td-doc-assessed">₱ 15,000.00</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer-bar">
+      <button class="btn-secondary" onclick="document.getElementById('property-modal-backdrop').style.display='none'">Close</button>
+      <button class="btn-emerald" onclick="window.print()"><span>Print Tax Declaration</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-notification" id="app-toast" style="display: none;">
+  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" color="#059669">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+  <div>
+    <div class="toast-title" id="toast-title" style="font-weight: 700; font-size: 13px; color: #111827;"></div>
+    <div class="toast-desc" id="toast-desc" style="font-size: 12px; color: #6b7280;"></div>
+  </div>
+</div>
+
+<script>
+  function closeNoaModal() {
+    const el = document.getElementById('noa-modal-backdrop');
+    if (el) el.style.display = 'none';
+  }
+</script>
+</body>
+</html>

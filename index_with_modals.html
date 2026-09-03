@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Real Property Assessment System (eRPAS) - Province of Isabela</title>
+
+  <link rel="stylesheet" href="css/design-tokens.css">
+
+  <link rel="stylesheet" href="css/components.css">
+
+  <link rel="stylesheet" href="css/master-form.css">
+  <script>
+    (function () {
+      const theme = localStorage.getItem('rpas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+      else document.documentElement.classList.add('light-theme');
+    })();
+  </script>
+</head>
+
+<body>
+
+
+
+  <!-- REAL PROPERTY ASSESSMENT SYSTEM MASTER WINDOW (FAITHFULLY MATCHING REFERENCE SCREENSHOT IN GREEN DECK) -->
+
+  <div class="master-window-container" id="master-window-view">
+
+
+
+    <!-- 1. TOP HEADER BANNER -->
+
+    <header class="master-window-header">
+
+      <!-- Left Seal & Province Branding -->
+
+      <div class="master-seal-brand-box">
+
+        <div class="master-seal-emblem">
+
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+
+          </svg>
+
+        </div>
+
+        <div class="master-province-text">
+
+          <span class="master-province-sub">Province of</span>
+
+          <span class="master-province-main">Isabela</span>
+
+          <span class="master-province-tag">Provincial Government</span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Center & Right Title Area -->
+
+      <div class="master-title-meta-area">
+
+        <div class="master-title-top-row">
+
+          <div class="master-title-group">
+
+            <div class="master-hero-system-title">
+
+              Real Property <span class="highlight-green">Assessment System</span>
+
+            </div>
+
+            <div class="master-hero-system-sub">
+
+              electronic Government Application System
+
+            </div>
+
+          </div>
+
+
+
+          <div class="master-title-watermark-right">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="master-version-pill">Version 5.0</span>
+              <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="window.toggleTheme()" title="Toggle Light / Dark Mode">
+                <!-- Icon injected by theme.js -->
+              </button>
+            </div>
+            <span class="master-watermark-text">Pamahalaang Panlalawigan ng Isabela</span>
+            <span class="master-watermark-cursive">Assessor Services</span>
+          </div>
+
+        </div>
+
+
+
+        <!-- Top Meta Input Strip (Date, User, Office) -->
+
+        <div class="master-meta-inputs-strip">
+
+          <div class="master-input-field-box readonly">
+
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+
+            <span class="text-val" id="master-header-date">20 August 2026</span>
+
+          </div>
+
+
+
+          <div class="master-input-field-box">
+
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+
+            <span class="text-val" id="master-header-user">Editha Q Medrano</span>
+
+            <div class="master-field-arrow-btn">
+
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="master-input-field-box readonly">
+
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+
+            <span class="text-val" id="master-header-office">Office of the Provincial Assessor</span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- 2. MAIN 3-COLUMN MASTER BODY -->
+
+    <div class="master-window-body">
+
+
+
+      <!-- COLUMN 1: Master Setup Buttons (18 Items) -->
+
+      <aside class="master-col-setup">
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>System Parameter</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Property Classification File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Locational Valuation Grouping</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Land Unit Value</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Plants/Trees File & Unit Value</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Influence/Adjustment Factor</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Building Kind & Structural Type</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Building Additional Item File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Building Unit Value Schedule</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Appraiser/Signatories File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Assessment Level (%) File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>City/Municipality File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Barangay File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Street/Subdivision File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Building/Condominium File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>Update Code File</span>
+
+        </div>
+
+
+
+        <div class="master-setup-pill-btn">
+
+          <div class="master-icon-sq"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg></div>
+
+          <span>General Revision Year File</span>
+
+        </div>
+
+
+
+        <!-- Special 18th Button at Bottom -->
+
+        <div class="master-setup-special-card">
+
+          <div class="master-special-icon-box">
+
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            </svg>
+
+          </div>
+
+          <div>
+
+            <div class="master-special-title">Set Locality &</div>
+
+            <div class="master-special-sub">Active Revision Year</div>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+
+
+      <!-- COLUMN 2: Master Transaction Categories (Middle Column) -->
+      <section class="master-col-modules">
+        <div class="master-modules-list">
+
+          <!-- 1st Module: Real Properties File -->
+          <div class="master-module-item active" id="mod-btn-realprop" data-module="realprop"
+            onclick="window.selectMasterModule('realprop')">
+            <div class="master-cube-indicator">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+            <div class="master-module-text-group">
+              <span class="master-module-title">Real Properties File</span>
+              <span class="master-module-sub">(Land, Building & Machine Records)</span>
+            </div>
+          </div>
+
+          <!-- 2nd Module: Owners File -->
+          <div class="master-module-item" id="mod-btn-owners" data-module="owners"
+            onclick="window.selectMasterModule('owners')">
+            <div class="master-cube-indicator">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect width="12" height="12" x="6" y="6" rx="2" />
+              </svg>
+            </div>
+            <div class="master-module-text-group">
+              <span class="master-module-title">Owners File</span>
+              <span class="master-module-sub">(Ownership, Payment & Delinquent)</span>
+            </div>
+          </div>
+
+          <!-- 3rd Module: Assessment List -->
+          <div class="master-module-item" id="mod-btn-assessment" data-module="assessment"
+            onclick="window.selectMasterModule('assessment')">
+            <div class="master-cube-indicator">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect width="12" height="12" x="6" y="6" rx="2" />
+              </svg>
+            </div>
+            <div class="master-module-text-group">
+              <span class="master-module-title">Assessment List</span>
+              <span class="master-module-sub">(Tax Declaration & PRF)</span>
+            </div>
+          </div>
+
+          <!-- 4th Module: General Revision -->
+          <div class="master-module-item" id="mod-btn-grev" data-module="grev"
+            onclick="window.selectMasterModule('grev')">
+            <div class="master-cube-indicator">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect width="12" height="12" x="6" y="6" rx="2" />
+              </svg>
+            </div>
+            <div class="master-module-text-group">
+              <span class="master-module-title">General Revision</span>
+              <span class="master-module-sub">(Revision Year, Rates and Schedule)</span>
+            </div>
+          </div>
+
+          <!-- 5th Module: Notices & Forms -->
+          <div class="master-module-item" id="mod-btn-notices" data-module="notices"
+            onclick="window.selectMasterModule('notices')">
+            <div class="master-cube-indicator">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect width="12" height="12" x="6" y="6" rx="2" />
+              </svg>
+            </div>
+            <div class="master-module-text-group">
+              <span class="master-module-title">Notices & Forms</span>
+              <span class="master-module-sub">(Assessments & Cancellations)</span>
+            </div>
+          </div>
+
+          <!-- 6th Module: Certifications -->
+          <div class="master-module-item" id="mod-btn-certifications" data-module="certifications"
+            onclick="window.selectMasterModule('certifications')">
+            <div class="master-cube-indicator">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect width="12" height="12" x="6" y="6" rx="2" />
+              </svg>
+            </div>
+            <div class="master-module-text-group">
+              <span class="master-module-title">Certifications</span>
+              <span class="master-module-sub">(Preparation & Printing)</span>
+            </div>
+          </div>
+
+          <!-- 7th Module: Inquiries -->
+          <div class="master-module-item" id="mod-btn-inquiries" data-module="inquiries"
+            onclick="window.selectMasterModule('inquiries')">
+            <div class="master-cube-indicator">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect width="12" height="12" x="6" y="6" rx="2" />
+              </svg>
+            </div>
+            <div class="master-module-text-group">
+              <span class="master-module-title">Inquiries</span>
+              <span class="master-module-sub">( By ARP, Names, Lot No. & etc. )</span>
+            </div>
+          </div>
+
+          <!-- 8th Module: Reports -->
+          <div class="master-module-item" id="mod-btn-reports" data-module="reports"
+            onclick="window.selectMasterModule('reports')">
+            <div class="master-cube-indicator">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect width="12" height="12" x="6" y="6" rx="2" />
+              </svg>
+            </div>
+            <div class="master-module-text-group">
+              <span class="master-module-title">Reports</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Close Module at the bottom -->
+        <div class="master-close-module-item" onclick="window.handleLogoutClick()">
+          <div class="master-close-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <div>
+            <div class="master-close-title">Close Module</div>
+            <div class="master-close-sub">Go Back to Main Menu</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMN 3: Right Detail Panel Card -->
+      <main class="master-col-detail-card">
+
+        <!-- 1. Real Properties Panel (Default) -->
+        <div class="master-detail-panel" id="panel-realprop"
+          style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+          <div>
+            <!-- Section 1: Real Properties... -->
+            <div class="master-card-section">
+              <div class="master-section-head-title">Real Properties...</div>
+              <div class="master-action-items-stack">
+                <a href="land-properties.html" class="master-detail-action-row"
+                  style="text-decoration: none; cursor: pointer;">
+                  <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                  <span>Land Property Units File</span>
+                </a>
+
+                <a href="building-properties.html" class="master-detail-action-row highlighted"
+                  style="text-decoration: none; cursor: pointer;">
+                  <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <span>Buildings / Improvements File</span>
+                </a>
+
+                <a href="machine-properties.html" class="master-detail-action-row"
+                  style="text-decoration: none; cursor: pointer;">
+                  <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  </svg>
+                  <span>Machine Property Units File</span>
+                </a>
+
+                <a href="proproll.html" class="master-detail-action-row"
+                  style="text-decoration: none; cursor: pointer;">
+                  <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>Real Property Units File (by TD)</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Section 2: Data Transfer... -->
+            <div class="master-card-section">
+              <div class="master-section-head-title">Data Transfer...</div>
+              <div class="master-action-items-stack">
+                <div class="master-detail-action-row" onclick="window.handleSyncDownload()">
+                  <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  <span>Download Records</span>
+                </div>
+
+                <div class="master-detail-action-row" onclick="window.handleSyncUpload()">
+                  <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                  </svg>
+                  <span>Upload Records</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Bottom For-Approval Bar -->
+          <div class="master-bottom-approval-bar" onclick="window.openUnapprovedModal()">
+            <div class="master-approval-check-sq">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <span>For-approval Assessment Transaction Records</span>
+          </div>
+        </div>
+
+        <!-- 2. General Revision Panel (FAITHFULLY MATCHING REFERENCE SCREENSHOT) -->
+        <div class="master-detail-panel" id="panel-grev"
+          style="display: none; flex-direction: column; justify-content: flex-start; height: 100%; overflow-y: auto;">
+          <div>
+            <!-- Section 1: General Revision -->
+            <div class="master-card-section grev-section">
+              <div class="grev-header-banner">
+                <div class="grev-banner-left">
+                  <span class="grev-banner-title">General Revision</span>
+                </div>
+                <div class="grev-banner-year" id="grev-panel-year-display">2024</div>
+              </div>
+
+              <div class="grev-action-items-stack">
+                <!-- Action 1: Setup General Revision Year -->
+                <div class="grev-action-row" onclick="window.openRevYearModal()">
+                  <div class="grev-action-icon-box">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    </svg>
+                  </div>
+                  <span class="grev-action-label">Setup General Revision Year</span>
+                </div>
+
+                <!-- Action 2: New Base Unit Market Value Schedule File -->
+                <div class="grev-action-row" onclick="window.openBaseUnitScheduleModal()">
+                  <div class="grev-action-icon-box">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm1 7V3.5L18.5 9H15zM8 12h8v2H8v-2zm0 4h8v2H8v-2zm0-8h5v2H8V8z" />
+                    </svg>
+                  </div>
+                  <span class="grev-action-label">New Base Unit Market Value Schedule File</span>
+                </div>
+
+                <!-- Action 3: General Revision Process -->
+                <div class="grev-action-row" onclick="window.openGeneralRevisionProcessModal()">
+                  <div class="grev-action-icon-box">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                  <span class="grev-action-label">General Revision Process</span>
+                </div>
+
+                <!-- Action 4: Revised Real Property Units (For Approval) -->
+                <a href="unapprove-revised.html" class="grev-action-row"
+                  style="text-decoration: none; cursor: pointer;">
+                  <div class="grev-action-icon-box">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <span class="grev-action-label">Revised Real Property Units (For Approval)</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Section 2: Notice of Assessment -->
+            <div class="master-card-section noa-section">
+              <div class="grev-header-banner noa-banner">
+                <div class="grev-banner-left">
+                  <span class="grev-banner-title">Notice of Assessment</span>
+                </div>
+              </div>
+
+              <div class="grev-action-items-stack">
+                <!-- Action 1: Notice of Assessment Preparation & Printing -->
+                <div class="grev-action-row" onclick="window.openNoticeOfAssessmentModal()">
+                  <div class="grev-action-icon-box">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                  </div>
+                  <span class="grev-action-label">Notice of Assessment Preparation &amp; Printing</span>
+                </div>
+
+                <!-- Action 2: Notice of Assessment Records File -->
+                <div class="grev-action-row" onclick="window.openNoaRecordsLookupModal()">
+                  <div class="grev-action-icon-box">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                  </div>
+                  <span class="grev-action-label">Notice of Assessment Records File</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Owners File Panel -->
+        <div class="master-detail-panel" id="panel-owners"
+          style="display: none; flex-direction: column; justify-content: flex-start; height: 100%;">
+          <div class="master-card-section">
+            <div class="master-section-head-title">Owners File &amp; Records...</div>
+            <div class="master-action-items-stack">
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Property Owners Master Records', 'Manage declared owner master accounts, TIN, addresses, and multi-holding declarations.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span>Property Owners Master Records (by Name)</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Real Property Account Card & Delinquencies', 'Tax delinquency tracking, payment status records, and collection notices.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z" />
+                </svg>
+                <span>Real Property Account Card &amp; Delinquencies</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Tax Clearance & Assessment Certificate', 'Generate certification of updated real property tax standing.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Tax Clearance &amp; Assessment Certificate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Assessment List Panel -->
+        <div class="master-detail-panel" id="panel-assessment"
+          style="display: none; flex-direction: column; justify-content: flex-start; height: 100%;">
+          <div class="master-card-section">
+            <div class="master-section-head-title">Assessment List &amp; Declaration...</div>
+            <div class="master-action-items-stack">
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Assessment Roll Register', 'Official provincial assessment roll arranged by barangay and revision year.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                <span>Assessment Roll Register (by Barangay)</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Tax Declaration Preparation & Printing', 'Official Tax Declaration generation module conforming to BLGF standards.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                <span>Tax Declaration Printing &amp; Issuance</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Property Record Form (PRF)', 'Consolidated cadastral parcel history and tax declaration history.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Property Record Form (PRF)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Notices & Forms Panel -->
+        <div class="master-detail-panel" id="panel-notices"
+          style="display: none; flex-direction: column; justify-content: flex-start; height: 100%;">
+          <div class="master-card-section">
+            <div class="master-section-head-title">Notices &amp; Assessment Forms...</div>
+            <div class="master-action-items-stack">
+              <div class="master-detail-action-row" onclick="window.openNoticeOfAssessmentModal()">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <span>Notice of Assessment (NOA)</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Notice of Cancellation', 'Process cancellation notices due to transfer, consolidation, or demolition.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                </svg>
+                <span>Notice of Cancellation (NOC)</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Field Appraisal & Assessment Sheet', 'FAAS form printing and digital encoding.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <span>Field Appraisal &amp; Assessment Sheet (FAAS)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Certifications Panel -->
+        <div class="master-detail-panel" id="panel-certifications"
+          style="display: none; flex-direction: column; justify-content: flex-start; height: 100%;">
+          <div class="master-card-section">
+            <div class="master-section-head-title">Certifications Preparation &amp; Printing...</div>
+            <div class="master-action-items-stack">
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Certificate of Property Holdings', 'Issuance of official property holdings certification under provincial seal.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+                <span>Certificate of Property Holdings</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Certificate of Non-Improvement', 'Certification that no building or structure exists on specified land parcel.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Certificate of Non-Improvement</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Certified True Copy of Tax Declaration', 'Official CTC printing with barcode and security seal.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span>Certified True Copy of Tax Declaration</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Inquiries Panel -->
+        <div class="master-detail-panel" id="panel-inquiries"
+          style="display: none; flex-direction: column; justify-content: flex-start; height: 100%;">
+          <div class="master-card-section">
+            <div class="master-section-head-title">Inquiries &amp; Verification...</div>
+            <div class="master-action-items-stack">
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Search by ARP Number', 'Instant cadastral lookup by Assessment Roll / ARP Number.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <span>Search by ARP / Tax Declaration Number</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Search by Declared Owner Name', 'Locate all land and structural holdings for any individual or corporate owner.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span>Search by Declared Owner Name</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Search by PIN / Cadastral Lot Number', 'Geographic lot lookup across all 19 barangays.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                </svg>
+                <span>Search by PIN / Cadastral Lot Number</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Reports Panel -->
+        <div class="master-detail-panel" id="panel-reports"
+          style="display: none; flex-direction: column; justify-content: flex-start; height: 100%;">
+          <div class="master-card-section">
+            <div class="master-section-head-title">Statistical &amp; Executive Reports...</div>
+            <div class="master-action-items-stack">
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Comprehensive Assessment Roll', 'Export master provincial assessment roll to PDF / Excel.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                <span>Comprehensive Assessment Roll by Municipality</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('General Revision Impact Summary', 'Revaluation delta comparison: Prior Assessed Values vs. Revision Year 2024.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                <span>Summary of General Revision Adjustments</span>
+              </div>
+              <div class="master-detail-action-row"
+                onclick="window.openGenericFeatureModal('Exemption & Taxability Report', 'Taxable vs. Exempt property breakdown by classification.')">
+                <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                </svg>
+                <span>Exemption &amp; Taxability Report</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       INTERACTIVE MODALS & DIALOGS
+       ========================================================================= -->
+
+  <!-- 1. Setup General Revision Year Modal -->
+  <div class="modal-overlay-backdrop" id="grev-setup-modal" style="display: none;">
+    <div class="modal-dialog-card">
+      <div class="modal-card-header">
+        <div class="modal-header-title-group">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+            color="#1DB954">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          </svg>
+          <span class="modal-header-title">Setup General Revision Year</span>
+          <span class="modal-header-badge" id="setup-rev-badge">Active: 2024</span>
+        </div>
+        <button class="modal-card-close-btn" onclick="window.closeRevYearModal()">&times;</button>
+      </div>
+      <div class="modal-card-body">
+        <div
+          style="background: rgba(29, 185, 84, 0.08); border: 1px solid rgba(29, 185, 84, 0.25); border-radius: 6px; padding: 12px; font-size: 13px; color: #E6E6E6;">
+          Configure the active revaluation cycle for the Province of Isabela. All property re-assessments and base unit
+          rates will automatically align with this Revision Year.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="modal-form-group">
+            <label class="modal-form-label">Active Revision Year</label>
+            <input type="number" id="setup-rev-year-input" class="modal-form-input" value="2024" min="2020" max="2035">
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-form-label">Municipality / Locality</label>
+            <input type="text" class="modal-form-input" value="22 - RAMON, ISABELA" readonly
+              style="background: #141414; color: #888;">
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-form-label">Cycle Effectivity Date</label>
+            <input type="text" class="modal-form-input" value="January 1, 2024" readonly
+              style="background: #141414; color: #888;">
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-form-label">Revision Ordinance No.</label>
+            <input type="text" class="modal-form-input" value="PROV-ORD-2024-001"
+              placeholder="Enter Ordinance Reference">
+          </div>
+        </div>
+      </div>
+      <div class="modal-card-footer">
+        <button class="btn-secondary" onclick="window.closeRevYearModal()">Cancel</button>
+        <button class="btn-primary" onclick="window.saveRevYearSetup()">Save Revision Year</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Base Unit Market Value Schedule Modal -->
+  <div class="modal-overlay-backdrop" id="unit-value-schedule-modal" style="display: none;">
+    <div class="modal-dialog-card wide">
+      <div class="modal-card-header">
+        <div class="modal-header-title-group">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#1DB954">
+            <path
+              d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm1 7V3.5L18.5 9H15zM8 12h8v2H8v-2zm0 4h8v2H8v-2zm0-8h5v2H8V8z" />
+          </svg>
+          <span class="modal-header-title">New Base Unit Market Value Schedule File - 2024</span>
+          <span class="modal-header-badge" id="grev-stat-schedules">Live rpadb Rates</span>
+        </div>
+        <button class="modal-card-close-btn" onclick="window.closeBaseUnitScheduleModal()">&times;</button>
+      </div>
+      <div class="modal-card-body">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <label class="modal-form-label" style="margin: 0;">Class Filter:</label>
+            <select id="uv-filter-class" class="modal-form-select" onchange="window.filterUnitValueTable()"
+              style="width: 180px;">
+              <option value="ALL">All Classifications</option>
+              <option value="R-1">R-1 (Residential Regular)</option>
+              <option value="R-2">R-2 (Residential Medium)</option>
+              <option value="A-1">A-1 (Agricultural Rice Land)</option>
+              <option value="C-1">C-1 (Commercial Central)</option>
+              <option value="I-1">I-1 (Industrial)</option>
+            </select>
+          </div>
+          <div style="font-size: 12px; color: #A7A7A7;">
+            Rates synchronized with <strong style="color: #1DB954;">rpadb (Locality 22 - Ramon)</strong>
+          </div>
+        </div>
+
+        <div
+          style="max-height: 400px; overflow-y: auto; border: 1px solid var(--color-border, #282828); border-radius: 8px;">
+          <table class="modal-table">
+            <thead>
+              <tr>
+                <th width="90">Class</th>
+                <th width="110">Sub-Class</th>
+                <th>Description &amp; Locational Parameters</th>
+                <th width="140" style="text-align: right;">Unit Value (₱/sq.m.)</th>
+                <th width="100" style="text-align: center;">Status</th>
+              </tr>
+            </thead>
+            <tbody id="uv-schedule-tbody">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 24px; color: #888;">
+                  Loading Base Unit Market Values...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-card-footer">
+        <button class="btn-secondary" onclick="window.closeBaseUnitScheduleModal()">Close Schedule</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. General Revision Process Modal -->
+  <div class="modal-overlay-backdrop" id="grev-process-modal" style="display: none;">
+    <div class="modal-dialog-card">
+      <div class="modal-card-header">
+        <div class="modal-header-title-group">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+            color="#1DB954">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+          <span class="modal-header-title">General Revision Process (Mass Revaluation Engine)</span>
+        </div>
+        <button class="modal-card-close-btn" onclick="window.closeGeneralRevisionProcessModal()">&times;</button>
+      </div>
+      <div class="modal-card-body">
+        <div
+          style="background: rgba(29, 185, 84, 0.08); border: 1px solid rgba(29, 185, 84, 0.25); border-radius: 6px; padding: 14px; font-size: 13px; color: #E6E6E6; line-height: 1.5;">
+          This routine executes automated mass appraisal calculation across all declared parcels in <strong>Municipality
+            of Ramon (Locality 22)</strong> based on the 2024 Schedule of Base Market Values.
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
+          <div style="background: #141414; padding: 10px; border-radius: 6px; border: 1px solid #282828;">
+            <div style="color: #888; font-size: 11px; text-transform: uppercase;">Locality Scope</div>
+            <div style="font-weight: 700; color: #FFF; margin-top: 2px;">22 - Ramon (19 Barangays)</div>
+          </div>
+          <div style="background: #141414; padding: 10px; border-radius: 6px; border: 1px solid #282828;">
+            <div style="color: #888; font-size: 11px; text-transform: uppercase;">Active Revision Year</div>
+            <div style="font-weight: 700; color: #1DB954; margin-top: 2px;">2024 Revaluation Cycle</div>
+          </div>
+        </div>
+
+        <div id="grev-process-progress-box" style="display: none; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+            <span id="grev-progress-status-text" style="color: #E6E6E6; font-weight: 600;">Running mass revaluation
+              engine...</span>
+            <span id="grev-progress-percent" style="color: #1DB954; font-family: monospace; font-weight: 700;">0%</span>
+          </div>
+          <div class="grev-progress-container">
+            <div class="grev-progress-bar-fill" id="grev-progress-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-card-footer">
+        <button class="btn-secondary" onclick="window.closeGeneralRevisionProcessModal()">Close</button>
+        <button class="btn-primary" id="btn-run-grev-engine" onclick="window.executeGeneralRevisionBatch()">
+          <span>Execute Revision Process</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Revised Real Property Units (For Approval) Modal (UNAPPROVE-REVISED.p) -->
+  <div class="modal-overlay-backdrop" id="grev-approval-modal" style="display: none;">
+    <div class="modal-dialog-card unapproved-fullscreen">
+
+      <!-- Top Title Header -->
+      <div class="modal-card-header" style="padding: 12px 20px;">
+        <div class="modal-header-title-group">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+            color="#1DB954">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="modal-header-title">Un-approved Real Property Assessment Records</span>
+          <span class="modal-header-badge" id="unapproved-count-badge">0 Records</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button class="modal-card-close-btn" onclick="window.closeUnapprovedModal()"
+            title="Close (F10)">&times;</button>
+        </div>
+      </div>
+
+      <!-- Top Filter & Barangay Strip -->
+      <div class="unapp-header-strip">
+        <div class="unapp-bgy-selector-group">
+          <label class="unapp-check-label">
+            <input type="checkbox" id="unapp-by-bgy-check" checked onchange="window.toggleByBgyCheck()">
+            <span>View un-approved RPUs by Barangay Number :</span>
+          </label>
+          <div class="unapp-bgy-input-box">
+            <input type="text" id="unapp-bgy-input" class="unapp-bgy-input" value="006" maxlength="3"
+              onkeydown="if(event.key==='Enter') window.fetchUnapprovedForModal();">
+            <button class="unapp-btn-go" onclick="window.fetchUnapprovedForModal()">
+              <span>Go</span>
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="unapp-bgy-banner-info">
+          <div class="unapp-bgy-name-title">
+            Barangay: <span id="unapp-bgy-display-title">Ambalatungan, RAMON</span>
+          </div>
+          <div class="unapp-rev-badge" id="unapp-rev-year-badge">
+            Revision Year: 2024
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary Toolbar (Sorts & Property Kinds) -->
+      <div class="unapp-toolbar-strip">
+        <div class="unapp-sort-options">
+          <span style="font-weight: 700; color: #888;">Sort by:</span>
+          <label class="unapp-radio-label">
+            <input type="radio" name="unapp-sort" value="2" onchange="window.setUnapprovedSort(2)">
+            <span>by Revised Date</span>
+          </label>
+          <label class="unapp-radio-label">
+            <input type="radio" name="unapp-sort" value="1" onchange="window.setUnapprovedSort(1)">
+            <span>by Owner's Name</span>
+          </label>
+          <label class="unapp-radio-label">
+            <input type="radio" name="unapp-sort" value="3" onchange="window.setUnapprovedSort(3)">
+            <span>by Revised TD/ARP No</span>
+          </label>
+          <label class="unapp-radio-label active">
+            <input type="radio" name="unapp-sort" value="4" checked onchange="window.setUnapprovedSort(4)">
+            <span>by Previous TD Number</span>
+          </label>
+          <label class="unapp-radio-label">
+            <input type="radio" name="unapp-sort" value="5" onchange="window.setUnapprovedSort(5)">
+            <span>by PIN</span>
+          </label>
+        </div>
+
+        <div class="unapp-kind-filters">
+          <label class="unapp-kind-checkbox">
+            <input type="checkbox" id="unapp-kind-land" checked onchange="window.filterUnapprovedByKind()">
+            <span>LAND Properties</span>
+          </label>
+          <label class="unapp-kind-checkbox">
+            <input type="checkbox" id="unapp-kind-bldg" checked onchange="window.filterUnapprovedByKind()">
+            <span>BUILDING Properties</span>
+          </label>
+          <label class="unapp-kind-checkbox">
+            <input type="checkbox" id="unapp-kind-mach" checked onchange="window.filterUnapprovedByKind()">
+            <span>MACHINE Properties</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Data Table Grid -->
+      <div class="unapp-grid-container" id="unapp-grid-scroll-wrap">
+        <table class="unapp-data-table" id="unapp-main-table">
+          <thead>
+            <tr>
+              <th width="150">Revised TD No.</th>
+              <th width="120">P.I.N.</th>
+              <th width="105">Revised Date</th>
+              <th width="105">Property Type</th>
+              <th width="280">Owner's Name</th>
+              <th width="140" style="text-align: right;">Market Value</th>
+              <th width="130" style="text-align: right;">Assessed Value</th>
+              <th width="100" style="text-align: right;">Area (sq.m.)</th>
+              <th width="115" class="prev-col-header" style="text-align: right;">Prev. Area (sq.m.)</th>
+              <th width="140" class="prev-col-header" style="text-align: right;">Prev. Market Value</th>
+              <th width="130" class="prev-col-header" style="text-align: right;">Prev. Ass'd Value</th>
+              <th width="140" class="prev-col-header">Prev. TD/ARP No.</th>
+            </tr>
+          </thead>
+          <tbody id="modal-unapproved-tbody">
+            <tr>
+              <td colspan="12" style="text-align: center; padding: 36px; color: #1DB954;">
+                <span class="loading-spinner"></span> Loading un-approved revised records from OpenEdge rpadb...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Bottom Action Toolbar -->
+      <div class="unapp-bottom-toolbar">
+        <div class="unapp-action-buttons-group">
+          <button class="unapp-tool-btn btn-review" onclick="window.reviewSelectedAssessmentRecord()"
+            title="Alt-E / F7">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            <span>Review &amp; Update Record</span>
+          </button>
+
+          <button class="unapp-tool-btn btn-print" onclick="window.printSelectedAssessmentDocument()" title="Alt-T">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            <span>Print FAAS / TD / Notice</span>
+          </button>
+
+          <button class="unapp-tool-btn btn-approve" onclick="window.approveSelectedAssessmentRecord()"
+            title="Alt-A / F6">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Approve Assessment</span>
+          </button>
+
+          <button class="unapp-tool-btn btn-approve"
+            style="background: rgba(29, 185, 84, 0.18); color: #1DB954; border-color: rgba(29,185,84,0.4);"
+            onclick="window.approveAllModalParcels()">
+            <span>Batch Approve All</span>
+          </button>
+        </div>
+
+        <div class="unapp-action-buttons-group">
+          <button class="unapp-tool-btn btn-search" onclick="window.openUnappFindModal()" title="F4 / Alt-S">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span>Search (F4)</span>
+          </button>
+
+          <button class="unapp-tool-btn btn-close" onclick="window.closeUnapprovedModal()" title="F10">
+            <span>F10 Close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Totals & RPUs Summary Bar -->
+      <div class="unapp-totals-ribbon">
+        <div class="unapp-totals-values">
+          <div class="unapp-total-metric">
+            <span class="unapp-metric-label">Current Total Area:</span>
+            <span class="unapp-metric-pill" id="unapp-stat-total-area">0.00 sq.m.</span>
+          </div>
+          <div class="unapp-total-metric">
+            <span class="unapp-metric-label">Total Assessed Value:</span>
+            <span class="unapp-metric-pill" id="unapp-stat-total-val">₱ 0.00</span>
+          </div>
+        </div>
+
+        <div class="unapp-rpu-counts-group">
+          <span class="unapp-metric-label">Total RPUs;</span>
+          <div class="unapp-rpu-chip">
+            <strong>Land:</strong>
+            <span class="count-box" id="unapp-stat-land-count">0</span>
+          </div>
+          <div class="unapp-rpu-chip">
+            <strong>Building:</strong>
+            <span class="count-box" id="unapp-stat-bldg-count">0</span>
+          </div>
+          <div class="unapp-rpu-chip">
+            <strong>Machine:</strong>
+            <span class="count-box" id="unapp-stat-mach-count">0</span>
+          </div>
+          <div class="unapp-rpu-chip">
+            <strong style="color: #1DB954;">Total:</strong>
+            <span class="count-box" style="background: rgba(29, 185, 84, 0.2); color: #FFFFFF;"
+              id="unapp-stat-total-count">0</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Search Sub-Dialog (Fr-Find from UNAPPROVE-REVISED.p) -->
+  <div class="modal-overlay-backdrop" id="unapp-find-modal" style="display: none; z-index: 10050;">
+    <div class="unapp-find-dialog">
+      <div class="modal-card-header" style="margin-bottom: 14px;">
+        <div class="modal-header-title-group">
+          <span class="modal-header-title">Search Assessment Record</span>
+          <span class="modal-header-badge">Fr-Find</span>
+        </div>
+        <button class="modal-card-close-btn" onclick="window.closeUnappFindModal()">&times;</button>
+      </div>
+      <div>
+        <div class="modal-form-group" style="margin-bottom: 12px;">
+          <label class="modal-form-label">Find what (TD No., PIN, or Owner Name):</label>
+          <input type="text" id="unapp-find-input" class="modal-form-input" placeholder="Key in search query..."
+            onkeydown="if(event.key==='Enter') window.executeUnappFind();">
+        </div>
+        <div style="font-size: 11.5px; color: #A7A7A7; line-height: 1.5; margin-bottom: 16px;">
+          You can search records by <strong>T.D. Series Number</strong>, <strong>PIN</strong>, or <strong>Owner
+            Name</strong>.<br>
+          Press <strong>Enter</strong> or click <strong>Find Now</strong> to jump directly to the record.
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button class="btn-secondary" onclick="window.closeUnappFindModal()">Cancel (Esc)</button>
+          <button class="btn-primary" onclick="window.executeUnappFind()">
+            <span>Find Now (Alt-F)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.1 Assessment Approval & TD/PIN Assignment Wizard Modal (approve-assessmt.p) -->
+  <div class="modal-overlay-backdrop" id="grev-approval-wizard-modal" style="display: none; z-index: 10100;">
+    <div class="modal-dialog-card approval-wizard-card">
+
+      <!-- Top Right Close Button -->
+      <button class="wizard-modal-close-btn" onclick="window.closeApprovalWizardModal()" title="Close (Esc)">&times;</button>
+
+      <!-- Left Side Hero Artwork & Steps -->
+      <div class="wizard-side-banner">
+        <div class="wizard-brand-block">
+          <div class="wizard-brand-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </div>
+          <div class="wizard-brand-title">Assessment Approval Wizard</div>
+          <div class="wizard-brand-sub" id="wiz-side-sub-title">General Revision 2024</div>
+        </div>
+
+        <div class="wizard-steps-list">
+          <div class="wizard-step-item active" id="wiz-step-ind-1">
+            <div class="wizard-step-num">1</div>
+            <div class="wizard-step-info">
+              <span class="wizard-step-label">Step 1</span>
+              <span class="wizard-step-name">Assign P.I.N. &amp; TD Number</span>
+            </div>
+          </div>
+          <div class="wizard-step-item" id="wiz-step-ind-2">
+            <div class="wizard-step-num">2</div>
+            <div class="wizard-step-info">
+              <span class="wizard-step-label">Step 2</span>
+              <span class="wizard-step-name">Approval Parameters</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-side-footer">
+          <div style="font-weight: 700; color: #1DB954; margin-bottom: 4px;">Assessor Guideline:</div>
+          Verify PIN series and validate duplicate TD entries against live roll before finalizing posting parameters.
+        </div>
+      </div>
+
+      <!-- Right Main Content Area -->
+      <div class="wizard-main-content">
+
+        <!-- STEP 1: Assign New P.I.N. and Tax Declaration Number (Fr-NewSingle) -->
+        <div class="wizard-step-view" id="wizard-step-1-view">
+          <div class="wizard-view-header">
+            <div>
+              <div class="wizard-view-title">Assign New P.I.N. and Tax Declaration Number...</div>
+              <div style="font-size: 12px; color: #A7A7A7; margin-top: 2px;">Frame: Fr-NewSingle &bull; Real Property
+                Assessment Approval</div>
+            </div>
+            <span class="wizard-view-badge" id="wiz-arp-badge">ARP # 00142</span>
+          </div>
+
+          <!-- Current Property Index Number -->
+          <div class="wizard-segmented-box">
+            <div class="wizard-segmented-label">
+              <span>Current Property Index Number :</span>
+            </div>
+            <div class="wizard-inputs-row">
+              <div class="wizard-seg-field">
+                <input type="text" id="wiz-pin-bgy" value="006" style="width: 75px;" readonly>
+                <span class="sub-tag">Barangay</span>
+              </div>
+              <span class="wizard-hyphen">-</span>
+              <div class="wizard-seg-field">
+                <input type="text" id="wiz-pin-sec" value="001" style="width: 75px;">
+                <span class="sub-tag">Section No.</span>
+              </div>
+              <span class="wizard-hyphen">-</span>
+              <div class="wizard-seg-field">
+                <input type="text" id="wiz-pin-lot" value="004" style="width: 75px;">
+                <span class="sub-tag">Ass. Lot No.</span>
+              </div>
+              <span class="wizard-hyphen">-</span>
+              <div class="wizard-seg-field">
+                <input type="text" id="wiz-pin-imp" value="1004" style="width: 90px;">
+                <span class="sub-tag">Improvement No.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enter New Tax Declaration Number -->
+          <div class="wizard-segmented-box">
+            <div class="wizard-segmented-label">
+              <span>Enter New Tax Declaration Number :</span>
+              <label class="unapp-check-label" style="font-size: 12px; font-weight: 600; color: #1DB954;">
+                <input type="checkbox" id="wiz-auto-td-check" onchange="window.toggleWizAutoTd()">
+                <span>( Auto-assign Tax Declaration Number )</span>
+              </label>
+            </div>
+            <div class="wizard-inputs-row">
+              <div class="wizard-seg-field">
+                <input type="text" id="wiz-td-year" value="2024" style="width: 80px;" readonly>
+                <span class="sub-tag">Series Year</span>
+              </div>
+              <span class="wizard-hyphen">-</span>
+              <div class="wizard-seg-field">
+                <input type="text" id="wiz-td-bgy" value="006" style="width: 75px;" readonly>
+                <span class="sub-tag">Barangay</span>
+              </div>
+              <span class="wizard-hyphen">-</span>
+              <div class="wizard-seg-field">
+                <input type="text" id="wiz-td-series" value="00142" style="width: 100px;">
+                <span class="sub-tag">Series No.</span>
+              </div>
+              <span class="wizard-hyphen">-</span>
+              <div class="wizard-seg-field">
+                <input type="text" id="wiz-td-sfx" placeholder="" style="width: 75px;">
+                <span class="sub-tag">Suffix</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicate Validation Bar -->
+          <div class="wizard-validation-strip">
+            <button class="unapp-btn-go" onclick="window.validateWizTdNumber()" style="height: 34px; padding: 0 16px;">
+              <span>Go</span>
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            <div class="wizard-val-msg" id="wiz-val-msg-text">
+              &lt;=== Click this button to validate existence of TD Number.
+            </div>
+            <button class="btn-secondary" id="wiz-btn-view-td" style="display: none; height: 32px; font-size: 11.5px;"
+              onclick="window.viewWizExistingTd()">
+              <span>View Existing Tax Declaration</span>
+            </button>
+          </div>
+
+          <!-- Declared Owner & Appraisal Specs -->
+          <div class="wizard-prop-card">
+            <div>
+              <label class="modal-form-label">New Declared Owner</label>
+              <textarea class="wizard-owner-input" id="wiz-owner-input"
+                rows="2">SPS. TUMBAGA, RODOLFO &amp; FIDENCIA</textarea>
+            </div>
+            <div class="wizard-metrics-bar">
+              <div class="wizard-metric-item">
+                <span class="unapp-metric-label">Location:</span>
+                <strong id="wiz-loc-text">GEN. AGUINALDO, RAMON, ISABELA</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <span class="unapp-metric-label">Market Value:</span>
+                <strong style="color: #FFFFFF;" id="wiz-mv-text">₱ 611,770.00</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <span class="unapp-metric-label">Assessed Value:</span>
+                <strong style="color: #1DB954;" id="wiz-av-text">₱ 152,940.00</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <label class="unapp-check-label" style="font-size: 11.5px;">
+                  <input type="checkbox" id="wiz-taxable-check" checked>
+                  <span>Taxable</span>
+                </label>
+              </div>
+              <div class="wizard-metric-item">
+                <span class="unapp-metric-label">Effectivity:</span>
+                <strong id="wiz-eff-year-text">2026</strong>
+                <span style="color: #888;">Qtr:</span>
+                <strong id="wiz-eff-qtr-text">1st</strong>
+              </div>
+            </div>
+
+            <!-- Property Appraisal & Assessment Detail Table -->
+            <div class="wizard-table-wrap">
+              <table class="wizard-table">
+                <thead>
+                  <tr>
+                    <th>Classification / Actual Use</th>
+                    <th style="text-align: right;">Area</th>
+                    <th style="text-align: right;">Unit Value</th>
+                    <th style="text-align: right;">Market Value</th>
+                    <th style="text-align: right;">Assessed Value</th>
+                  </tr>
+                </thead>
+                <tbody id="wiz-detail-tbody">
+                  <tr>
+                    <td style="color: #FFFFFF; font-weight: 600;">Residential - Residential Building</td>
+                    <td style="text-align: right; font-family: monospace;">121.20 sq. m.</td>
+                    <td style="text-align: right; font-family: monospace;">4,500.00</td>
+                    <td style="text-align: right; font-family: monospace;">₱611,770.00</td>
+                    <td style="text-align: right; font-family: monospace; font-weight: 700; color: #1DB954;">₱152,940.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Step 1 Footer -->
+          <div class="wizard-footer-bar">
+            <button class="btn-primary" id="wiz-btn-next" onclick="window.goWizStep2()">
+              <span>Next: Approval Parameters &raquo;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: New Tax Declaration Approval Parameters (Fr-Approval) -->
+        <div class="wizard-step-view" id="wizard-step-2-view" style="display: none;">
+          <div class="wizard-view-header">
+            <div>
+              <div class="wizard-view-title">New Tax Declaration Approval Parameters</div>
+              <div style="font-size: 12px; color: #A7A7A7; margin-top: 2px;">Frame: Fr-Approval &bull; Final Roll Commit
+                &amp; Official Signatures</div>
+            </div>
+            <span class="wizard-view-badge" id="wiz-step2-badge">Step 2 of 2</span>
+          </div>
+
+          <!-- Previous & New Record Summary -->
+          <div class="wizard-prop-card" style="padding: 12px 16px;">
+            <div style="font-size: 12px; font-weight: 700; color: #1DB954; margin-bottom: 6px;">Cancelled Property
+              Assessment Record(s) for Superseding:</div>
+            <div class="wizard-table-wrap">
+              <table class="wizard-table">
+                <thead>
+                  <tr>
+                    <th>Cancelled by TD No.</th>
+                    <th>Cancelled TD No.</th>
+                    <th>Previous Owner</th>
+                    <th style="text-align: right;">Previous Assessed Value</th>
+                    <th>Effective Year</th>
+                  </tr>
+                </thead>
+                <tbody id="wiz-cancel-tbody">
+                  <tr>
+                    <td style="font-family: monospace; color: #1DB954; font-weight: 700;" id="wiz-c-by-td">
+                      2024-006-00142</td>
+                    <td style="font-family: monospace; color: #A7A7A7;" id="wiz-c-td">2020-006-00120</td>
+                    <td style="color: #FFFFFF;" id="wiz-c-owner">SPS. TUMBAGA, RODOLFO &amp; FIDENCIA</td>
+                    <td style="text-align: right; font-family: monospace; color: #1DB954; font-weight: 700;"
+                      id="wiz-c-av">₱126,000.00</td>
+                    <td id="wiz-c-eff">2026, 1st Quarter</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Posting Date, Taxable, Effectivity -->
+          <div
+            style="display: grid; grid-template-columns: 1fr 120px 140px 150px; gap: 12px; align-items: flex-end; background: #1a1a1a; padding: 12px 16px; border-radius: 8px; border: 1px solid #2a2a2a;">
+            <div class="modal-form-group">
+              <label class="modal-form-label">Posting Date:</label>
+              <input type="date" id="wiz-post-date" class="modal-form-input" value="2026-06-15">
+            </div>
+            <div class="modal-form-group">
+              <label class="modal-form-label">Taxable:</label>
+              <label class="unapp-check-label" style="height: 38px; display: flex; align-items: center;">
+                <input type="checkbox" id="wiz-param-taxable" checked>
+                <span>Taxable</span>
+              </label>
+            </div>
+            <div class="modal-form-group">
+              <label class="modal-form-label">Effectivity Year:</label>
+              <input type="number" id="wiz-param-eyear" class="modal-form-input" value="2026">
+            </div>
+            <div class="modal-form-group">
+              <label class="modal-form-label">Quarter:</label>
+              <select id="wiz-param-qtr" class="modal-form-select">
+                <option value="11" selected>1st Quarter</option>
+                <option value="22">2nd Quarter</option>
+                <option value="33">3rd Quarter</option>
+                <option value="44">4th Quarter</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 4-Tier Signatory Matrix -->
+          <div class="wizard-prop-card">
+            <div style="font-size: 12px; font-weight: 700; color: #A7A7A7;">Official Assessment Signatures:</div>
+            <div class="wizard-sign-grid">
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-label">Appraised by:</span>
+                <input type="text" id="wiz-sign-name-1" class="wizard-sign-input" value="ROLANDO C. BAUTISTA">
+                <input type="text" id="wiz-sign-pos-1" class="wizard-sign-input" value="LAOO I / Property Appraiser">
+                <input type="date" id="wiz-sign-date-1" class="wizard-sign-input" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-label">Assessed by:</span>
+                <input type="text" id="wiz-sign-name-2" class="wizard-sign-input" value="MARLON S. VALDEZ">
+                <input type="text" id="wiz-sign-pos-2" class="wizard-sign-input" value="LAOO II / Assessment Examiner">
+                <input type="date" id="wiz-sign-date-2" class="wizard-sign-input" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-label">Recommended by:</span>
+                <input type="text" id="wiz-sign-name-3" class="wizard-sign-input" value="EDITHA Q. MEDRANO">
+                <input type="text" id="wiz-sign-pos-3" class="wizard-sign-input" value="Municipal Assessor">
+                <input type="date" id="wiz-sign-date-3" class="wizard-sign-input" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-label" style="color: #1DB954;">Approved by:</span>
+                <input type="text" id="wiz-sign-name-4" class="wizard-sign-input" value="GUILLERMO B. BARRETTO"
+                  style="border-color: rgba(29,185,84,0.4); color: #1DB954;">
+                <input type="text" id="wiz-sign-pos-4" class="wizard-sign-input" value="Provincial Assessor">
+                <input type="date" id="wiz-sign-date-4" class="wizard-sign-input" value="2026-06-15">
+              </div>
+            </div>
+          </div>
+
+          <!-- Memoranda and Cancellation Remarks -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="modal-form-group">
+              <label class="modal-form-label">Memoranda:</label>
+              <textarea id="wiz-memo-input" class="wizard-owner-input"
+                rows="2">General Revision 2024 assessment updated pursuant to Provincial Ordinance No. 2024-001.</textarea>
+            </div>
+            <div class="modal-form-group">
+              <label class="modal-form-label">Cancellation Remarks:</label>
+              <textarea id="wiz-cancel-rem-input" class="wizard-owner-input"
+                rows="2">Cancelled by General Revision 2024 revaluation schedule.</textarea>
+            </div>
+          </div>
+
+          <!-- Step 2 Footer -->
+          <div class="wizard-footer-bar">
+            <button class="btn-secondary" onclick="window.goWizStep1()">
+              <span>&laquo; Back to Step 1</span>
+            </button>
+            <button class="btn-primary" onclick="window.finalizeApprovalWizard()">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Finish &amp; Commit Approval (Alt-F)</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. Notice of Assessment (NOA) Modal -->
+  <div class="modal-overlay-backdrop" id="noa-modal" style="display: none;">
+    <div class="modal-dialog-card wide">
+      <div class="modal-card-header">
+        <div class="modal-header-title-group">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+            color="#1DB954">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          <span class="modal-header-title">Notice of Assessment (NOA) Preparation &amp; Printing</span>
+          <span class="modal-header-badge">BLGF Standard Form</span>
+        </div>
+        <button class="modal-card-close-btn" onclick="window.closeNoticeOfAssessmentModal()">&times;</button>
+      </div>
+      <div class="modal-card-body">
+        <div
+          style="background: #FFFFFF; color: #111827; border-radius: 8px; padding: 24px; font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 16px rgba(0,0,0,0.5);">
+          <!-- NOA Document Header -->
+          <div style="text-align: center; border-bottom: 2px solid #111827; padding-bottom: 12px; margin-bottom: 16px;">
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #4B5563;">Republic of the
+              Philippines &bull; Province of Isabela</div>
+            <div style="font-size: 16px; font-weight: 800; color: #111827; margin: 2px 0;">OFFICE OF THE PROVINCIAL
+              ASSESSOR</div>
+            <div style="font-size: 12px; font-weight: 600; color: #047857;">MUNICIPALITY OF RAMON &bull; REVISION YEAR
+              2024</div>
+            <div
+              style="font-size: 15px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 8px; color: #1F2937;">
+              NOTICE OF ASSESSMENT OF REAL PROPERTY</div>
+          </div>
+
+          <!-- NOA Metadata -->
+          <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12.5px; margin-bottom: 16px;">
+            <div>
+              <span style="color: #6B7280; font-weight: 600;">Declared Owner:</span>
+              <strong style="color: #111827; margin-left: 6px;" id="noa-owner-name">AGUINALDO, EMILIO M.</strong>
+            </div>
+            <div style="text-align: right;">
+              <span style="color: #6B7280; font-weight: 600;">NOA Control No.:</span>
+              <strong style="color: #111827; margin-left: 6px; font-family: monospace;"
+                id="noa-ctrl-no">NOA-2024-006-0042</strong>
+            </div>
+            <div>
+              <span style="color: #6B7280; font-weight: 600;">Property Location:</span>
+              <strong style="color: #111827; margin-left: 6px;" id="noa-prop-loc">006 - Ambalatungan, Ramon,
+                Isabela</strong>
+            </div>
+            <div style="text-align: right;">
+              <span style="color: #6B7280; font-weight: 600;">Date of Notice:</span>
+              <strong style="color: #111827; margin-left: 6px;" id="noa-date">20 August 2026</strong>
+            </div>
+          </div>
+
+          <!-- NOA Table -->
+          <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 16px;">
+            <thead>
+              <tr style="background: #F3F4F6; border-top: 1px solid #D1D5DB; border-bottom: 1px solid #D1D5DB;">
+                <th style="padding: 6px; text-align: left; color: #374151;">Tax Declaration No.</th>
+                <th style="padding: 6px; text-align: left; color: #374151;">Property Index No. (PIN)</th>
+                <th style="padding: 6px; text-align: left; color: #374151;">Classification</th>
+                <th style="padding: 6px; text-align: right; color: #374151;">Market Value</th>
+                <th style="padding: 6px; text-align: center; color: #374151;">Level</th>
+                <th style="padding: 6px; text-align: right; color: #374151;">Assessed Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #E5E7EB;">
+                <td style="padding: 8px 6px; font-weight: 700; font-family: monospace;">2024-006-00142</td>
+                <td style="padding: 8px 6px; font-family: monospace;">006-001-042</td>
+                <td style="padding: 8px 6px;">Residential (R-2)</td>
+                <td style="padding: 8px 6px; text-align: right; font-weight: 700;">₱ 840,000.00</td>
+                <td style="padding: 8px 6px; text-align: center;">20%</td>
+                <td style="padding: 8px 6px; text-align: right; font-weight: 800; color: #047857;">₱ 168,000.00</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="font-size: 11.5px; color: #4B5563; line-height: 1.4; margin-bottom: 16px;">
+            Sir/Madam: Please be informed that your real property described above has been revalued and assessed for
+            taxation purposes effective for the taxable year <strong>2024</strong> in accordance with Section 219 of
+            R.A. 7160. If you are not satisfied with this assessment, you may appeal within sixty (60) days to the Local
+            Board of Assessment Appeals (LBAA).
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+            <div style="text-align: center; width: 220px;">
+              <div style="font-weight: 800; border-bottom: 1px solid #111827; padding-bottom: 2px;">EDITHA Q. MEDRANO
+              </div>
+              <div style="font-size: 11px; color: #4B5563;">Provincial Assessor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-card-footer">
+        <button class="btn-secondary" onclick="window.closeNoticeOfAssessmentModal()">Close</button>
+        <button class="btn-primary" onclick="window.printNoaDocument()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          <span>Print Notice of Assessment</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Generic Feature Modal -->
+  <div class="modal-overlay-backdrop" id="generic-feature-modal" style="display: none;">
+    <div class="modal-dialog-card">
+      <div class="modal-card-header">
+        <div class="modal-header-title-group">
+          <span class="modal-header-title" id="generic-modal-title">Module Feature</span>
+          <span class="modal-header-badge">eRPAS Module</span>
+        </div>
+        <button class="modal-card-close-btn" onclick="window.closeGenericFeatureModal()">&times;</button>
+      </div>
+      <div class="modal-card-body">
+        <p id="generic-modal-desc" style="font-size: 14px; color: #E6E6E6; line-height: 1.5;"></p>
+        <div
+          style="background: #141414; border: 1px solid #282828; border-radius: 8px; padding: 14px; font-size: 12.5px; color: #A7A7A7;">
+          <div><strong>Locality:</strong> 22 - RAMON, ISABELA</div>
+          <div style="margin-top: 4px;"><strong>Revision Year:</strong> 2024</div>
+          <div style="margin-top: 4px;"><strong>Connected Engine:</strong> OpenEdge Progress 9.1E / rpadb</div>
+        </div>
+      </div>
+      <div class="modal-card-footer">
+        <button class="btn-primary" onclick="window.closeGenericFeatureModal()">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-notification" id="app-toast" style="display: none;">
+    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" color="#1DB954">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <div>
+      <div class="toast-title" id="toast-title" style="font-weight: 700; font-size: 13px; color: #FFFFFF;"></div>
+      <div class="toast-desc" id="toast-desc" style="font-size: 12px; color: #A7A7A7;"></div>
+    </div>
+  </div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/mock-data.js?v=20260819_36"></script>
+  <script src="js/unapproved-data.js?v=20260819_36"></script>
+  <script src="js/calculator.js?v=20260819_36"></script>
+  <script src="js/master-form.js?v=20260820_01"></script>
+  <script src="js/app.js?v=20260819_36"></script>
+</body>
+
+</html>

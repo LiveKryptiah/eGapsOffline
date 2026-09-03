@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Properties File - Real Property Assessment System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/land-properties.css">
+  <link rel="stylesheet" href="css/mach-properties.css">
+  <link rel="stylesheet" href="css/property-modal.css">
+  <script>
+    (function () {
+      const theme = localStorage.getItem('rpas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+      else document.documentElement.classList.add('light-theme');
+    })();
+  </script>
+</head>
+
+<body>
+
+  <div class="land-viewport-layout">
+
+    <!-- Left Small-Width Max-Height Green Side Navigation (Icon Only) -->
+    <aside class="land-side-nav">
+      <!-- Master Logo / Brand Home -->
+      <a href="index.html" class="land-nav-brand-btn" title="eRPAS Master Menu (F10)">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      </a>
+
+      <!-- SECTION 1: REAL PROPERTIES FAMILY -->
+      <div class="land-nav-group">
+        <!-- Land Property Units File -->
+        <a href="land-properties.html" class="land-nav-icon-btn" title="Real Properties: Land Property Units File">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+          </svg>
+        </a>
+
+        <!-- Buildings / Improvements File -->
+        <a href="building-properties.html" class="land-nav-icon-btn"
+          title="Real Properties: Buildings / Improvements File">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        </a>
+
+        <!-- Machine Property Units File (Active) -->
+        <a href="machine-properties.html" class="land-nav-icon-btn active"
+          title="Real Properties: Machine Property Units File">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          </svg>
+        </a>
+
+        <!-- Real Property Units (by TD) -->
+        <a href="proproll.html" class="land-nav-icon-btn" title="Real Properties: Units by TD Number">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="land-nav-divider"></div>
+
+      <!-- SECTION 2: LABELS FAMILY -->
+      <div class="land-nav-group">
+        <!-- Labels & Tax Declaration Printing -->
+        <button class="land-nav-icon-btn"
+          onclick="window.openGenericFeatureModal('Labels & Tax Declaration Printing', 'Generate and print property labels and official TD assessment certificates.')"
+          title="Labels: Tax Declarations & Printing">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+        </button>
+
+        <!-- Assessment Rolls / Property Notices -->
+        <button class="land-nav-icon-btn"
+          onclick="window.openGenericFeatureModal('Notice of Assessment (NOA)', 'Notice of assessment forms and property roll notices.')"
+          title="Labels: Notice of Assessment (NOA)">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="land-nav-divider"></div>
+
+      <!-- SECTION 3: DATA TRANSFER FAMILY -->
+      <div class="land-nav-group">
+        <!-- Download Records -->
+        <button class="land-nav-icon-btn" onclick="window.handleSyncDownload()" title="Data Transfer: Download Records">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+        </button>
+
+        <!-- Upload Records -->
+        <button class="land-nav-icon-btn" onclick="window.handleSyncUpload()" title="Data Transfer: Upload Records">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Bottom Nav Shortcuts -->
+      <div class="land-nav-bottom">
+        <!-- Unapproved Records for Approval -->
+        <a href="unapprove-revised.html" class="land-nav-icon-btn"
+          title="Un-approved Assessment Records (For Approval)">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+        </a>
+
+        <!-- Return to Master Menu -->
+        <a href="index.html" class="land-nav-icon-btn exit-btn" title="Return to Master Menu (F10)">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Machine Properties App Container -->
+    <div class="land-app-container">
+
+      <!-- 1. TOP WINDOW TITLE BAR (Matching new-mach.p Fr-Roll Title) -->
+      <header class="land-top-title-bar">
+        <div class="land-title-group">
+          <div class="land-title-icon-badge">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            </svg>
+          </div>
+          <span class="land-window-title" id="mach-window-title">Machine Properties File - Revision Year(s) 2024</span>
+          <span class="land-assessor-badge" id="mach-assessor-badge">-Editha Q Medrano-</span>
+        </div>
+
+        <div class="land-top-actions">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="window.toggleTheme()" title="Toggle Light / Dark Mode">
+            <!-- Icon injected by theme.js -->
+          </button>
+          <a href="index.html" class="btn-back-master" title="Return to Master Menu (F10)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Return to Master Menu</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- 2. TOP 3-BOX CONTROLS PANEL (Matching R1, R5, R4 in new-mach.p) -->
+      <section class="land-controls-panel">
+        <!-- Box 1 (R1): Enter Barangay Number here -->
+        <div class="land-box-bgy-input">
+          <span class="land-bgy-input-label">Enter Barangay Number here :</span>
+          <input type="text" id="mach-bgy-code-input" class="land-bgy-field" value="006" maxlength="3">
+          <button class="btn-go" onclick="window.handleBgyGo()" title="Go / Load Records (Alt+G)">
+            <span>Go</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Box 2 (R5): Barangay Folder, Name & Approved Only Toggle -->
+        <div class="land-box-bgy-name">
+          <span style="font-size: 12px; font-weight: 700; color: #B3B3B3;">Barangay :</span>
+          <button class="land-bgy-folder-btn" onclick="window.handleBgyFolderLookup()"
+            title="Lookup Barangay List (Bgy-But)">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+            </svg>
+          </button>
+          <span class="land-bgy-name-pill" id="mach-bgy-name-pill">GEN. AGUINALDO, RAMON</span>
+
+          <label class="land-checkbox-wrap">
+            <input type="checkbox" id="mach-approve-only-cb">
+            <span>Approved TD record only</span>
+          </label>
+        </div>
+
+        <!-- Box 3 (R4): Sort & Statistics Badges -->
+        <div class="land-box-stats">
+          <div class="land-sort-wrap">
+            <span class="land-sort-label">Sort :</span>
+            <select id="mach-sort-select" class="land-sort-select">
+              <option value="2" selected>by Tax Declaration Number</option>
+              <option value="1">by Declared Owner's Name</option>
+              <option value="3">by Property Index Number</option>
+            </select>
+          </div>
+
+          <!-- Teal Summary Cards -->
+          <div class="land-stat-card">
+            <span class="land-stat-title">Total :</span>
+            <span class="land-stat-num" id="mach-stat-total-count">0</span>
+          </div>
+
+          <div class="land-stat-card">
+            <span class="land-stat-title">Units :</span>
+            <span class="land-stat-num" id="mach-stat-total-units">0.00</span>
+          </div>
+
+          <div class="land-stat-card">
+            <span class="land-stat-title">Ass. Value :</span>
+            <span class="land-stat-num" id="mach-stat-total-av">₱ 0.00</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. COLUMN INSTANT FILTER BAR (Matching findTD, findName, findCls, etc. in new-mach.p) -->
+      <div class="mach-column-filters-strip">
+        <!-- Status dot placeholder -->
+        <div style="display: flex; align-items: center; justify-content: center;">
+          <button class="btn-gear-rev" title="Revision Year Setup (Rev-Yr)">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            </svg>
+          </button>
+        </div>
+        <div><input type="text" id="mach-find-td" class="land-filter-input" placeholder="TD No."></div>
+        <div><input type="text" id="mach-find-pin" class="land-filter-input" placeholder="P.I.N."></div>
+        <div><input type="text" id="mach-find-name" class="land-filter-input" placeholder="Search Owner..."></div>
+        <div>
+          <select id="mach-find-cls" class="land-filter-select">
+            <option value="">All Classes</option>
+            <option value="IND">Industrial (IND)</option>
+            <option value="COM">Commercial (COM)</option>
+            <option value="AGR">Agricultural (AGR)</option>
+            <option value="RES">Residential (RES)</option>
+            <option value="SPE">Special (SPE)</option>
+          </select>
+        </div>
+        <div><input type="text" id="mach-find-desc" class="land-filter-input" placeholder="Machine Description..."></div>
+        <div><input type="number" id="mach-find-units" class="land-filter-input" placeholder="Min Units"></div>
+        <div><input type="number" id="mach-find-mkt" class="land-filter-input" placeholder="Min Market"></div>
+        <div><input type="number" id="mach-find-av" class="land-filter-input" placeholder="Min AV"></div>
+      </div>
+
+      <!-- 4. MACHINE CADASTRAL BROWSE GRID (Matching machBrowse in new-mach.p) -->
+      <div class="mach-table-wrap">
+        <table class="mach-cadastral-table" id="mach-table">
+          <colgroup>
+            <col style="width: 2%;">
+            <col style="width: 12%;">
+            <col style="width: 12%;">
+            <col style="width: 22%;">
+            <col style="width: 10%;">
+            <col style="width: 18%;">
+            <col style="width: 6%;">
+            <col style="width: 9%;">
+            <col style="width: 9%;">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="align-center"> </th>
+              <th>Tax Dec. Number</th>
+              <th>P.I.N.</th>
+              <th>Declared Owner's Name</th>
+              <th>Class / Actual Use</th>
+              <th>Machine Description</th>
+              <th class="align-right">No. of Unit</th>
+              <th class="align-right">Market Value</th>
+              <th class="align-right">Assessed Value</th>
+            </tr>
+          </thead>
+          <tbody id="mach-table-tbody">
+            <!-- Dynamic Machine Records Loaded via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 5. BOTTOM REMARKS RIBBON (Matching vRemarks in new-mach.p) -->
+      <div class="land-status-strip">
+        <span id="mach-remarks-text">RECORD DETAILS: Loading machine records...</span>
+      </div>
+
+      <!-- 6. BOTTOM ACTION TOOLBAR (Matching Add-But, Edt-But, Del-But, Prnt-But, etc. in new-mach.p) -->
+      <footer class="land-bottom-toolbar">
+        <div class="land-toolbar-left">
+          <button class="land-tool-btn" onclick="window.handleAddMachine()" title="Add New Machine (F6 / Alt+A)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>F6 Add</span>
+          </button>
+
+          <button class="land-tool-btn" onclick="window.handleEditMachine()" title="Edit Machine FAAS (F7 / Alt+E)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            <span>F7 Edit</span>
+          </button>
+
+          <button class="land-tool-btn danger" onclick="window.handleDeleteMachine()"
+            title="Delete Selected Machine (F8 / Alt+D)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            <span>F8 Delete</span>
+          </button>
+
+          <button class="land-tool-btn" onclick="window.handlePrintTD()" title="Print Tax Declaration / FAAS (Alt+T)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            <span>Print TD / FAAS</span>
+          </button>
+
+          <button class="land-tool-btn" onclick="window.handlePrintList()"
+            title="Print Machine Cadastral Listing (Alt+P)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span>Print List</span>
+          </button>
+
+          <button class="land-tool-btn" onclick="window.handlePaymentRecords()"
+            title="View Taxpayer Payment Records (Payment-But)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+            </svg>
+            <span>Payment Records</span>
+          </button>
+
+          <button class="land-tool-btn" onclick="window.openChangeTransferModal()"
+            title="Change or Transfer Barangay / TD Numbers / PIN (Chg-But)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+            <span>Change/Transfer Barangay/T.D. Numbers</span>
+          </button>
+        </div>
+
+        <div>
+          <a href="index.html" class="land-tool-btn close-btn"
+            title="Close Module and return to Main Menu (F10 / Alt+C)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span>F10 Close</span>
+          </a>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+     7. POPUP MODAL: MACHINE TAX DECLARATION & APPRAISAL (MACH-UPD.p)
+     ======================================================================== -->
+  <div class="faas-modal-backdrop" id="mach-faas-modal" style="display: none;">
+    <div class="faas-modal-dialog">
+
+      <!-- Modal Window Header -->
+      <div class="faas-modal-header">
+        <div class="faas-modal-title-group">
+          <span class="faas-modal-title" id="mach-faas-title">Machine Tax Declaration Data Entry Record
+            (MACH-UPD.p)</span>
+          <span class="faas-unlock-badge">Press F1 to Unlock</span>
+        </div>
+        <button class="faas-modal-close-btn" onclick="window.closeMachFaasModal()">&times;</button>
+      </div>
+
+      <!-- Modal Form Body -->
+      <div class="faas-modal-body">
+        <!-- Top Identifiers Bar -->
+        <div class="faas-section-card">
+          <div class="faas-form-row">
+            <div class="faas-field-group">
+              <label class="faas-field-label">Tax Declaration No. (ARP)</label>
+              <input type="text" id="mach-modal-arp" class="faas-input mono" placeholder="2024-006-00001">
+            </div>
+            <div class="faas-field-group">
+              <label class="faas-field-label">Property Index Number (PIN)</label>
+              <input type="text" id="mach-modal-pin" class="faas-input mono" placeholder="2024-006-001-001">
+            </div>
+            <div class="faas-field-group">
+              <label class="faas-field-label">Revision Year</label>
+              <input type="text" class="faas-input mono" value="2024" readonly style="width: 90px;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Ownership & Description Card -->
+        <div class="faas-section-card">
+          <div class="faas-section-title">Declared Owner &amp; Machinery Characteristics</div>
+          <div class="faas-form-row" style="margin-bottom: 8px;">
+            <div class="faas-field-group" style="flex: 2;">
+              <label class="faas-field-label">Declared Owner's Name</label>
+              <input type="text" id="mach-modal-owner" class="faas-input" placeholder="Owner / Corporation Name">
+            </div>
+            <div class="faas-field-group" style="flex: 1;">
+              <label class="faas-field-label">Property Classification</label>
+              <select id="mach-modal-class" class="faas-input">
+                <option value="IND">Industrial Machinery (IND)</option>
+                <option value="COM">Commercial Equipment (COM)</option>
+                <option value="AGR">Agricultural Machinery (AGR)</option>
+                <option value="SPE">Special / Utility (SPE)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="faas-form-row">
+            <div class="faas-field-group" style="flex: 2;">
+              <label class="faas-field-label">Machinery &amp; Equipment Description</label>
+              <input type="text" id="mach-modal-desc" class="faas-input"
+                placeholder="e.g. 250 KN Gantry Crane / Power Transformer">
+            </div>
+            <div class="faas-field-group" style="flex: 1;">
+              <label class="faas-field-label">No. of Units</label>
+              <input type="number" id="mach-modal-units" class="faas-input mono" placeholder="1.00">
+            </div>
+            <div class="faas-field-group" style="flex: 1;">
+              <label class="faas-field-label">Acquisition Cost (PHP)</label>
+              <input type="number" id="mach-modal-cost" class="faas-input mono" placeholder="500000.00">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="faas-modal-footer">
+        <button class="faas-btn-cancel" onclick="window.closeMachFaasModal()">Cancel (Esc)</button>
+        <button class="faas-btn-save" onclick="window.saveMachFaasModal()">Save Machine Record (F2)</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+     8. CHANGE/TRANSFER MODAL (Fr-Change from new-mach.p)
+     ======================================================================== -->
+  <div class="faas-modal-backdrop" id="mach-change-modal" style="display: none;">
+    <div class="faas-modal-dialog" style="max-width: 650px;">
+      <div class="faas-modal-header">
+        <div class="faas-modal-title-group">
+          <span class="faas-modal-title">Change/Transfer Barangay, TD No. &amp; PIN (Fr-Change)</span>
+        </div>
+        <button class="faas-modal-close-btn" onclick="window.closeChangeTransferModal()">&times;</button>
+      </div>
+
+      <div class="faas-modal-body">
+        <div class="faas-section-card">
+          <div class="fr-field-row" style="margin-bottom: 12px;">
+            <span class="fr-field-label" style="color: #FFFFFF; font-weight: 700;">Current T.D. Number:</span>
+            <div class="fr-field-inputs-group">
+              <input type="text" id="fr-cur-bgy" class="fr-mono-input readonly" style="width: 60px;" disabled>
+              <span>-</span>
+              <input type="text" id="fr-cur-arp" class="fr-mono-input readonly" style="width: 140px;" disabled>
+            </div>
+          </div>
+
+          <div class="fr-field-row" style="margin-bottom: 12px;">
+            <span class="fr-field-label" style="color: #FFFFFF; font-weight: 700;">Current PIN:</span>
+            <div class="fr-field-inputs-group">
+              <input type="text" id="fr-cur-sec" class="fr-mono-input readonly" style="width: 50px;" disabled>
+              <span>-</span>
+              <input type="text" id="fr-cur-lot" class="fr-mono-input readonly" style="width: 50px;" disabled>
+              <span>-</span>
+              <input type="text" id="fr-cur-imp" class="fr-mono-input readonly" style="width: 50px;" disabled>
+            </div>
+          </div>
+
+          <div class="fr-field-row" style="margin-bottom: 12px;">
+            <span class="fr-field-label" style="color: #1DB954; font-weight: 700;">Change to T.D. Number:</span>
+            <div class="fr-field-inputs-group">
+              <input type="text" id="fr-new-bgy" class="fr-mono-input" style="width: 60px;" placeholder="006">
+              <span>-</span>
+              <input type="text" id="fr-new-arp" class="fr-mono-input" style="width: 140px;" placeholder="New TD">
+            </div>
+          </div>
+
+          <div class="fr-field-row">
+            <span class="fr-field-label" style="color: #1DB954; font-weight: 700;">Change to PIN:</span>
+            <div class="fr-field-inputs-group">
+              <input type="text" id="fr-new-sec" class="fr-mono-input" style="width: 50px;" placeholder="Sec">
+              <span>-</span>
+              <input type="text" id="fr-new-lot" class="fr-mono-input" style="width: 50px;" placeholder="Lot">
+              <span>-</span>
+              <input type="text" id="fr-new-imp" class="fr-mono-input" style="width: 50px;" placeholder="Imp">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="faas-modal-footer">
+        <button class="faas-btn-cancel" onclick="window.closeChangeTransferModal()">Cancel</button>
+        <button class="faas-btn-save" onclick="window.processChangeTransfer()">Process Change (Alt-H)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+     9. BARANGAY LOOKUP MODAL (Bgy-But from new-mach.p)
+     ======================================================================== -->
+  <div class="faas-modal-backdrop" id="bgy-lookup-modal" style="display: none;">
+    <div class="faas-modal-dialog" style="max-width: 500px;">
+      <div class="faas-modal-header">
+        <span class="faas-modal-title">Select Barangay Directory - Ramon, Isabela</span>
+        <button class="faas-modal-close-btn" onclick="window.closeBgyLookupModal()">&times;</button>
+      </div>
+      <div class="faas-modal-body" style="max-height: 400px; overflow-y: auto;">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('001')">001 - BUGALLON PROPER</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('002')">002 - AMBATALI</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('003')">003 - BANTUG</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('004')">004 - BUGALLON NORTE</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('005')">005 - BURGOS</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('006')">006 - GENERAL AGUINALDO</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('007')">007 - NAGBACALAN</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('008')">008 - OSCARIZ</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('009')">009 - PABIL</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('010')">010 - PAGRANG-AYAN</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('011')">011 - PLANAS</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('012')">012 - PUROK NI BULAN</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('013')">013 - RANIAG</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('014')">014 - SAN ANTONIO</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('015')">015 - SAN MIGUEL</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('016')">016 - SAN SEBASTIAN</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('017')">017 - VILLA BELTRAN</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('018')">018 - VILLA CARMEN</button>
+          <button class="bgy-list-item-btn" onclick="window.selectBgyFromList('019')">019 - VILLA MARCOS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .bgy-list-item-btn {
+      text-align: left;
+      padding: 10px 14px;
+      background: #1e1e1e;
+      border: 1px solid #333333;
+      border-radius: 6px;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .bgy-list-item-btn:hover {
+      background: rgba(29, 185, 84, 0.2);
+      border-color: #1DB954;
+      color: #1DB954;
+    }
+  </style>
+
+  <script src="js/theme.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/unapproved-data.js"></script>
+  <script src="js/mach-properties.js"></script>
+</body>
+
+</html>

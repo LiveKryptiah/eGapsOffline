@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tax Declaration Record Numbers (General Revision) - eRPAS Isabela</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/approve-assessmt.css">
+  <script>
+    (function () {
+      const theme = localStorage.getItem('rpas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+      else document.documentElement.classList.add('light-theme');
+    })();
+  </script>
+</head>
+
+<body>
+
+  <div class="wizard-page-layout">
+
+    <!-- 1. TOP NAVIGATION HEADER -->
+    <header class="wizard-nav-header">
+      <div class="wizard-nav-breadcrumbs">
+        <a href="index.html">Master Menu</a>
+        <span class="sep">&rsaquo;</span>
+        <a href="unapprove-revised.html">General Revision</a>
+        <span class="sep">&rsaquo;</span>
+        <a href="unapprove-revised.html">Un-approved Records</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="active-crumb">Approve Assessment Wizard</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="window.toggleTheme()" title="Toggle Light / Dark Mode">
+          <!-- Icon injected by theme.js -->
+        </button>
+        <a href="unapprove-revised.html" class="btn-close-wizard" title="Return to Un-approved Queue (Esc)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          <span>Close Wizard (Esc)</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- 2. SPLIT WORKSPACE BODY -->
+    <div class="wizard-workspace-body">
+
+      <!-- Top Right Close Button -->
+      <a href="unapprove-revised.html" class="wizard-modal-close-btn" title="Close (Esc)">&times;</a>
+
+      <!-- Left Hero Sidebar -->
+      <aside class="wizard-sidebar">
+        <div class="wizard-sidebar-brand">
+          <div class="wizard-icon-box">
+            <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </div>
+          <div class="wizard-sidebar-title">Assessment Approval Wizard</div>
+          <div class="wizard-sidebar-sub" id="wiz-brand-sub">General Revision 2024</div>
+        </div>
+
+        <div class="wizard-steps-list">
+          <div class="wizard-step-card active" id="step-card-1" onclick="window.goStep1()">
+            <div class="wizard-step-badge">1</div>
+            <div class="wizard-step-card-text">
+              <span class="wizard-step-label">Step 1</span>
+              <span class="wizard-step-heading">Assign P.I.N. &amp; TD Number</span>
+            </div>
+          </div>
+
+          <div class="wizard-step-card" id="step-card-2" onclick="window.goStep2()">
+            <div class="wizard-step-badge">2</div>
+            <div class="wizard-step-card-text">
+              <span class="wizard-step-label">Step 2</span>
+              <span class="wizard-step-heading">Approval Parameters</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-sidebar-tips">
+          <strong style="color: #1DB954; display: block; margin-bottom: 4px;">Assessor Guideline:</strong>
+          Ensure the new Tax Declaration and Property Index Number are checked for duplicates before final endorsement.
+        </div>
+      </aside>
+
+      <!-- Right Content Workspace -->
+      <main class="wizard-main-panel">
+
+        <!-- STEP 1: Assign New P.I.N. and Tax Declaration Number (Fr-NewSingle) -->
+        <div class="wizard-scrollable-content" id="step-1-content">
+          <div class="wizard-section-header">
+            <div>
+              <div class="wizard-section-title">Assign New P.I.N. and Tax Declaration Number...</div>
+              <div style="font-size: 12.5px; color: #A7A7A7; margin-top: 2px;">Frame: Fr-NewSingle &bull; Real Property
+                Assessment Approval</div>
+            </div>
+            <span class="wizard-section-badge" id="wiz-arp-badge">ARP # 00142</span>
+          </div>
+
+          <!-- Current Property Index Number -->
+          <div class="wizard-box-card">
+            <div class="wizard-box-title">
+              <span>Current Property Index Number :</span>
+            </div>
+            <div class="wizard-seg-row">
+              <div class="wizard-seg-item">
+                <input type="text" id="wiz-pin-bgy" value="006" style="width: 80px;" readonly>
+                <span class="sub">Barangay</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="wiz-pin-sec" value="001" style="width: 80px;">
+                <span class="sub">Section No.</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="wiz-pin-lot" value="004" style="width: 80px;">
+                <span class="sub">Ass. Lot No.</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="wiz-pin-imp" value="1004" style="width: 95px;">
+                <span class="sub">Improvement No.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enter New Tax Declaration Number -->
+          <div class="wizard-box-card">
+            <div class="wizard-box-title">
+              <span>Enter New Tax Declaration Number :</span>
+              <label
+                style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: #1DB954; cursor: pointer;">
+                <input type="checkbox" id="wiz-auto-td-check" onchange="window.toggleAutoTd()"
+                  style="accent-color: #1DB954; width: 16px; height: 16px;">
+                <span>( Auto-assign Tax Declaration Number )</span>
+              </label>
+            </div>
+            <div class="wizard-seg-row">
+              <div class="wizard-seg-item">
+                <input type="text" id="wiz-td-year" value="2024" style="width: 85px;" readonly>
+                <span class="sub">Series Year</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="wiz-td-bgy" value="006" style="width: 80px;" readonly>
+                <span class="sub">Barangay</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="wiz-td-series" value="00142" style="width: 105px;">
+                <span class="sub">Series No.</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="wiz-td-sfx" placeholder="" style="width: 80px;">
+                <span class="sub">Suffix</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicate Validation Bar -->
+          <div class="wizard-val-bar">
+            <button class="unapp-btn-go" onclick="window.validateTdNumber()" style="height: 36px; padding: 0 16px;"
+              title="Validate Duplicate (Alt-G)">
+              <span>Go</span>
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            <div class="wizard-val-alert" id="wiz-val-alert">
+              &lt;=== Click this button to validate existence of TD Number.
+            </div>
+            <button class="btn-wizard-sec" id="wiz-btn-view-td" style="display: none;"
+              onclick="alert('Viewing existing tax declaration record...')">
+              <span>View Existing Tax Declaration</span>
+            </button>
+          </div>
+
+          <!-- Declared Owner & Appraisal Specs -->
+          <div class="wizard-owner-card">
+            <div>
+              <label
+                style="font-size: 12px; font-weight: 700; color: #A7A7A7; text-transform: uppercase; display: block; margin-bottom: 6px;">New
+                Declared Owner</label>
+              <textarea class="wizard-owner-textarea" id="wiz-owner-input"
+                rows="2">SPS. TUMBAGA, RODOLFO &amp; FIDENCIA</textarea>
+            </div>
+
+            <div class="wizard-metrics-strip">
+              <div class="wizard-metric-item">
+                <span style="color: #888;">Location:</span>
+                <strong id="wiz-loc-text">GEN. AGUINALDO, RAMON, ISABELA</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <span style="color: #888;">Market Value:</span>
+                <strong style="color: #FFFFFF;" id="wiz-mv-text">₱ 611,770.00</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <span style="color: #888;">Assessed Value:</span>
+                <strong style="color: #1DB954;" id="wiz-av-text">₱ 152,940.00</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer;">
+                  <input type="checkbox" id="wiz-taxable-check" checked style="accent-color: #1DB954;">
+                  <span>Taxable</span>
+                </label>
+              </div>
+              <div class="wizard-metric-item">
+                <span style="color: #888;">Effectivity:</span>
+                <strong id="wiz-eff-year-text">2026</strong>
+                <span style="color: #888; margin-left: 4px;">Qtr:</span>
+                <strong>1st</strong>
+              </div>
+            </div>
+
+            <!-- Appraisal Table -->
+            <div class="wizard-table-container">
+              <table class="wizard-data-table">
+                <thead>
+                  <tr>
+                    <th>Classification / Actual Use</th>
+                    <th style="text-align: right;">Area</th>
+                    <th style="text-align: right;">Unit Value</th>
+                    <th style="text-align: right;">Market Value</th>
+                    <th style="text-align: right;">Assessed Value</th>
+                  </tr>
+                </thead>
+                <tbody id="wiz-detail-tbody">
+                  <tr>
+                    <td style="color: #FFFFFF; font-weight: 600;">Residential - Residential Building</td>
+                    <td style="text-align: right; font-family: monospace;">121.20 sq. m.</td>
+                    <td style="text-align: right; font-family: monospace;">4,500.00</td>
+                    <td style="text-align: right; font-family: monospace;">₱611,770.00</td>
+                    <td style="text-align: right; font-family: monospace; font-weight: 700; color: #1DB954;">₱152,940.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: New Tax Declaration Approval Parameters (Fr-Approval) -->
+        <div class="wizard-scrollable-content" id="step-2-content" style="display: none;">
+          <div class="wizard-section-header">
+            <div>
+              <div class="wizard-section-title">New Tax Declaration Approval Parameters</div>
+              <div style="font-size: 12.5px; color: #A7A7A7; margin-top: 2px;">Frame: Fr-Approval &bull; Final Roll
+                Commit &amp; Official Signatures</div>
+            </div>
+            <span class="wizard-section-badge">Step 2 of 2</span>
+          </div>
+
+          <!-- Cancelled Records Summary -->
+          <div class="wizard-owner-card" style="padding: 14px 18px;">
+            <div style="font-size: 12.5px; font-weight: 700; color: #1DB954; margin-bottom: 8px;">Cancelled Property
+              Assessment Record(s) for Superseding:</div>
+            <div class="wizard-table-container">
+              <table class="wizard-data-table">
+                <thead>
+                  <tr>
+                    <th>Cancelled by TD No.</th>
+                    <th>Cancelled TD No.</th>
+                    <th>Previous Owner</th>
+                    <th style="text-align: right;">Previous Assessed Value</th>
+                    <th>Effective Year</th>
+                  </tr>
+                </thead>
+                <tbody id="wiz-cancel-tbody">
+                  <tr>
+                    <td style="font-family: monospace; color: #1DB954; font-weight: 700;" id="wiz-c-by-td">
+                      2024-006-00142</td>
+                    <td style="font-family: monospace; color: #A7A7A7;" id="wiz-c-td">2020-006-00120</td>
+                    <td style="color: #FFFFFF;" id="wiz-c-owner">SPS. TUMBAGA, RODOLFO &amp; FIDENCIA</td>
+                    <td style="text-align: right; font-family: monospace; color: #1DB954; font-weight: 700;"
+                      id="wiz-c-av">₱126,000.00</td>
+                    <td id="wiz-c-eff">2026, 1st Quarter</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Posting Date & Effectivity -->
+          <div
+            style="display: grid; grid-template-columns: 1fr 130px 140px 160px; gap: 14px; align-items: flex-end; background: #1a1a1a; padding: 14px 18px; border-radius: 8px; border: 1px solid #282828;">
+            <div>
+              <label
+                style="font-size: 11.5px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 6px;">Posting
+                Date:</label>
+              <input type="date" id="wiz-post-date"
+                style="width: 100%; height: 38px; background: #242424; border: 1px solid #383838; border-radius: 6px; color: #FFFFFF; padding: 0 10px; font-size: 13px;"
+                value="2026-06-15">
+            </div>
+            <div>
+              <label
+                style="font-size: 11.5px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 6px;">Taxable:</label>
+              <label
+                style="display: flex; align-items: center; gap: 8px; height: 38px; font-size: 12.5px; font-weight: 600; color: #FFFFFF; cursor: pointer;">
+                <input type="checkbox" id="wiz-param-taxable" checked
+                  style="accent-color: #1DB954; width: 16px; height: 16px;">
+                <span>Taxable</span>
+              </label>
+            </div>
+            <div>
+              <label
+                style="font-size: 11.5px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 6px;">Effectivity
+                Year:</label>
+              <input type="number" id="wiz-param-eyear"
+                style="width: 100%; height: 38px; background: #242424; border: 1px solid #383838; border-radius: 6px; color: #FFFFFF; padding: 0 10px; font-size: 13px;"
+                value="2026">
+            </div>
+            <div>
+              <label
+                style="font-size: 11.5px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 6px;">Quarter:</label>
+              <select id="wiz-param-qtr"
+                style="width: 100%; height: 38px; background: #242424; border: 1px solid #383838; border-radius: 6px; color: #FFFFFF; padding: 0 10px; font-size: 13px;">
+                <option value="11" selected>1st Quarter</option>
+                <option value="22">2nd Quarter</option>
+                <option value="33">3rd Quarter</option>
+                <option value="44">4th Quarter</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 4-Tier Signatures -->
+          <div class="wizard-owner-card">
+            <div style="font-size: 12px; font-weight: 700; color: #A7A7A7;">Official Assessment Signatures:</div>
+            <div class="wizard-sign-matrix">
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-role">Appraised by:</span>
+                <input type="text" id="wiz-sign-name-1" class="wizard-sign-field" value="ROLANDO C. BAUTISTA">
+                <input type="text" id="wiz-sign-pos-1" class="wizard-sign-field" value="LAOO I / Property Appraiser">
+                <input type="date" id="wiz-sign-date-1" class="wizard-sign-field" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-role">Assessed by:</span>
+                <input type="text" id="wiz-sign-name-2" class="wizard-sign-field" value="MARLON S. VALDEZ">
+                <input type="text" id="wiz-sign-pos-2" class="wizard-sign-field" value="LAOO II / Assessment Examiner">
+                <input type="date" id="wiz-sign-date-2" class="wizard-sign-field" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-role">Recommended by:</span>
+                <input type="text" id="wiz-sign-name-3" class="wizard-sign-field" value="EDITHA Q. MEDRANO">
+                <input type="text" id="wiz-sign-pos-3" class="wizard-sign-field" value="Municipal Assessor">
+                <input type="date" id="wiz-sign-date-3" class="wizard-sign-field" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-role" style="color: #1DB954;">Approved by:</span>
+                <input type="text" id="wiz-sign-name-4" class="wizard-sign-field" value="GUILLERMO B. BARRETTO"
+                  style="border-color: rgba(29,185,84,0.4); color: #1DB954;">
+                <input type="text" id="wiz-sign-pos-4" class="wizard-sign-field" value="Provincial Assessor">
+                <input type="date" id="wiz-sign-date-4" class="wizard-sign-field" value="2026-06-15">
+              </div>
+            </div>
+          </div>
+
+          <!-- Memoranda & Cancellation -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div>
+              <label
+                style="font-size: 11.5px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 6px;">Memoranda:</label>
+              <textarea id="wiz-memo-input" class="wizard-owner-textarea"
+                rows="2">General Revision 2024 assessment updated pursuant to Provincial Ordinance No. 2024-001.</textarea>
+            </div>
+            <div>
+              <label
+                style="font-size: 11.5px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 6px;">Cancellation
+                Remarks:</label>
+              <textarea id="wiz-cancel-rem-input" class="wizard-owner-textarea"
+                rows="2">Cancelled by General Revision 2024 revaluation schedule.</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Toolbars -->
+        <footer class="wizard-bottom-actions" id="footer-step-1">
+          <button class="btn-wizard-pri" id="wiz-btn-next" onclick="window.goStep2()">
+            <span>Next: Approval Parameters &raquo; (Alt-N)</span>
+          </button>
+        </footer>
+
+        <footer class="wizard-bottom-actions" id="footer-step-2" style="display: none;">
+          <button class="btn-wizard-sec" onclick="window.goStep1()">
+            <span>&laquo; Back to Step 1 (Alt-B)</span>
+          </button>
+          <button class="btn-wizard-pri" onclick="window.finalizeApproval()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Finish &amp; Commit Approval (Alt-F)</span>
+          </button>
+        </footer>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/approve-assessmt.js"></script>
+  <script>
+    // Sync footer buttons with active step
+    const origGoStep1 = window.goStep1;
+    const origGoStep2 = window.goStep2;
+    window.goStep1 = function () {
+      origGoStep1();
+      document.getElementById('footer-step-1').style.display = 'flex';
+      document.getElementById('footer-step-2').style.display = 'none';
+    };
+    window.goStep2 = function () {
+      origGoStep2();
+      document.getElementById('footer-step-1').style.display = 'none';
+      document.getElementById('footer-step-2').style.display = 'flex';
+    };
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,238 @@
+/* ==========================================================================
+   CONSOLIDATED REAL PROPERTY UNITS (PROPROLL.P) STYLESHEET
+   Supports Light Mode (Default) and Dark Mode (Green Deck)
+   ========================================================================== */
+
+/* Inherits base reset, layout, and control panels from land-properties.css */
+@import url('land-properties.css');
+
+/* Top Controls Statistics Box Extension for 4-Card Count (Land, Bldg, Mach, Total) */
+.proproll-stats-grid {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.proproll-count-badge {
+  display: flex;
+  align-items: center;
+  background-color: var(--stat-bg);
+  border: 1px solid var(--stat-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--stat-text);
+  gap: 4px;
+}
+
+.proproll-count-badge span.num {
+  font-family: var(--font-code);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--stat-num);
+}
+
+.proproll-count-badge.total {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary-hover);
+  color: var(--text-on-primary);
+}
+
+.proproll-count-badge.total span.num {
+  color: var(--text-on-primary);
+}
+
+/* 9-Column Fixed Filter Strip for Consolidated Roll (matching proproll.p find inputs) */
+.proproll-column-filters-strip {
+  display: grid;
+  grid-template-columns: 2% 13% 10% 15% 20% 14% 8% 9% 9%;
+  gap: 2px;
+  background-color: var(--color-surface-2);
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--color-border);
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.proproll-table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--color-surface-1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.proproll-table-wrap::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.proproll-table-wrap::-webkit-scrollbar-thumb {
+  background: var(--color-surface-4);
+  border-radius: 3px;
+}
+
+.proproll-table-wrap::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+.proproll-cadastral-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 11.5px;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.proproll-cadastral-table colgroup col:nth-child(1) { width: 2%; }
+.proproll-cadastral-table colgroup col:nth-child(2) { width: 13%; }
+.proproll-cadastral-table colgroup col:nth-child(3) { width: 10%; }
+.proproll-cadastral-table colgroup col:nth-child(4) { width: 15%; }
+.proproll-cadastral-table colgroup col:nth-child(5) { width: 20%; }
+.proproll-cadastral-table colgroup col:nth-child(6) { width: 14%; }
+.proproll-cadastral-table colgroup col:nth-child(7) { width: 8%; }
+.proproll-cadastral-table colgroup col:nth-child(8) { width: 9%; }
+.proproll-cadastral-table colgroup col:nth-child(9) { width: 9%; }
+
+.proproll-cadastral-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 6px 4px;
+  border-bottom: 2px solid var(--table-header-border);
+  border-right: 1px solid var(--color-border-subtle);
+  z-index: 10;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.proproll-cadastral-table thead th.align-right {
+  text-align: right;
+  padding-right: 6px;
+}
+
+.proproll-cadastral-table thead th.align-center {
+  text-align: center;
+}
+
+/* Row Selection & Hover */
+.proproll-cadastral-table tbody tr {
+  border-bottom: 1px solid var(--table-row-border);
+  transition: background-color 0.1s ease;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--table-row-text);
+}
+
+.proproll-cadastral-table tbody tr:hover {
+  background-color: var(--table-row-hover) !important;
+}
+
+.proproll-cadastral-table tbody tr.selected {
+  background-color: var(--row-selected) !important;
+  border-left: 3px solid var(--row-selected-border) !important;
+}
+
+.proproll-cadastral-table tbody tr.selected td {
+  color: var(--row-selected-text) !important;
+}
+
+.proproll-cadastral-table tbody td {
+  padding: 5px 4px;
+  border-right: 1px solid var(--table-row-border);
+  font-size: 11.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.proproll-cadastral-table tbody td.mono {
+  font-family: var(--font-code);
+  font-size: 11px;
+}
+
+.proproll-cadastral-table tbody td.align-right {
+  text-align: right;
+  padding-right: 6px;
+}
+
+.proproll-cadastral-table tbody td.align-center {
+  text-align: center;
+}
+
+/* Kind Badges */
+.kind-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: var(--font-code);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.kind-badge.kind-l {
+  background-color: var(--stat-bg);
+  color: var(--stat-num);
+  border: 1px solid var(--stat-border);
+}
+
+.kind-badge.kind-b {
+  background-color: rgba(217, 119, 6, 0.15);
+  color: var(--color-warning);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+}
+
+.kind-badge.kind-m {
+  background-color: rgba(2, 132, 199, 0.15);
+  color: var(--color-info);
+  border: 1px solid rgba(2, 132, 199, 0.4);
+}
+
+.proproll-cadastral-table tbody td.assessed-cell {
+  color: var(--cell-assessed-color);
+  font-weight: 700;
+  font-family: var(--font-code);
+}
+
+.proproll-cadastral-table tbody td.for-approval {
+  color: var(--badge-pending);
+  font-weight: 700;
+}
+
+.proproll-bottom-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--stat-bg);
+  border: 1px solid var(--stat-border);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.proproll-bottom-stat .label {
+  color: var(--stat-text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.proproll-bottom-stat .val {
+  color: var(--stat-num);
+  font-family: var(--font-code);
+  font-size: 11.5px;
+  font-weight: 800;
+}

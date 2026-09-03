@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Un-approved Real Property Assessment Records - eRPAS Isabela</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/unapprove-revised.css">
+  <link rel="stylesheet" href="css/property-modal.css">
+  <script>
+    (function () {
+      const theme = localStorage.getItem('rpas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+      else document.documentElement.classList.add('light-theme');
+    })();
+  </script>
+</head>
+
+<body>
+
+  <div class="unapp-app-container">
+
+    <!-- 1. TOP WINDOW TITLE BAR -->
+    <header class="unapp-top-header">
+      <div class="unapp-title-group">
+        <div class="unapp-title-icon-badge">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <span class="unapp-window-title" id="unapp-page-title">Un-approved Real Property Assessment Records - Revision
+          Year(s) 2024</span>
+        <span class="unapp-assessor-badge" id="unapp-assessor-badge">-Editha Q Medrano-</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="window.toggleTheme()" title="Toggle Light / Dark Mode">
+          <!-- Icon injected by theme.js -->
+        </button>
+        <a href="index.html" class="btn-back-master" title="Return to Master Menu (F10)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Return to Master Menu (F10)</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- 2. TOP FILTER & BARANGAY STRIP -->
+    <section class="unapp-filter-strip">
+      <div class="unapp-bgy-selector-group">
+        <label class="unapp-check-label">
+          <input type="checkbox" id="unapp-by-bgy-check" checked onchange="window.toggleByBgyCheck()">
+          <span>View un-approved RPUs by Barangay Number :</span>
+        </label>
+        <div class="unapp-bgy-input-box">
+          <input type="text" id="unapp-bgy-input" class="unapp-bgy-input" value="006" maxlength="3"
+            onkeydown="if(event.key==='Enter') window.fetchRecords();">
+          <button class="unapp-btn-go" onclick="window.fetchRecords()" title="Load Records (Alt-G)">
+            <span>Go</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="unapp-bgy-banner-info">
+        <div class="unapp-bgy-name-title">
+          Barangay: <span id="unapp-bgy-display-title">Ambalatungan, RAMON</span>
+        </div>
+        <div class="unapp-rev-badge" id="unapp-rev-year-badge">
+          Revision Year: 2024
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SORT & PROPERTY KIND TOOLBAR -->
+    <section class="unapp-toolbar-strip">
+      <div class="unapp-sort-options">
+        <span style="font-weight: 700; color: #888;">Sort by:</span>
+        <label class="unapp-radio-label">
+          <input type="radio" name="unapp-sort" value="2" onchange="window.setSortMode(2)">
+          <span>by Revised Date</span>
+        </label>
+        <label class="unapp-radio-label">
+          <input type="radio" name="unapp-sort" value="1" onchange="window.setSortMode(1)">
+          <span>by Owner's Name</span>
+        </label>
+        <label class="unapp-radio-label">
+          <input type="radio" name="unapp-sort" value="3" onchange="window.setSortMode(3)">
+          <span>by Revised TD/ARP No</span>
+        </label>
+        <label class="unapp-radio-label active">
+          <input type="radio" name="unapp-sort" value="4" checked onchange="window.setSortMode(4)">
+          <span>by Previous TD Number</span>
+        </label>
+        <label class="unapp-radio-label">
+          <input type="radio" name="unapp-sort" value="5" onchange="window.setSortMode(5)">
+          <span>by PIN</span>
+        </label>
+      </div>
+
+      <div class="unapp-kind-filters">
+        <label class="unapp-kind-checkbox">
+          <input type="checkbox" id="unapp-kind-land" checked onchange="window.filterByKind()">
+          <span>LAND Properties</span>
+        </label>
+        <label class="unapp-kind-checkbox">
+          <input type="checkbox" id="unapp-kind-bldg" checked onchange="window.filterByKind()">
+          <span>BUILDING Properties</span>
+        </label>
+        <label class="unapp-kind-checkbox">
+          <input type="checkbox" id="unapp-kind-mach" checked onchange="window.filterByKind()">
+          <span>MACHINE Properties</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- 4. DATA TABLE GRID (LandBrowse) -->
+    <main class="unapp-grid-container" id="unapp-grid-scroll">
+      <table class="unapp-data-table" id="unapp-main-table">
+        <thead>
+          <tr>
+            <th width="150">Revised TD No.</th>
+            <th width="120">P.I.N.</th>
+            <th width="105">Revised Date</th>
+            <th width="105">Property Type</th>
+            <th width="280">Owner's Name</th>
+            <th width="140" style="text-align: right;">Market Value</th>
+            <th width="130" style="text-align: right;">Assessed Value</th>
+            <th width="100" style="text-align: right;">Area (sq.m.)</th>
+            <th width="115" class="prev-col-header" style="text-align: right;">Prev. Area (sq.m.)</th>
+            <th width="140" class="prev-col-header" style="text-align: right;">Prev. Market Value</th>
+            <th width="130" class="prev-col-header" style="text-align: right;">Prev. Ass'd Value</th>
+            <th width="140" class="prev-col-header">Prev. TD/ARP No.</th>
+          </tr>
+        </thead>
+        <tbody id="unapp-tbody">
+          <tr>
+            <td colspan="12" style="text-align: center; padding: 48px; color: #1DB954;">
+              <span class="loading-spinner"></span> Loading un-approved revised records from OpenEdge rpadb...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+    <!-- 5. BOTTOM ACTION TOOLBAR -->
+    <footer class="unapp-bottom-toolbar">
+      <div class="unapp-action-buttons-group">
+        <button class="unapp-tool-btn btn-review" onclick="window.reviewSelectedRecord()"
+          title="Review &amp; Update Record (Alt-E / F7)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          <span>Review &amp; Update Record</span>
+        </button>
+
+        <button class="unapp-tool-btn btn-approve" onclick="window.approveSelectedRecord()"
+          title="Open Approval Wizard (Alt-A / F6)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Approve Assessment (F6)</span>
+        </button>
+
+        <button class="unapp-tool-btn btn-approve"
+          style="background: rgba(29, 185, 84, 0.18); color: #1DB954; border-color: rgba(29,185,84,0.4);"
+          onclick="window.batchApproveAll()">
+          <span>Batch Approve All</span>
+        </button>
+      </div>
+
+      <div class="unapp-action-buttons-group">
+        <button class="unapp-tool-btn btn-search" onclick="window.openFindModal()" title="Search Records (F4 / Alt-S)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <span>Search (F4)</span>
+        </button>
+
+        <a href="index.html" class="unapp-tool-btn btn-close" title="Return to Master Menu (F10)">
+          <span>F10 Close</span>
+        </a>
+      </div>
+    </footer>
+
+    <!-- 6. TOTALS & RPUS SUMMARY BAR -->
+    <div class="unapp-totals-ribbon">
+      <div class="unapp-totals-values">
+        <div class="unapp-total-metric">
+          <span class="unapp-metric-label">Current Total Area:</span>
+          <span class="unapp-metric-pill" id="stat-total-area">0.00 sq.m.</span>
+        </div>
+        <div class="unapp-total-metric">
+          <span class="unapp-metric-label">Total Assessed Value:</span>
+          <span class="unapp-metric-pill" id="stat-total-val">₱ 0.00</span>
+        </div>
+      </div>
+
+      <div class="unapp-rpu-counts-group">
+        <span class="unapp-metric-label">Total RPUs;</span>
+        <div class="unapp-rpu-chip">
+          <strong>Land:</strong>
+          <span class="count-box" id="stat-land-count">0</span>
+        </div>
+        <div class="unapp-rpu-chip">
+          <strong>Building:</strong>
+          <span class="count-box" id="stat-bldg-count">0</span>
+        </div>
+        <div class="unapp-rpu-chip">
+          <strong>Machine:</strong>
+          <span class="count-box" id="stat-mach-count">0</span>
+        </div>
+        <div class="unapp-rpu-chip">
+          <strong style="color: #1DB954;">Total:</strong>
+          <span class="count-box" style="background: rgba(29, 185, 84, 0.2); color: #FFFFFF;"
+            id="stat-total-count">0</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Find Sub-Dialog (Fr-Find) -->
+  <div class="modal-overlay-backdrop" id="unapp-find-modal" style="display: none; z-index: 10050;">
+    <div class="unapp-find-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 16px; font-weight: 800; color: #FFFFFF;">Search Assessment Record</span>
+          <span
+            style="font-family: monospace; font-size: 11px; font-weight: 700; color: #1DB954; background: rgba(29,185,84,0.15); padding: 2px 8px; border-radius: 4px;">Fr-Find</span>
+        </div>
+        <button onclick="window.closeFindModal()"
+          style="background:none; border:none; color:#888; font-size:20px; cursor:pointer;">&times;</button>
+      </div>
+      <div>
+        <div style="margin-bottom: 12px;">
+          <label
+            style="font-size: 11.5px; font-weight: 700; color: #A7A7A7; text-transform: uppercase; display: block; margin-bottom: 6px;">Find
+            what (TD No., PIN, or Owner Name):</label>
+          <input type="text" id="unapp-find-input"
+            style="width: 100%; height: 38px; background: #242424; border: 1px solid #383838; border-radius: 6px; color: #FFFFFF; font-size: 13.5px; padding: 0 12px; outline: none;"
+            placeholder="Key in search query..." onkeydown="if(event.key==='Enter') window.executeFind();">
+        </div>
+        <div style="font-size: 11.5px; color: #888; line-height: 1.5; margin-bottom: 16px;">
+          Search records by <strong>T.D. Series Number</strong>, <strong>PIN</strong>, or <strong>Owner
+            Name</strong>.<br>
+          Press <strong>Enter</strong> or click <strong>Find Now</strong> to jump directly to the record.
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button onclick="window.closeFindModal()"
+            style="padding: 6px 14px; background: #282828; color: #A7A7A7; border: 1px solid #383838; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700;">Cancel
+            (Esc)</button>
+          <button onclick="window.executeFind()"
+            style="padding: 6px 16px; background: #1DB954; color: #000000; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 800;">Find
+            Now (Alt-F)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assessment Approval & TD/PIN Assignment Wizard Popup Modal (approve-assessmt.p Embedded) -->
+  <div class="modal-overlay-backdrop" id="unapp-approval-wizard-modal" style="display: none; z-index: 10100;">
+    <div class="modal-dialog-card wizard-popup-card">
+
+      <!-- Top Right Close Button -->
+      <button class="wizard-modal-close-btn" onclick="window.closeApprovalWizardModal()" title="Close (Esc)">&times;</button>
+
+      <!-- Left Hero Sidebar -->
+      <aside class="wizard-sidebar">
+        <div class="wizard-sidebar-brand">
+          <div class="wizard-icon-box">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </div>
+          <div class="wizard-sidebar-title">Assessment Approval Wizard</div>
+          <div class="wizard-sidebar-sub" id="popup-wiz-sub">General Revision 2024</div>
+        </div>
+
+        <div class="wizard-steps-list">
+          <div class="wizard-step-card active" id="pop-step-card-1" onclick="window.goPopStep1()">
+            <div class="wizard-step-badge">1</div>
+            <div class="wizard-step-card-text">
+              <span class="wizard-step-label">Step 1</span>
+              <span class="wizard-step-heading">Assign P.I.N. &amp; TD Number</span>
+            </div>
+          </div>
+
+          <div class="wizard-step-card" id="pop-step-card-2" onclick="window.goPopStep2()">
+            <div class="wizard-step-badge">2</div>
+            <div class="wizard-step-card-text">
+              <span class="wizard-step-label">Step 2</span>
+              <span class="wizard-step-heading">Approval Parameters</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-sidebar-tips">
+          <strong style="color: #1DB954; display: block; margin-bottom: 4px;">Assessor Guideline:</strong>
+          Verify PIN series and validate duplicate TD entries against live roll before finalizing posting parameters.
+        </div>
+      </aside>
+
+      <!-- Right Main Content Area -->
+      <main class="wizard-main-panel">
+
+        <!-- STEP 1: Assign New P.I.N. and Tax Declaration Number (Fr-NewSingle) -->
+        <div class="wizard-scrollable-content" id="pop-step-1-content">
+          <div class="wizard-section-header">
+            <div>
+              <div class="wizard-section-title">Assign New P.I.N. and Tax Declaration Number...</div>
+              <div style="font-size: 12px; color: #A7A7A7; margin-top: 2px;">Frame: Fr-NewSingle &bull; Real Property
+                Assessment Approval</div>
+            </div>
+            <span class="wizard-section-badge" id="pop-arp-badge">ARP # 00142</span>
+          </div>
+
+          <!-- Current Property Index Number -->
+          <div class="wizard-box-card">
+            <div class="wizard-box-title">
+              <span>Current Property Index Number :</span>
+            </div>
+            <div class="wizard-seg-row">
+              <div class="wizard-seg-item">
+                <input type="text" id="pop-pin-bgy" value="006" style="width: 75px;" readonly>
+                <span class="sub">Barangay</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="pop-pin-sec" value="001" style="width: 75px;">
+                <span class="sub">Section No.</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="pop-pin-lot" value="004" style="width: 75px;">
+                <span class="sub">Ass. Lot No.</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="pop-pin-imp" value="1004" style="width: 90px;">
+                <span class="sub">Improvement No.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enter New Tax Declaration Number -->
+          <div class="wizard-box-card">
+            <div class="wizard-box-title">
+              <span>Enter New Tax Declaration Number :</span>
+              <label class="unapp-check-label" style="font-size: 12px; font-weight: 600; color: #1DB954;">
+                <input type="checkbox" id="pop-auto-td-check" onchange="window.togglePopAutoTd()">
+                <span>( Auto-assign Tax Declaration Number )</span>
+              </label>
+            </div>
+            <div class="wizard-seg-row">
+              <div class="wizard-seg-item">
+                <input type="text" id="pop-td-year" value="2024" style="width: 80px;" readonly>
+                <span class="sub">Series Year</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="pop-td-bgy" value="006" style="width: 75px;" readonly>
+                <span class="sub">Barangay</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="pop-td-series" value="00142" style="width: 100px;">
+                <span class="sub">Series No.</span>
+              </div>
+              <span class="wizard-seg-dash">-</span>
+              <div class="wizard-seg-item">
+                <input type="text" id="pop-td-sfx" placeholder="" style="width: 75px;">
+                <span class="sub">Suffix</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicate Validation Bar -->
+          <div class="wizard-val-bar">
+            <button class="unapp-btn-go" onclick="window.validatePopTdNumber()" style="height: 34px; padding: 0 16px;">
+              <span>Go</span>
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            <div class="wizard-val-alert" id="pop-val-alert">
+              &lt;=== Click this button to validate existence of TD Number.
+            </div>
+            <button class="btn-wizard-sec" id="pop-btn-view-td" style="display: none; height: 32px; font-size: 11.5px;"
+              onclick="alert('Viewing existing tax declaration record...')">
+              <span>View Existing Tax Declaration</span>
+            </button>
+          </div>
+
+          <!-- Declared Owner & Appraisal Specs -->
+          <div class="wizard-owner-card">
+            <div>
+              <label
+                style="font-size: 11.5px; font-weight: 700; color: #A7A7A7; text-transform: uppercase; display: block; margin-bottom: 6px;">New
+                Declared Owner</label>
+              <textarea class="wizard-owner-textarea" id="pop-owner-input"
+                rows="2">SPS. TUMBAGA, RODOLFO &amp; FIDENCIA</textarea>
+            </div>
+            <div class="wizard-metrics-strip">
+              <div class="wizard-metric-item">
+                <span style="color: #888;">Location:</span>
+                <strong id="pop-loc-text">GEN. AGUINALDO, RAMON, ISABELA</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <span style="color: #888;">Market Value:</span>
+                <strong style="color: #FFFFFF;" id="pop-mv-text">₱ 611,770.00</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <span style="color: #888;">Assessed Value:</span>
+                <strong style="color: #1DB954;" id="pop-av-text">₱ 152,940.00</strong>
+              </div>
+              <div class="wizard-metric-item">
+                <label class="unapp-check-label" style="font-size: 11.5px;">
+                  <input type="checkbox" id="pop-taxable-check" checked>
+                  <span>Taxable</span>
+                </label>
+              </div>
+              <div class="wizard-metric-item">
+                <span style="color: #888;">Effectivity:</span>
+                <strong id="pop-eff-year-text">2026</strong>
+                <span style="color: #888; margin-left: 4px;">Qtr:</span>
+                <strong>1st</strong>
+              </div>
+            </div>
+
+            <!-- Appraisal Detail Table -->
+            <div class="wizard-table-container">
+              <table class="wizard-data-table">
+                <thead>
+                  <tr>
+                    <th>Classification / Actual Use</th>
+                    <th style="text-align: right;">Area</th>
+                    <th style="text-align: right;">Unit Value</th>
+                    <th style="text-align: right;">Market Value</th>
+                    <th style="text-align: right;">Assessed Value</th>
+                  </tr>
+                </thead>
+                <tbody id="pop-detail-tbody">
+                  <tr>
+                    <td style="color: #FFFFFF; font-weight: 600;">Residential - Residential Building</td>
+                    <td style="text-align: right; font-family: monospace;">121.20 sq. m.</td>
+                    <td style="text-align: right; font-family: monospace;">4,500.00</td>
+                    <td style="text-align: right; font-family: monospace;">₱611,770.00</td>
+                    <td style="text-align: right; font-family: monospace; font-weight: 700; color: #1DB954;">₱152,940.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Step 1 Footer -->
+          <div class="wizard-bottom-actions">
+            <button class="btn-wizard-pri" id="pop-btn-next" onclick="window.goPopStep2()">
+              <span>Next: Approval Parameters &raquo; (Alt-N)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: New Tax Declaration Approval Parameters (Fr-Approval) -->
+        <div class="wizard-scrollable-content" id="pop-step-2-content" style="display: none;">
+          <div class="wizard-section-header">
+            <div>
+              <div class="wizard-section-title">New Tax Declaration Approval Parameters</div>
+              <div style="font-size: 12px; color: #A7A7A7; margin-top: 2px;">Frame: Fr-Approval &bull; Final Roll Commit
+                &amp; Official Signatures</div>
+            </div>
+            <span class="wizard-section-badge">Step 2 of 2</span>
+          </div>
+
+          <!-- Cancelled Records Summary -->
+          <div class="wizard-owner-card" style="padding: 12px 16px;">
+            <div style="font-size: 12px; font-weight: 700; color: #1DB954; margin-bottom: 6px;">Cancelled Property
+              Assessment Record(s) for Superseding:</div>
+            <div class="wizard-table-container">
+              <table class="wizard-data-table">
+                <thead>
+                  <tr>
+                    <th>Cancelled by TD No.</th>
+                    <th>Cancelled TD No.</th>
+                    <th>Previous Owner</th>
+                    <th style="text-align: right;">Previous Assessed Value</th>
+                    <th>Effective Year</th>
+                  </tr>
+                </thead>
+                <tbody id="pop-cancel-tbody">
+                  <tr>
+                    <td style="font-family: monospace; color: #1DB954; font-weight: 700;" id="pop-c-by-td">
+                      2024-006-00142</td>
+                    <td style="font-family: monospace; color: #A7A7A7;" id="pop-c-td">2020-006-00120</td>
+                    <td style="color: #FFFFFF;" id="pop-c-owner">SPS. TUMBAGA, RODOLFO &amp; FIDENCIA</td>
+                    <td style="text-align: right; font-family: monospace; color: #1DB954; font-weight: 700;"
+                      id="pop-c-av">₱126,000.00</td>
+                    <td id="pop-c-eff">2026, 1st Quarter</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Posting Date, Taxable, Effectivity -->
+          <div
+            style="display: grid; grid-template-columns: 1fr 120px 140px 150px; gap: 12px; align-items: flex-end; background: #1a1a1a; padding: 12px 16px; border-radius: 8px; border: 1px solid #2a2a2a;">
+            <div>
+              <label
+                style="font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 4px;">Posting
+                Date:</label>
+              <input type="date" id="pop-post-date"
+                style="width: 100%; height: 36px; background: #242424; border: 1px solid #383838; border-radius: 4px; color: #FFFFFF; padding: 0 8px; font-size: 12.5px;"
+                value="2026-06-15">
+            </div>
+            <div>
+              <label
+                style="font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 4px;">Taxable:</label>
+              <label class="unapp-check-label" style="height: 36px; display: flex; align-items: center;">
+                <input type="checkbox" id="pop-param-taxable" checked>
+                <span>Taxable</span>
+              </label>
+            </div>
+            <div>
+              <label
+                style="font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 4px;">Effectivity
+                Year:</label>
+              <input type="number" id="pop-param-eyear"
+                style="width: 100%; height: 36px; background: #242424; border: 1px solid #383838; border-radius: 4px; color: #FFFFFF; padding: 0 8px; font-size: 12.5px;"
+                value="2026">
+            </div>
+            <div>
+              <label
+                style="font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 4px;">Quarter:</label>
+              <select id="pop-param-qtr"
+                style="width: 100%; height: 36px; background: #242424; border: 1px solid #383838; border-radius: 4px; color: #FFFFFF; padding: 0 8px; font-size: 12.5px;">
+                <option value="11" selected>1st Quarter</option>
+                <option value="22">2nd Quarter</option>
+                <option value="33">3rd Quarter</option>
+                <option value="44">4th Quarter</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 4-Tier Signatory Matrix -->
+          <div class="wizard-owner-card">
+            <div style="font-size: 12px; font-weight: 700; color: #A7A7A7;">Official Assessment Signatures:</div>
+            <div class="wizard-sign-matrix">
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-role">Appraised by:</span>
+                <input type="text" id="pop-sign-name-1" class="wizard-sign-field" value="ROLANDO C. BAUTISTA">
+                <input type="text" id="pop-sign-pos-1" class="wizard-sign-field" value="LAOO I / Property Appraiser">
+                <input type="date" id="pop-sign-date-1" class="wizard-sign-field" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-role">Assessed by:</span>
+                <input type="text" id="pop-sign-name-2" class="wizard-sign-field" value="MARLON S. VALDEZ">
+                <input type="text" id="pop-sign-pos-2" class="wizard-sign-field" value="LAOO II / Assessment Examiner">
+                <input type="date" id="pop-sign-date-2" class="wizard-sign-field" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-role">Recommended by:</span>
+                <input type="text" id="pop-sign-name-3" class="wizard-sign-field" value="EDITHA Q. MEDRANO">
+                <input type="text" id="pop-sign-pos-3" class="wizard-sign-field" value="Municipal Assessor">
+                <input type="date" id="pop-sign-date-3" class="wizard-sign-field" value="2026-06-15">
+              </div>
+              <div class="wizard-sign-row">
+                <span class="wizard-sign-role" style="color: #1DB954;">Approved by:</span>
+                <input type="text" id="pop-sign-name-4" class="wizard-sign-field" value="GUILLERMO B. BARRETTO"
+                  style="border-color: rgba(29,185,84,0.4); color: #1DB954;">
+                <input type="text" id="pop-sign-pos-4" class="wizard-sign-field" value="Provincial Assessor">
+                <input type="date" id="pop-sign-date-4" class="wizard-sign-field" value="2026-06-15">
+              </div>
+            </div>
+          </div>
+
+          <!-- Memoranda and Cancellation Remarks -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label
+                style="font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 4px;">Memoranda:</label>
+              <textarea id="pop-memo-input" class="wizard-owner-textarea"
+                rows="2">General Revision 2024 assessment updated pursuant to Provincial Ordinance No. 2024-001.</textarea>
+            </div>
+            <div>
+              <label
+                style="font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; display: block; margin-bottom: 4px;">Cancellation
+                Remarks:</label>
+              <textarea id="pop-cancel-rem-input" class="wizard-owner-textarea"
+                rows="2">Cancelled by General Revision 2024 revaluation schedule.</textarea>
+            </div>
+          </div>
+
+          <!-- Step 2 Footer -->
+          <div class="wizard-bottom-actions">
+            <button class="btn-wizard-sec" onclick="window.goPopStep1()">
+              <span>&laquo; Back to Step 1 (Alt-B)</span>
+            </button>
+            <button class="btn-wizard-pri" onclick="window.finalizePopApproval()">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Finish &amp; Commit Approval (Alt-F)</span>
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+     LAND TAX DECLARATION DATA ENTRY & MASTER APPRAISAL MODAL (LAND-UPD.p)
+     ========================================================================== -->
+  <div class="faas-modal-backdrop" id="land-faas-modal" style="display: none; z-index: 10200;">
+    <div class="faas-modal-dialog">
+
+      <!-- 1. Window Header -->
+      <div class="faas-modal-header">
+        <div class="faas-modal-title-group">
+          <div class="faas-modal-title" id="faas-modal-header-title">
+            Real Property - LAND/PLANTS &amp; TREES (-Editha Q Medrano-)
+          </div>
+          <span class="faas-unlock-badge">Press F1 to Unlock</span>
+        </div>
+        <button class="faas-modal-close-btn" onclick="window.closeFaasModal()" title="Close (Esc)">&times;</button>
+      </div>
+
+      <!-- 2. Modal Body (Canvas) -->
+      <div class="faas-modal-body">
+
+        <!-- Top Identifiers Bar (ARP/TD No., PIN, Update Code) -->
+        <div class="faas-top-identifiers-strip">
+          <div class="faas-id-group">
+            <span class="faas-id-label">ARP/TD No. :</span>
+            <input type="text" id="faas-arp-rev" class="faas-mono-box" style="width: 38px;" value="24" readonly>
+            <span>-</span>
+            <input type="text" id="faas-arp-loc" class="faas-mono-box" style="width: 38px;" value="22" readonly>
+            <span>-</span>
+            <input type="text" id="faas-arp-bgy" class="faas-mono-box" style="width: 46px;" value="006" readonly>
+            <span>-</span>
+            <input type="text" id="faas-arp-no" class="faas-mono-box" style="width: 75px;" value="9000001">
+            <span>-</span>
+            <input type="text" id="faas-arp-suf" class="faas-mono-box" style="width: 38px;" value="">
+          </div>
+
+          <div class="faas-id-group">
+            <span class="faas-id-label">P.I.N. :</span>
+            <input type="text" id="faas-pin-prov" class="faas-mono-box" style="width: 44px;" value="011" readonly>
+            <span>-</span>
+            <input type="text" id="faas-pin-loc" class="faas-mono-box" style="width: 38px;" value="22" readonly>
+            <span>-</span>
+            <input type="text" id="faas-pin-bgy" class="faas-mono-box" style="width: 46px;" value="006" readonly>
+            <span>-</span>
+            <input type="text" id="faas-pin-sec" class="faas-mono-box" style="width: 46px;" value="001">
+            <span>-</span>
+            <input type="text" id="faas-pin-lot" class="faas-mono-box" style="width: 46px;" value="001">
+            <span>-</span>
+            <input type="text" id="faas-pin-imp" class="faas-mono-box" style="width: 55px;" value="">
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 700; color: #FFFFFF;">Update Code :</span>
+            <span class="faas-update-code-pill" id="faas-update-code-badge">GR</span>
+          </div>
+        </div>
+
+        <!-- Upper 2-Column: Owner Info & Property Location -->
+        <div class="faas-grid-2col">
+          <!-- Left: Owner Info -->
+          <div class="faas-card-box">
+            <div class="faas-form-row">
+              <span class="faas-form-label">Account No. :</span>
+              <input type="text" id="faas-acct-no" class="faas-input-text"
+                style="max-width: 90px; font-family: 'JetBrains Mono', monospace;" value="080269">
+              <input type="text" id="faas-acct-owner" class="faas-input-text" value="SABAS JACINTO" readonly>
+              <button class="faas-folder-icon-btn" title="Lookup Account"><svg width="14" height="14"
+                  fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Owner's Name :</span>
+              <input type="text" id="faas-owner-name" class="faas-input-text" style="font-weight: 700;"
+                value="JACINTO, SABAS">
+              <button class="faas-folder-icon-btn" title="Lookup Owners Master"><svg width="14" height="14"
+                  fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Address :</span>
+              <input type="text" id="faas-owner-address" class="faas-input-text" value="GEN. AGUINALDO, RAMON, ISABELA">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Administrator :</span>
+              <input type="text" id="faas-admin-name" class="faas-input-text" placeholder="Same as Owner">
+              <button class="faas-folder-icon-btn" title="Lookup Admin"><svg width="14" height="14" fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Address :</span>
+              <input type="text" id="faas-admin-address" class="faas-input-text">
+            </div>
+          </div>
+
+          <!-- Right: Location of Property -->
+          <div class="faas-card-box">
+            <div class="faas-card-head">Location of Property</div>
+
+            <div class="faas-form-row">
+              <label
+                style="display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #A7A7A7; width: 100px;">
+                <input type="checkbox" id="faas-sd-flag"> <span>Subdivision :</span>
+              </label>
+              <select id="faas-sd-name" class="faas-input-text">
+                <option value="">None / Not Applicable</option>
+                <option value="1">Villa Victoria Subdivision</option>
+                <option value="2">San Jose Heights</option>
+              </select>
+              <button class="faas-folder-icon-btn"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Phase :</span>
+              <input type="text" id="faas-sd-phase" class="faas-input-text" style="max-width: 60px;">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Lot # :</span>
+              <input type="text" id="faas-sd-lot" class="faas-input-text" style="max-width: 70px;">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Blk # :</span>
+              <input type="text" id="faas-sd-blk" class="faas-input-text" style="max-width: 70px;">
+            </div>
+
+            <div class="faas-form-row">
+              <span style="font-size: 11.5px; color: #A7A7A7;">House No :</span>
+              <input type="text" id="faas-hse-no" class="faas-input-text" style="max-width: 60px;">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Old No. :</span>
+              <input type="text" id="faas-old-hse" class="faas-input-text" style="max-width: 70px;">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Street :</span>
+              <input type="text" id="faas-street" class="faas-input-text" style="flex: 1;"
+                placeholder="Provincial Road">
+              <button class="faas-folder-icon-btn"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Boundary :</span>
+              <input type="text" id="faas-street-boundary" class="faas-input-text" placeholder="(Landmark)">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Barangay :</span>
+              <input type="text" id="faas-bgy-display" class="faas-input-text" value="Gen. Aguinaldo, Ramon" readonly>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle 2-Column: Particulars & Boundaries -->
+        <div class="faas-grid-2col">
+          <!-- Left: Particulars -->
+          <div class="faas-card-box">
+            <div class="faas-card-head">Description and Other Particulars of Property</div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">OCT/TCT No. :</span>
+              <input type="text" id="faas-oct-tct" class="faas-input-text"
+                style="font-family: 'JetBrains Mono', monospace;" value="">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Dated :</span>
+              <input type="text" id="faas-oct-date" class="faas-input-text"
+                style="max-width: 90px; font-family: 'JetBrains Mono', monospace;" value="//">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Survey No. :</span>
+              <input type="text" id="faas-survey-no" class="faas-input-text"
+                style="font-family: 'JetBrains Mono', monospace;" value="">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Cad'l Lot No. :</span>
+              <input type="text" id="faas-cad-lot" class="faas-input-text"
+                style="font-family: 'JetBrains Mono', monospace;" value="">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Ass. Lot No. :</span>
+              <input type="text" id="faas-ass-lot" class="faas-input-text" style="max-width: 90px;" value="001">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Block No. :</span>
+              <input type="text" id="faas-block-no" class="faas-input-text" style="max-width: 90px;" value="">
+            </div>
+          </div>
+
+          <!-- Right: Boundaries -->
+          <div class="faas-card-box">
+            <div class="faas-card-head">Property Boundaries</div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">North :</span>
+              <input type="text" id="faas-b-north" class="faas-input-text" value="MAGAT RIVER">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">East :</span>
+              <input type="text" id="faas-b-east" class="faas-input-text" value="SEC. 07">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">South :</span>
+              <input type="text" id="faas-b-south" class="faas-input-text" value="ROAD 02">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">West :</span>
+              <input type="text" id="faas-b-west" class="faas-input-text" value="ROAD TO POTIA">
+            </div>
+          </div>
+        </div>
+
+        <!-- Locational Valuation Group Banner -->
+        <div class="faas-locgrp-banner">
+          <span style="font-size: 12.5px; font-weight: 800; color: #FFFFFF;">Locational Land Unit Valuation Group
+            :</span>
+          <select id="faas-loc-group" class="faas-locgrp-select">
+            <option value="Ramon" selected>Ramon</option>
+            <option value="Ilagan">City of Ilagan</option>
+            <option value="Santiago">Santiago City</option>
+          </select>
+          <button class="faas-folder-icon-btn"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+            </svg></button>
+        </div>
+
+        <!-- Lower Split: Tables on Left, Side Actions & Status on Right -->
+        <div class="faas-lower-grid">
+
+          <!-- Left Column: Appraisal & Assessment Tables -->
+          <div class="faas-tables-column">
+            <!-- Card A: Land Appraisal Detail -->
+            <div class="faas-table-card">
+              <div class="faas-table-card-head">
+                <span>Land Appraisal Detail</span>
+              </div>
+              <table class="faas-data-table">
+                <thead>
+                  <tr>
+                    <th>Class</th>
+                    <th>Sub-Class</th>
+                    <th>Actual Use</th>
+                    <th style="text-align: right;">Area</th>
+                    <th>Stripping</th>
+                    <th style="text-align: right;">Unit Value</th>
+                    <th>Adjustment</th>
+                    <th style="text-align: right;">Market Value</th>
+                    <th style="text-align: center;">T</th>
+                  </tr>
+                </thead>
+                <tbody id="faas-appraisal-tbody">
+                  <tr class="active-row">
+                    <td>Agricultural</td>
+                    <td class="mono" id="faas-app-subclass">A-1</td>
+                    <td class="mono" id="faas-app-actualuse">Riceland, Upland</td>
+                    <td class="mono" style="text-align: right;" id="faas-app-area">70.000000 Ha/s.</td>
+                    <td class="mono"></td>
+                    <td class="mono" style="text-align: right;" id="faas-app-unitval">0.00</td>
+                    <td class="mono"></td>
+                    <td class="mono" style="text-align: right; font-weight: 700; color: #1DB954;" id="faas-app-mktval">
+                      0.00</td>
+                    <td class="mono" style="text-align: center;">T</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="faas-table-bottom-bar">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <button class="faas-grid-btn primary" onclick="alert('Add Appraisal Detail (F6)')"><svg width="12"
+                      height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg> + F6 Add</button>
+                  <button class="faas-grid-btn" onclick="alert('Edit Appraisal Detail (F7)')"><svg width="12"
+                      height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg> F7 Edit</button>
+                  <button class="faas-grid-btn" style="color: #E22134;"
+                    onclick="alert('Delete Appraisal Detail (F8)')"><svg width="12" height="12" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg> F8 Delete</button>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 11.5px; font-weight: 700; color: #B3B3B3;">Predominant Use :</span>
+                  <select id="faas-predominant-use" class="faas-input-text" style="max-width: 140px;">
+                    <option value="Agricultural" selected>Agricultural</option>
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Industrial">Industrial</option>
+                  </select>
+                  <span class="faas-mono-box" style="font-size: 12px;" id="faas-base-market-badge">0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card B: Property Assessment Summary -->
+            <div class="faas-table-card">
+              <div class="faas-table-card-head">
+                <span>Property Assessment Summary</span>
+              </div>
+              <table class="faas-data-table">
+                <thead>
+                  <tr>
+                    <th>Property Kind</th>
+                    <th>Actual Use</th>
+                    <th style="text-align: right;">Adjusted Market Value</th>
+                    <th style="text-align: right;">Assessment Level</th>
+                    <th style="text-align: right;">Assessed Value</th>
+                  </tr>
+                </thead>
+                <tbody id="faas-assessment-tbody">
+                  <tr class="active-row">
+                    <td>Land</td>
+                    <td id="faas-ass-actualuse">(A) Riceland, Upland</td>
+                    <td class="mono" style="text-align: right;" id="faas-ass-mktval">0.00</td>
+                    <td class="mono" style="text-align: right; color: #1DB954;" id="faas-ass-level">0.00 %</td>
+                    <td class="mono" style="text-align: right; font-weight: 800; color: #1DB954;" id="faas-ass-val">0.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Right Side Column: Side Action Buttons & Status Controls -->
+          <div class="faas-side-column">
+            <!-- Stack of 6 Action Buttons -->
+            <div class="faas-action-stack">
+              <button class="faas-side-btn" onclick="alert('Plants/Trees & Value Adjustment Factor dialog')">
+                <span>🌿</span> <span>Plants/Trees &amp; Value Adjustment Factor</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('ANnotations & Special Property Status')">
+                <span>ℹ</span> <span>ANnotations &amp; Special Property Status</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Sworn Statement of the Property Owner')">
+                <span>📜</span> <span>Sworn Statement of the Property Owner</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Property Picture & Other Attachments File')">
+                <span>📁</span> <span>Property Picture &amp; Other Attachments File</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Record Status Request For Approval Tagging')">
+                <span>✔</span> <span>Record Status Request For Approval Tagging</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Built on the Land Bldg./Improvement Records')">
+                <span>🏢</span> <span>Built on the Land Bldg./Improvement Records</span>
+              </button>
+            </div>
+
+            <!-- Taxability & Effectivity Panel -->
+            <div class="faas-status-card">
+              <div class="faas-form-row">
+                <span class="faas-form-label" style="width: 80px;">Taxability :</span>
+                <select id="faas-taxability-select" class="faas-status-pill-green">
+                  <option value="Taxable" selected>Taxable</option>
+                  <option value="Exempt">Exempt</option>
+                </select>
+              </div>
+
+              <div class="faas-form-row">
+                <span style="font-size: 11.5px; color: #A7A7A7; width: 80px;">Effectivity :</span>
+                <input type="number" id="faas-effect-year" class="faas-input-text"
+                  style="max-width: 65px; font-family: 'JetBrains Mono', monospace;" value="2026">
+                <span style="font-size: 11.5px; color: #A7A7A7;">Quarter :</span>
+                <select id="faas-effect-qtr" class="faas-input-text" style="max-width: 75px;">
+                  <option value="1st" selected>1st</option>
+                  <option value="2nd">2nd</option>
+                  <option value="3rd">3rd</option>
+                  <option value="4th">4th</option>
+                </select>
+              </div>
+
+              <div class="faas-form-row">
+                <span class="faas-form-label" style="width: 80px;">Update Code :</span>
+                <select id="faas-update-code-select" class="faas-input-text">
+                  <option value="General Revision" selected>General Revision</option>
+                  <option value="Correction">Correction</option>
+                  <option value="Transfer">Transfer</option>
+                  <option value="New Discovery">New Discovery</option>
+                </select>
+              </div>
+
+              <div class="faas-form-row">
+                <span class="faas-form-label" style="width: 80px;">Posting Date :</span>
+                <input type="text" id="faas-posting-date" class="faas-input-text"
+                  style="font-family: 'JetBrains Mono', monospace;" value="06/15/2026">
+                <label
+                  style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: #A7A7A7; cursor: pointer;">
+                  <input type="checkbox" id="faas-for-correction"> <span>For Correction</span>
+                </label>
+              </div>
+
+              <!-- Previous Assessment Button -->
+              <button class="faas-btn-prev-assess" onclick="alert('Opening Previous Assessment & Approval Form...')">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Previous Assessment &amp; Approval Form</span>
+              </button>
+
+              <!-- Status Radios & Cancellation Info -->
+              <div class="faas-status-radio-row">
+                <span style="font-size: 11.5px; font-weight: 700; color: #A7A7A7;">Status :</span>
+                <label class="faas-radio-label active"><input type="radio" name="faas-status" value="1" checked>
+                  <span>Active</span></label>
+                <label class="faas-radio-label"><input type="radio" name="faas-status" value="2">
+                  <span>Cancelled</span></label>
+              </div>
+
+              <div class="faas-form-row">
+                <span style="font-size: 11px; color: #888;">Date Canceld :</span>
+                <input type="text" id="faas-date-cancelled" class="faas-input-text"
+                  style="max-width: 80px; font-family: 'JetBrains Mono', monospace;" value="">
+                <span style="font-size: 11px; color: #888;">by :</span>
+                <input type="text" id="faas-cancel-by" class="faas-input-text" style="flex: 1;" value="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 3. Modal Footer -->
+      <div class="faas-modal-footer">
+        <div class="faas-footer-actions">
+          <button class="faas-btn-save" onclick="window.saveFaasModal()" title="Save Changes (Alt-S)">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" />
+            </svg>
+            <span>Save</span>
+          </button>
+
+          <button class="faas-btn-cancel" onclick="window.closeFaasModal()" title="Cancel (Esc)">
+            <span>Cancel</span>
+          </button>
+        </div>
+
+        <div class="faas-footer-totals">
+          <div class="faas-metric-box" id="faas-footer-total-mv">0.00</div>
+          <div class="faas-metric-box green" id="faas-footer-total-av">0.00</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/unapprove-revised.js"></script>
+</body>
+
+</html>

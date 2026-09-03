@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Land Properties File - Real Property Assessment System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/land-properties.css">
+  <link rel="stylesheet" href="css/property-modal.css">
+  <script>
+    (function () {
+      const theme = localStorage.getItem('rpas_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'dark') document.documentElement.classList.add('dark-theme');
+      else document.documentElement.classList.add('light-theme');
+    })();
+  </script>
+</head>
+
+<body>
+
+  <div class="land-viewport-layout">
+
+    <!-- Left Small-Width Max-Height Green Side Navigation (Icon Only) -->
+    <aside class="land-side-nav">
+      <!-- Master Logo / Brand Home -->
+      <a href="index.html" class="land-nav-brand-btn" title="eRPAS Master Menu (F10)">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+      </a>
+
+      <!-- SECTION 1: REAL PROPERTIES FAMILY -->
+      <div class="land-nav-group">
+        <!-- Land Property Units File (Active) -->
+        <a href="land-properties.html" class="land-nav-icon-btn active" title="Real Properties: Land Property Units File">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+          </svg>
+        </a>
+
+        <!-- Buildings / Improvements File -->
+        <a href="building-properties.html" class="land-nav-icon-btn" title="Real Properties: Buildings / Improvements File">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        </a>
+
+        <!-- Machine Property Units File -->
+        <a href="machine-properties.html" class="land-nav-icon-btn" title="Real Properties: Machine Property Units File">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          </svg>
+        </a>
+
+        <!-- Real Property Units (by TD) -->
+        <a href="proproll.html" class="land-nav-icon-btn" title="Real Properties: Units by TD Number">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="land-nav-divider"></div>
+
+      <!-- SECTION 2: LABELS FAMILY -->
+      <div class="land-nav-group">
+        <!-- Labels & Tax Declaration Printing -->
+        <button class="land-nav-icon-btn" onclick="window.openGenericFeatureModal('Labels & Tax Declaration Printing', 'Generate and print property labels and official TD assessment certificates.')" title="Labels: Tax Declarations & Printing">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+        </button>
+
+        <!-- Assessment Rolls / Property Notices -->
+        <button class="land-nav-icon-btn" onclick="window.openGenericFeatureModal('Notice of Assessment (NOA)', 'Notice of assessment forms and property roll notices.')" title="Labels: Notice of Assessment (NOA)">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="land-nav-divider"></div>
+
+      <!-- SECTION 3: DATA TRANSFER FAMILY -->
+      <div class="land-nav-group">
+        <!-- Download Records -->
+        <button class="land-nav-icon-btn" onclick="window.handleSyncDownload()" title="Data Transfer: Download Records">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+        </button>
+
+        <!-- Upload Records -->
+        <button class="land-nav-icon-btn" onclick="window.handleSyncUpload()" title="Data Transfer: Upload Records">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Bottom Nav Shortcuts -->
+      <div class="land-nav-bottom">
+        <!-- Unapproved Records for Approval -->
+        <a href="unapprove-revised.html" class="land-nav-icon-btn" title="Un-approved Assessment Records (For Approval)">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+        </a>
+
+        <!-- Return to Master Menu -->
+        <a href="index.html" class="land-nav-icon-btn exit-btn" title="Return to Master Menu (F10)">
+          <svg width="19" height="19" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Land Properties App Container -->
+    <div class="land-app-container">
+
+      <!-- 1. TOP WINDOW TITLE BAR (Matching new-land.p Fr-Roll Title) -->
+      <header class="land-top-title-bar">
+        <div class="land-title-group">
+          <div class="land-title-icon-badge">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+          </div>
+          <span class="land-window-title" id="land-window-title">Land Properties File - Revision Year(s) 2024</span>
+          <span class="land-assessor-badge" id="land-assessor-badge">-Editha Q Medrano-</span>
+        </div>
+
+        <div class="land-top-actions">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="window.toggleTheme()" title="Toggle Light / Dark Mode">
+            <!-- Icon injected by theme.js -->
+          </button>
+          <a href="index.html" class="btn-back-master" title="Return to Master Menu (F10)">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Return to Master Menu</span>
+          </a>
+        </div>
+      </header>
+
+    <!-- 2. TOP 3-BOX CONTROLS PANEL (Matching R1, R5, R4 in new-land.p) -->
+    <section class="land-controls-panel">
+      <!-- Box 1 (R1): Enter Barangay Number here -->
+      <div class="land-box-bgy-input">
+        <span class="land-bgy-input-label">Enter Barangay Number here :</span>
+        <input type="text" id="land-bgy-code-input" class="land-bgy-field" value="001" maxlength="3">
+        <button class="btn-go" onclick="window.handleBgyGo()" title="Go / Load Records (Alt+G)">
+          <span>Go</span>
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Box 2 (R5): Barangay Folder, Name & Approved Only Toggle -->
+      <div class="land-box-bgy-name">
+        <span style="font-size: 12px; font-weight: 700; color: #B3B3B3;">Barangay :</span>
+        <button class="land-bgy-folder-btn" onclick="window.handleBgyFolderLookup()"
+          title="Lookup Barangay List (Bgy-But)">
+          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+          </svg>
+        </button>
+        <span class="land-bgy-name-pill" id="land-bgy-name-pill">DISTRICT 1, ILAGAN</span>
+
+        <label class="land-checkbox-wrap">
+          <input type="checkbox" id="land-approve-only-cb">
+          <span>Approved TD record only</span>
+        </label>
+      </div>
+
+      <!-- Box 3 (R4): Sort & Statistics Badges -->
+      <div class="land-box-stats">
+        <div class="land-sort-wrap">
+          <span class="land-sort-label">Sort :</span>
+          <select id="land-sort-select" class="land-sort-select">
+            <option value="2" selected>by Tax Declaration Number</option>
+            <option value="1">by Declared Owner's Name</option>
+            <option value="3">by Property Index Number</option>
+          </select>
+        </div>
+
+        <!-- Teal Summary Cards -->
+        <div class="land-stat-card">
+          <span class="land-stat-title">Total :</span>
+          <span class="land-stat-num" id="stat-total-count">0</span>
+        </div>
+
+        <div class="land-stat-card">
+          <span class="land-stat-title">Area :</span>
+          <span class="land-stat-num" id="stat-total-area">0.00</span>
+        </div>
+
+        <div class="land-stat-card">
+          <span class="land-stat-title">Ass. Value :</span>
+          <span class="land-stat-num" id="stat-total-av">₱ 0.00</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. COLUMN INSTANT FILTER BAR (Matching findTD, findName, etc. in new-land.p) -->
+    <div class="land-column-filters-strip">
+      <!-- Gear icon button (Rev-Yr) -->
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <button class="btn-gear-rev" onclick="window.handleRevisionYearSetting()" title="Revision Year Setup (Rev-Yr)">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          </svg>
+        </button>
+      </div>
+      <div><input type="text" id="find-td" class="land-filter-input" placeholder="TD No."></div>
+      <div><input type="text" id="find-sec" class="land-filter-input" placeholder="PIN / Sec"></div>
+      <div><input type="text" id="find-name" class="land-filter-input" placeholder="Search Owner..."></div>
+      <div><input type="text" id="find-tct" class="land-filter-input" placeholder="OCT/TCT"></div>
+      <div><input type="text" id="find-lot" class="land-filter-input" placeholder="Lot #"></div>
+      <div><input type="text" id="find-surv" class="land-filter-input" placeholder="Survey #"></div>
+      <div>
+        <select id="find-cls" class="land-filter-select">
+          <option value="">All Classes</option>
+          <option value="R-1">R-1 (Res Regular)</option>
+          <option value="R-2">R-2 (Residential)</option>
+          <option value="A-1">A-1 (Agricultural)</option>
+          <option value="C-1">C-1 (Commercial)</option>
+          <option value="I-1">I-1 (Industrial)</option>
+        </select>
+      </div>
+      <div><input type="number" id="find-area" class="land-filter-input" placeholder="Min Area"></div>
+      <div><input type="number" id="find-uv" class="land-filter-input" placeholder="Min UV"></div>
+      <div><input type="text" id="find-cad" class="land-filter-input" placeholder="Adjust"></div>
+      <div>
+        <select id="find-tax" class="land-filter-select">
+          <option value="">All</option>
+          <option value="T">Taxable</option>
+          <option value="E">Exempt</option>
+        </select>
+      </div>
+      <div><input type="number" id="find-mkt" class="land-filter-input" placeholder="Min Market"></div>
+      <div><input type="number" id="find-av" class="land-filter-input" placeholder="Min AV"></div>
+    </div>
+
+    <!-- 4. MAIN 12-COLUMN CADASTRAL DATA TABLE (Matching landBrowse in new-land.p) -->
+    <main class="land-table-container">
+      <table class="land-cadastral-grid" id="land-cadastral-table">
+        <colgroup>
+          <col style="width: 2.5%;">
+          <col style="width: 9.5%;">
+          <col style="width: 7%;">
+          <col style="width: 15%;">
+          <col style="width: 7%;">
+          <col style="width: 4.5%;">
+          <col style="width: 6.5%;">
+          <col style="width: 8.5%;">
+          <col style="width: 6.5%;">
+          <col style="width: 6.5%;">
+          <col style="width: 5.5%;">
+          <col style="width: 3%;">
+          <col style="width: 9%;">
+          <col style="width: 9%;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="text-center" title="Record Status Indicator"> </th>
+            <th title="Tax Declaration Number">Tax Dec. No.</th>
+            <th title="Property Index Number">P.I.N.</th>
+            <th title="Declared Owner's Full Name">Declared Owner's Name</th>
+            <th title="OCT/TCT Number">OCT/TCT No.</th>
+            <th class="text-center" title="Cadastral Lot Number">Lot #</th>
+            <th title="Cadastral Survey Number">Survey #</th>
+            <th title="Assessment Class / Actual Use">Class / Use</th>
+            <th class="text-right" title="Land Area in Square Meters">Area (sq.m.)</th>
+            <th class="text-right" title="Unit Value per Square Meter">Unit Value</th>
+            <th class="text-center" title="Adjustment Factor">Adjust.</th>
+            <th class="text-center" title="Taxability (Taxable / Exempt)">T/E</th>
+            <th class="text-right" title="Computed Base Market Value">Market Value</th>
+            <th class="text-right" title="Total Assessed Value">Assessed Value</th>
+          </tr>
+        </thead>
+        <tbody id="land-cadastral-tbody">
+          <!-- Dynamically rendered by js/land-properties.js -->
+        </tbody>
+      </table>
+    </main>
+
+    <!-- 5. BOTTOM REMARKS STRIP (Matching vRemarks in new-land.p) -->
+    <div class="land-remarks-strip" id="land-remarks-strip">
+      <span><strong>RECORD DETAILS:</strong> <span id="land-remarks-text">Select a property unit row to view complete
+          cadastral assessment metadata.</span></span>
+    </div>
+
+    <!-- 6. BOTTOM ACTION TOOLBAR (Matching F6 Add, F7 Edit, F8 Delete, etc.) -->
+    <footer class="land-bottom-toolbar">
+      <div class="land-toolbar-left">
+        <button class="land-tool-btn primary" onclick="window.handleAddProperty()"
+          title="Add New Property Unit (F6 / Alt+A)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <span>F6 Add</span>
+        </button>
+
+        <button class="land-tool-btn" onclick="window.handleEditProperty()"
+          title="Edit Selected Property Unit in FAAS Form (F7 / Alt+E)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          <span>F7 Edit</span>
+        </button>
+
+        <button class="land-tool-btn danger" onclick="window.handleDeleteProperty()"
+          title="Delete Selected Unit (F8 / Alt+D)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          <span>F8 Delete</span>
+        </button>
+
+        <button class="land-tool-btn" onclick="window.handlePrintTD()" title="Print Tax Declaration / FAAS (Alt+T)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          <span>Print TD / FAAS</span>
+        </button>
+
+        <button class="land-tool-btn" onclick="window.handlePrintList()" title="Print Land Cadastral Listing (Alt+P)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>Print List</span>
+        </button>
+
+        <button class="land-tool-btn" onclick="window.handlePaymentRecords()"
+          title="View Taxpayer Payment Records (Payment-But)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+          </svg>
+          <span>Payment Records</span>
+        </button>
+
+        <button class="land-tool-btn" onclick="window.openChangeTransferModal()"
+          title="Change or Transfer Barangay / TD Numbers / PIN (Chg-But)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          </svg>
+          <span>Change/Transfer Barangay/T.D. Numbers</span>
+        </button>
+      </div>
+
+      <div>
+        <button class="land-tool-btn close-btn" onclick="window.handleCloseModule()"
+          title="Close Module and return to Main Menu (F10 / Alt+C)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          <span>F10 Close</span>
+        </button>
+      </div>
+    </footer>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+     7. POPUP MODAL: REAL PROPERTY - LAND/PLANTS & TREES (LAND-UPD.p)
+     ======================================================================== -->
+  <div class="faas-modal-backdrop" id="land-faas-modal" style="display: none;">
+    <div class="faas-modal-dialog">
+
+      <!-- Modal Window Header -->
+      <div class="faas-modal-header">
+        <div class="faas-modal-title-group">
+          <span class="faas-modal-title" id="faas-modal-header-title">Real Property - LAND/PLANTS & TREES (Editha Q
+            Medrano)</span>
+          <span class="faas-unlock-badge">Press F1 to Unlock</span>
+        </div>
+        <button class="faas-modal-close-btn" onclick="window.closeFaasModal()">&times;</button>
+      </div>
+
+      <!-- Modal Form Body -->
+      <div class="faas-modal-body">
+
+        <!-- Top Identifiers Bar (ARP/TD No., PIN, Update Code) -->
+        <div class="faas-top-identifiers-strip">
+          <div class="faas-id-group">
+            <span class="faas-id-label">ARP/TD No. :</span>
+            <input type="text" id="faas-arp-rev" class="faas-mono-box" style="width: 38px;" value="24" readonly>
+            <span>-</span>
+            <input type="text" id="faas-arp-loc" class="faas-mono-box" style="width: 38px;" value="22" readonly>
+            <span>-</span>
+            <input type="text" id="faas-arp-bgy" class="faas-mono-box" style="width: 46px;" value="006" readonly>
+            <span>-</span>
+            <input type="text" id="faas-arp-no" class="faas-mono-box" style="width: 65px;" value="00001" readonly>
+            <span>-</span>
+            <input type="text" id="faas-arp-suf" class="faas-mono-box" style="width: 38px;" value="" readonly>
+          </div>
+
+          <div class="faas-id-group">
+            <span class="faas-id-label">P.I.N. :</span>
+            <input type="text" id="faas-pin-prov" class="faas-mono-box" style="width: 44px;" value="011" readonly>
+            <span>-</span>
+            <input type="text" id="faas-pin-loc" class="faas-mono-box" style="width: 38px;" value="22" readonly>
+            <span>-</span>
+            <input type="text" id="faas-pin-bgy" class="faas-mono-box" style="width: 46px;" value="006" readonly>
+            <span>-</span>
+            <input type="text" id="faas-pin-sec" class="faas-mono-box" style="width: 46px;" value="001">
+            <span>-</span>
+            <input type="text" id="faas-pin-lot" class="faas-mono-box" style="width: 46px;" value="001">
+            <span>-</span>
+            <input type="text" id="faas-pin-imp" class="faas-mono-box" style="width: 55px;" value="">
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 700; color: #FFFFFF;">Update Code :</span>
+            <span class="faas-update-code-pill" id="faas-update-code-badge">GR</span>
+          </div>
+        </div>
+
+        <!-- Upper 2-Column: Owner Info & Property Location -->
+        <div class="faas-grid-2col">
+          <!-- Left: Owner Info -->
+          <div class="faas-card-box">
+            <div class="faas-form-row">
+              <span class="faas-form-label">Account No. :</span>
+              <input type="text" id="faas-acct-no" class="faas-input-text"
+                style="max-width: 90px; font-family: 'JetBrains Mono', monospace;" value="063422">
+              <input type="text" id="faas-acct-owner" class="faas-input-text" value="PEDRO LADDARAN" readonly>
+              <button class="faas-folder-icon-btn" title="Lookup Account"><svg width="14" height="14"
+                  fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Owner's Name :</span>
+              <input type="text" id="faas-owner-name" class="faas-input-text" style="font-weight: 700;"
+                value="LADDARAN, PEDRO">
+              <button class="faas-folder-icon-btn" title="Lookup Owners Master"><svg width="14" height="14"
+                  fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Address :</span>
+              <input type="text" id="faas-owner-address" class="faas-input-text"
+                value="PUROK 6, AMBATALI, RAMON, ISABELA">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Administrator :</span>
+              <input type="text" id="faas-admin-name" class="faas-input-text" placeholder="Same as Owner">
+              <button class="faas-folder-icon-btn" title="Lookup Admin"><svg width="14" height="14" fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Address :</span>
+              <input type="text" id="faas-admin-address" class="faas-input-text">
+            </div>
+          </div>
+
+          <!-- Right: Location of Property -->
+          <div class="faas-card-box">
+            <div class="faas-card-head">Location of Property</div>
+
+            <div class="faas-form-row">
+              <label
+                style="display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #A7A7A7; width: 100px;">
+                <input type="checkbox" id="faas-sd-flag"> <span>Subdivision :</span>
+              </label>
+              <select id="faas-sd-name" class="faas-input-text">
+                <option value="">None / Not Applicable</option>
+                <option value="1">Villa Victoria Subdivision</option>
+                <option value="2">San Jose Heights</option>
+              </select>
+              <button class="faas-folder-icon-btn"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Phase :</span>
+              <input type="text" id="faas-sd-phase" class="faas-input-text" style="max-width: 60px;">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Lot # :</span>
+              <input type="text" id="faas-sd-lot" class="faas-input-text" style="max-width: 70px;">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Blk # :</span>
+              <input type="text" id="faas-sd-blk" class="faas-input-text" style="max-width: 70px;">
+            </div>
+
+            <div class="faas-form-row">
+              <span style="font-size: 11.5px; color: #A7A7A7;">House No :</span>
+              <input type="text" id="faas-hse-no" class="faas-input-text" style="max-width: 60px;">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Old No. :</span>
+              <input type="text" id="faas-old-hse" class="faas-input-text" style="max-width: 70px;">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Street :</span>
+              <input type="text" id="faas-street" class="faas-input-text" style="flex: 1;"
+                placeholder="Provincial Road">
+              <button class="faas-folder-icon-btn"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                </svg></button>
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Boundary :</span>
+              <input type="text" id="faas-street-boundary" class="faas-input-text" placeholder="(Landmark)">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Barangay :</span>
+              <input type="text" id="faas-bgy-display" class="faas-input-text" value="Gen. Aguinaldo, Ramon" readonly>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle 2-Column: Particulars & Boundaries -->
+        <div class="faas-grid-2col">
+          <!-- Left: Particulars -->
+          <div class="faas-card-box">
+            <div class="faas-card-head">Description and Other Particulars of Property</div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">OCT/TCT No. :</span>
+              <input type="text" id="faas-oct-tct" class="faas-input-text"
+                style="font-family: 'JetBrains Mono', monospace;" value="T-384910">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Dated :</span>
+              <input type="text" id="faas-oct-date" class="faas-input-text"
+                style="max-width: 90px; font-family: 'JetBrains Mono', monospace;" value="06/15/2026">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Survey No. :</span>
+              <input type="text" id="faas-survey-no" class="faas-input-text"
+                style="font-family: 'JetBrains Mono', monospace;" value="Cad-305-D">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Cad'l Lot No. :</span>
+              <input type="text" id="faas-cad-lot" class="faas-input-text"
+                style="font-family: 'JetBrains Mono', monospace;" value="Lot 1">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">Ass. Lot No. :</span>
+              <input type="text" id="faas-ass-lot" class="faas-input-text" style="max-width: 90px;" value="001">
+              <span style="font-size: 11.5px; color: #A7A7A7;">Block No. :</span>
+              <input type="text" id="faas-block-no" class="faas-input-text" style="max-width: 90px;" value="001">
+            </div>
+          </div>
+
+          <!-- Right: Boundaries -->
+          <div class="faas-card-box">
+            <div class="faas-card-head">Property Boundaries</div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">North :</span>
+              <input type="text" id="faas-b-north" class="faas-input-text" value="ROAD">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">East :</span>
+              <input type="text" id="faas-b-east" class="faas-input-text" value="DRAINAGE">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">South :</span>
+              <input type="text" id="faas-b-south" class="faas-input-text" value="ROAD">
+            </div>
+
+            <div class="faas-form-row">
+              <span class="faas-form-label">West :</span>
+              <input type="text" id="faas-b-west" class="faas-input-text" value="LOT 7453, STGO. CAD">
+            </div>
+          </div>
+        </div>
+
+        <!-- Locational Valuation Group Banner -->
+        <div class="faas-locgrp-banner">
+          <span style="font-size: 12.5px; font-weight: 800; color: #FFFFFF;">Locational Land Unit Valuation Group
+            :</span>
+          <select id="faas-loc-group" class="faas-locgrp-select">
+            <option value="Ramon">Ramon - Urban & Poblacion Valuation Schedule</option>
+            <option value="Ilagan">City of Ilagan - Central Business & Residential District</option>
+            <option value="Santiago">Santiago City - Locational Group 1</option>
+          </select>
+          <button class="faas-folder-icon-btn"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+            </svg></button>
+        </div>
+
+        <!-- Lower Split: Tables on Left, Side Actions & Status on Right -->
+        <div class="faas-lower-grid">
+
+          <!-- Left Column: Appraisal & Assessment Tables -->
+          <div class="faas-tables-column">
+            <!-- Card A: Land Appraisal Detail -->
+            <div class="faas-table-card">
+              <div class="faas-table-card-head">
+                <span>Land Appraisal Detail</span>
+              </div>
+              <table class="faas-data-table">
+                <thead>
+                  <tr>
+                    <th>Class</th>
+                    <th>Sub-Class</th>
+                    <th>Actual Use</th>
+                    <th style="text-align: right;">Area (Sq. M.)</th>
+                    <th>Stripping</th>
+                    <th style="text-align: right;">Unit Value</th>
+                    <th>Adjustment</th>
+                    <th style="text-align: right;">Market Value</th>
+                    <th style="text-align: center;">T/E</th>
+                  </tr>
+                </thead>
+                <tbody id="faas-appraisal-tbody">
+                  <tr class="active-row">
+                    <td>Residential</td>
+                    <td class="mono" id="faas-app-subclass">R-2</td>
+                    <td class="mono" id="faas-app-actualuse">R-2</td>
+                    <td class="mono" style="text-align: right;" id="faas-app-area">463.00 Sq. M.</td>
+                    <td class="mono">None</td>
+                    <td class="mono" style="text-align: right;" id="faas-app-unitval">540.00</td>
+                    <td class="mono">None</td>
+                    <td class="mono" style="text-align: right; font-weight: 700; color: #1DB954;" id="faas-app-mktval">
+                      250,020.00</td>
+                    <td class="mono" style="text-align: center;">T</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="faas-table-bottom-bar">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <button class="faas-grid-btn primary" onclick="window.promptEditAppraisalArea()"><svg width="12"
+                      height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg> F6 Add</button>
+                  <button class="faas-grid-btn" onclick="window.promptEditAppraisalArea()"><svg width="12" height="12"
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg> F7 Edit</button>
+                  <button class="faas-grid-btn" style="color: #E22134;"><svg width="12" height="12" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg> F8 Delete</button>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 11.5px; font-weight: 700; color: #B3B3B3;">Predominant Use :</span>
+                  <select id="faas-predominant-use" class="faas-input-text" style="max-width: 140px;"
+                    onchange="window.recomputeFaasTotals()">
+                    <option value="Residential">Residential</option>
+                    <option value="Agricultural">Agricultural</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Industrial">Industrial</option>
+                  </select>
+                  <span class="faas-mono-box" style="font-size: 12px;" id="faas-base-market-badge">250,020.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card B: Property Assessment Summary -->
+            <div class="faas-table-card">
+              <div class="faas-table-card-head">
+                <span>Property Assessment Summary</span>
+              </div>
+              <table class="faas-data-table">
+                <thead>
+                  <tr>
+                    <th>Property Kind</th>
+                    <th>Actual Use</th>
+                    <th style="text-align: right;">Adjusted Market Value</th>
+                    <th style="text-align: right;">Assessment Level</th>
+                    <th style="text-align: right;">Assessed Value</th>
+                  </tr>
+                </thead>
+                <tbody id="faas-assessment-tbody">
+                  <tr class="active-row">
+                    <td>Land</td>
+                    <td id="faas-ass-actualuse">(R) R-2</td>
+                    <td class="mono" style="text-align: right;" id="faas-ass-mktval">250,020.00</td>
+                    <td class="mono" style="text-align: right; color: #1DB954;" id="faas-ass-level">6.00 %</td>
+                    <td class="mono" style="text-align: right; font-weight: 800; color: #1DB954;" id="faas-ass-val">
+                      15,000.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Right Side Column: Side Action Buttons & Status Controls -->
+          <div class="faas-side-column">
+            <!-- Stack of 6 Action Buttons -->
+            <div class="faas-action-stack">
+              <button class="faas-side-btn" onclick="alert('Plants/Trees & Value Adjustment Factor dialog')">
+                <span>🌿</span> <span>Plants/Trees & Value Adjustment Factor</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Annotations & Special Property Status')">
+                <span>ℹ</span> <span>Annotations & Special Property Status</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Sworn Statement of the Property Owner')">
+                <span>📜</span> <span>Sworn Statement of the Property Owner</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Property Picture & Other Attachments')">
+                <span>📁</span> <span>Property Picture & Other Attachments File</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Record Status Request For Approval Tagging')">
+                <span>✔</span> <span>Record Status Request For Approval Tagging</span>
+              </button>
+              <button class="faas-side-btn" onclick="alert('Built on the Land Bldg./Improvement Records')">
+                <span>🏢</span> <span>Built on the Land Bldg./Improvement Records</span>
+              </button>
+            </div>
+
+            <!-- Taxability & Effectivity Panel -->
+            <div class="faas-status-card">
+              <div class="faas-form-row">
+                <span class="faas-form-label" style="width: 80px;">Taxability :</span>
+                <select id="faas-taxability-select" class="faas-status-pill-green">
+                  <option value="Taxable" selected>Taxable</option>
+                  <option value="Exempt">Exempt</option>
+                </select>
+              </div>
+
+              <div class="faas-form-row">
+                <span style="font-size: 11.5px; color: #A7A7A7; width: 80px;">Effectivity :</span>
+                <input type="number" id="faas-effect-year" class="faas-input-text"
+                  style="max-width: 65px; font-family: 'JetBrains Mono', monospace;" value="2026">
+                <span style="font-size: 11.5px; color: #A7A7A7;">Quarter :</span>
+                <select id="faas-effect-qtr" class="faas-input-text" style="max-width: 75px;">
+                  <option value="1st">1st</option>
+                  <option value="2nd">2nd</option>
+                  <option value="3rd">3rd</option>
+                  <option value="4th">4th</option>
+                </select>
+              </div>
+
+              <div class="faas-form-row">
+                <span class="faas-form-label" style="width: 80px;">Update Code :</span>
+                <select id="faas-update-code-select" class="faas-input-text">
+                  <option value="General Revision" selected>General Revision</option>
+                  <option value="Correction">Correction</option>
+                  <option value="Transfer">Transfer</option>
+                  <option value="New Discovery">New Discovery</option>
+                </select>
+              </div>
+
+              <div class="faas-form-row">
+                <span class="faas-form-label" style="width: 80px;">Posting Date :</span>
+                <input type="text" id="faas-posting-date" class="faas-input-text"
+                  style="font-family: 'JetBrains Mono', monospace;" value="01/23/2026">
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: #059669;">
+                  <input type="checkbox" id="faas-for-correction"> <span>For Correction</span>
+                </label>
+              </div>
+
+              <button class="faas-side-btn"
+                style="justify-content: center; background: #064E3B; border-color: #059669; color: #A7F3D0; margin-top: 4px;"
+                onclick="alert('Previous Assessment & Approval Form preview')">
+                <span>✔</span> <span>Previous Assessment & Approval Form</span>
+              </button>
+
+              <div
+                style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #282828; padding-top: 6px; margin-top: 4px;">
+                <span style="font-size: 11px; color: #A7A7A7;">Status :</span>
+                <label style="font-size: 11.5px; display: flex; align-items: center; gap: 4px; color: #1DB954;">
+                  <input type="radio" name="faas_status" value="1" checked> <span>Active</span>
+                </label>
+                <label style="font-size: 11.5px; display: flex; align-items: center; gap: 4px; color: #E22134;">
+                  <input type="radio" name="faas_status" value="2"> <span>Cancelled</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- 3. Modal Action Footer -->
+      <div class="faas-modal-footer">
+        <div class="faas-footer-actions">
+          <button class="faas-btn-save" onclick="window.saveFaasRecord()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Save (Alt+S)</span>
+          </button>
+          <button class="faas-btn-cancel" onclick="window.closeFaasModal()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span>Cancel</span>
+          </button>
+        </div>
+
+        <div class="faas-footer-totals">
+          <div class="faas-total-badge">
+            <span class="faas-total-label">Total Market Value:</span>
+            <span class="faas-total-val" id="faas-footer-total-mv">₱ 250,020.00</span>
+          </div>
+          <div class="faas-total-badge">
+            <span class="faas-total-label">Total Assessed Value:</span>
+            <span class="faas-total-val green" id="faas-footer-total-av">₱ 15,000.00</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 8. CHANGE/TRANSFER BARANGAY, TD NO. & PIN DIALOG (Matching Fr-Change in new-land.p) -->
+  <div class="modal-overlay-backdrop" id="fr-change-modal" style="display: none;">
+    <div class="fr-change-card">
+      <div class="fr-change-header">
+        <span class="fr-change-title">Change/Transfer Barangay, TD No. & PIN</span>
+        <button class="fr-change-close" onclick="window.closeChangeTransferModal()">&times;</button>
+      </div>
+
+      <div class="fr-change-body">
+        <!-- Radio Options (vOption2) -->
+        <div class="fr-radio-options-row">
+          <span style="font-size: 12px; font-weight: 700; color: #1DB954;">Change Option:</span>
+          <label class="fr-radio-label">
+            <input type="radio" name="vOption2" value="1" checked onchange="window.updateFrChangeOption(this.value)">
+            <span>1. Tax Dec. No.</span>
+          </label>
+          <label class="fr-radio-label">
+            <input type="radio" name="vOption2" value="2" onchange="window.updateFrChangeOption(this.value)">
+            <span>2. P.I.N.</span>
+          </label>
+          <label class="fr-radio-label">
+            <input type="radio" name="vOption2" value="3" onchange="window.updateFrChangeOption(this.value)">
+            <span>3. Barangay</span>
+          </label>
+          <label class="fr-radio-label">
+            <input type="radio" name="vOption2" value="4" onchange="window.updateFrChangeOption(this.value)">
+            <span>4. Brgy / ARP</span>
+          </label>
+        </div>
+
+        <!-- Current TD Number -->
+        <div class="fr-field-row">
+          <span class="fr-field-label">Current T.D. Number :</span>
+          <div class="fr-field-inputs-group">
+            <input type="text" id="fr-cur-bgy" class="fr-mono-input readonly" style="width: 70px;" readonly>
+            <span>-</span>
+            <input type="text" id="fr-cur-arp" class="fr-mono-input readonly" style="width: 90px;" readonly>
+          </div>
+        </div>
+
+        <!-- Current PIN -->
+        <div class="fr-field-row">
+          <span class="fr-field-label">Current PIN :</span>
+          <div class="fr-field-inputs-group">
+            <input type="text" id="fr-cur-sec" class="fr-mono-input readonly" style="width: 60px;" readonly>
+            <span>-</span>
+            <input type="text" id="fr-cur-lot" class="fr-mono-input readonly" style="width: 60px;" readonly>
+          </div>
+        </div>
+
+        <!-- Change to TD Number -->
+        <div class="fr-field-row">
+          <span class="fr-field-label" style="color: #FFFFFF; font-weight: 700;">Change to T.D. Number :</span>
+          <div class="fr-field-inputs-group">
+            <input type="text" id="fr-new-bgy" class="fr-mono-input readonly" style="width: 70px;" disabled>
+            <span>-</span>
+            <input type="text" id="fr-new-arp" class="fr-mono-input" style="width: 90px;" placeholder="New ARP">
+          </div>
+        </div>
+
+        <!-- Change to PIN -->
+        <div class="fr-field-row">
+          <span class="fr-field-label" style="color: #FFFFFF; font-weight: 700;">Change to PIN :</span>
+          <div class="fr-field-inputs-group">
+            <input type="text" id="fr-new-sec" class="fr-mono-input readonly" style="width: 60px;" placeholder="Sec"
+              disabled>
+            <span>-</span>
+            <input type="text" id="fr-new-lot" class="fr-mono-input readonly" style="width: 60px;" placeholder="Lot"
+              disabled>
+          </div>
+        </div>
+      </div>
+
+      <div class="fr-change-footer">
+        <button class="land-tool-btn" onclick="window.closeChangeTransferModal()">Cancel</button>
+        <button class="land-tool-btn primary" onclick="window.processChangeTransfer()">Process Change</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/unapproved-data.js"></script>
+  <script src="js/land-properties.js"></script>
+</body>
+
+</html>

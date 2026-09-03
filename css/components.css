@@ -1,0 +1,320 @@
+/* ==========================================================================
+   GREEN DECK DESIGN SYSTEM - COMPONENTS
+   Pill buttons, dark-surface cards, elevated modals, and high-contrast tables.
+   ========================================================================== */
+
+/* ==========================================================================
+   Buttons (Primary Pill #1DB954, Secondary Pill Outline)
+   ========================================================================== */
+.btn-primary {
+  height: 40px;
+  padding: 0 24px;
+  background-color: var(--color-primary, #1DB954);
+  color: var(--text-on-primary, #FFFFFF);
+  border: none;
+  border-radius: var(--radius-pill, 9999px);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: var(--text-body, 14px);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform var(--transition-normal, 200ms ease), background-color var(--transition-normal, 200ms ease);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover, #1ED760);
+  transform: scale(1.04);
+}
+
+.btn-primary:active {
+  transform: scale(1.0);
+}
+
+.btn-secondary {
+  height: 40px;
+  padding: 0 20px;
+  background-color: transparent;
+  color: var(--text-primary, #FFFFFF);
+  border: 1px solid var(--color-border-secondary, #727272);
+  border-radius: var(--radius-pill, 9999px);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: var(--text-body, 14px);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform var(--transition-normal, 200ms ease), border-color var(--transition-normal, 200ms ease);
+}
+
+.btn-secondary:hover {
+  border-color: #FFFFFF;
+  transform: scale(1.04);
+}
+
+.btn-icon-pill {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: var(--color-surface-2, #282828);
+  border: none;
+  color: var(--text-primary, #FFFFFF);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--transition-normal, 200ms ease), background-color var(--transition-normal, 200ms ease);
+}
+
+.btn-icon-pill:hover {
+  background-color: var(--color-surface-3, #333333);
+  transform: scale(1.08);
+}
+
+/* ==========================================================================
+   Cards & Surface Containers (Level 1: #181818 -> Level 2: #282828)
+   ========================================================================== */
+.gd-card {
+  background-color: var(--color-surface-1, #181818);
+  border-radius: var(--radius-md, 8px);
+  padding: 24px;
+  border: 1px solid var(--color-border, #282828);
+  transition: background-color var(--transition-normal, 200ms ease);
+}
+
+.gd-card:hover {
+  background-color: var(--color-surface-2, #282828);
+}
+
+.gd-card-title {
+  font-family: var(--font-display, 'DM Sans', sans-serif);
+  font-size: var(--text-card-title, 16px);
+  font-weight: 700;
+  color: var(--text-primary, #FFFFFF);
+  margin-bottom: 8px;
+}
+
+.gd-card-subtitle {
+  font-size: var(--text-body, 14px);
+  color: var(--text-secondary, #A7A7A7);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Hub Grid & Action Cards
+   ========================================================================== */
+.hub-metric-card {
+  background-color: var(--color-surface-1, #181818);
+  border-radius: var(--radius-md, 8px);
+  padding: 24px;
+  border: 1px solid var(--color-border, #282828);
+  transition: background-color var(--transition-normal, 200ms ease), transform var(--transition-normal, 200ms ease);
+}
+
+.hub-metric-card:hover {
+  background-color: var(--color-surface-2, #282828);
+  transform: translateY(-2px);
+}
+
+.hub-metric-label {
+  font-size: var(--text-label, 11px);
+  font-weight: 700;
+  letter-spacing: var(--track-label, 0.1em);
+  text-transform: uppercase;
+  color: var(--text-secondary, #A7A7A7);
+  margin-bottom: 8px;
+}
+
+.hub-metric-value {
+  font-family: var(--font-display, 'DM Sans', sans-serif);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary, #FFFFFF);
+}
+
+.hub-metric-value.accent-green {
+  color: var(--color-primary, #1DB954);
+}
+
+/* ==========================================================================
+   Data Tables (High-Contrast Dark Rows, 56px height)
+   ========================================================================== */
+.gd-table-container {
+  background-color: var(--color-surface-1, #181818);
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--color-border, #282828);
+  overflow: hidden;
+}
+
+.gd-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: var(--text-body, 14px);
+}
+
+.gd-table th {
+  background-color: #000000;
+  color: var(--text-secondary, #A7A7A7);
+  font-size: var(--text-label, 11px);
+  font-weight: 700;
+  letter-spacing: var(--track-label, 0.1em);
+  text-transform: uppercase;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border, #282828);
+}
+
+.gd-table td {
+  padding: 14px 16px;
+  color: var(--text-primary, #FFFFFF);
+  border-bottom: 1px solid var(--color-border, #282828);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+}
+
+.gd-table tr {
+  transition: background-color var(--transition-fast, 150ms ease);
+}
+
+.gd-table tr:hover {
+  background-color: var(--color-surface-2, #282828);
+}
+
+.gd-table tr.active-row {
+  background-color: var(--color-surface-2, #282828);
+}
+
+.gd-table tr.active-row td:first-child {
+  border-left: 3px solid var(--color-primary, #1DB954);
+}
+
+/* Code / PIN Cell */
+.table-code-cell {
+  font-family: var(--font-code, monospace);
+  font-size: var(--text-code, 13px);
+  color: var(--color-primary, #1DB954);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Badges & Pills
+   ========================================================================== */
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill, 9999px);
+  font-size: var(--text-label, 11px);
+  font-weight: 700;
+  letter-spacing: var(--track-label, 0.1em);
+  text-transform: uppercase;
+}
+
+.badge-pill.status-approved {
+  background-color: rgba(29, 185, 84, 0.15);
+  color: var(--color-primary, #1DB954);
+  border: 1px solid rgba(29, 185, 84, 0.3);
+}
+
+.badge-pill.status-pending {
+  background-color: rgba(245, 155, 35, 0.15);
+  color: var(--color-warning, #F59B23);
+  border: 1px solid rgba(245, 155, 35, 0.3);
+}
+
+.badge-pill.status-error {
+  background-color: rgba(226, 33, 52, 0.15);
+  color: var(--color-error, #E22134);
+  border: 1px solid rgba(226, 33, 52, 0.3);
+}
+
+/* ==========================================================================
+   Modals & Dialogs (Level 3 Elevation: #333333)
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-panel {
+  background-color: var(--color-surface-3, #333333);
+  border-radius: var(--radius-md, 8px);
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-level-3, 0 8px 24px rgba(0,0,0,0.5));
+  border: 1px solid #444444;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #444444;
+  padding-bottom: 16px;
+}
+
+.modal-title {
+  font-family: var(--font-display, 'DM Sans', sans-serif);
+  font-size: var(--text-section-title, 24px);
+  font-weight: 700;
+  color: var(--text-primary, #FFFFFF);
+  letter-spacing: var(--track-section-title, -0.01em);
+}
+
+/* Toast Notifications */
+.toast-notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: var(--color-surface-3, #333333);
+  border-left: 4px solid var(--color-primary, #1DB954);
+  border-radius: var(--radius-sm, 4px);
+  padding: 14px 20px;
+  box-shadow: var(--shadow-level-3, 0 8px 24px rgba(0,0,0,0.5));
+  color: var(--text-primary, #FFFFFF);
+  z-index: 2000;
+  display: none;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+}
+
+.toast-notification.show {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: gdFadeIn 0.3s ease-out;
+}
+
+.toast-notification.success {
+  border-left-color: var(--color-primary, #1DB954);
+}
+
+.toast-notification.error {
+  border-left-color: var(--color-error, #E22134);
+}

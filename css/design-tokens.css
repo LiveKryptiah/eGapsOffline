@@ -1,0 +1,273 @@
+/* ==========================================================================
+   eRPAS DUAL-THEME DESIGN SYSTEM - DESIGN TOKENS
+   Default: Clean Municipal Light Mode | Toggleable: Green Deck Dark Mode
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================================================
+   1. DEFAULT LIGHT THEME (Clean High-Contrast Municipal Aesthetic)
+   ========================================================================== */
+:root {
+  /* Surface & Canvas Hierarchy */
+  --color-bg: #F1F5F9;
+  --color-surface-1: #FFFFFF;
+  --color-surface-2: #F8FAFC;
+  --color-surface-3: #E2E8F0;
+  --color-surface-4: #CBD5E1;
+  --color-surface-hover: #F1F5F9;
+
+  /* Brand Accents */
+  --color-primary: #15803D;
+  --color-primary-hover: #16A34A;
+  --color-primary-bg: rgba(21, 128, 61, 0.12);
+  --color-primary-border: #16A34A;
+
+  --color-secondary: #64748B;
+  --color-neutral: #475569;
+
+  /* High-Contrast Typography */
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-dim: #94A3B8;
+  --text-on-primary: #FFFFFF;
+
+  /* Borders & Dividers */
+  --color-border: #CBD5E1;
+  --color-border-subtle: #E2E8F0;
+  --color-border-focus: #15803D;
+
+  /* Table & Cadastral Grid */
+  --table-header-bg: #E2E8F0;
+  --table-header-text: #1E293B;
+  --table-header-border: #CBD5E1;
+  --table-row-border: #E2E8F0;
+  --table-row-hover: #F8FAFC;
+  --table-row-text: #0F172A;
+  --row-selected: rgba(22, 163, 74, 0.14);
+  --row-selected-border: #15803D;
+  --row-selected-text: #0F172A;
+  --cell-assessed-color: #15803D;
+
+  /* Form & Filter Controls */
+  --input-bg: #FFFFFF;
+  --input-border: #CBD5E1;
+  --input-text: #0F172A;
+  --input-placeholder: #94A3B8;
+  --input-focus-border: #15803D;
+  --input-focus-ring: rgba(21, 128, 61, 0.2);
+
+  /* Toolbar & Actions */
+  --toolbar-bg: linear-gradient(180deg, #F8FAFC 0%, #E2E8F0 100%);
+  --toolbar-border: #CBD5E1;
+  --toolbar-btn-bg: #FFFFFF;
+  --toolbar-btn-border: #CBD5E1;
+  --toolbar-btn-text: #0F172A;
+  --toolbar-btn-hover-bg: #F1F5F9;
+  --toolbar-btn-hover-text: #15803D;
+
+  /* Status Badges */
+  --stat-bg: #ECFDF5;
+  --stat-border: #86EFAC;
+  --stat-text: #047857;
+  --stat-num: #15803D;
+
+  --badge-approved: #15803D;
+  --badge-pending: #D97706;
+  --badge-cancelled: #DC2626;
+  --badge-validated: #0284C7;
+
+  /* Side Navigation */
+  --nav-bg: #15803D;
+  --nav-btn-hover: rgba(255, 255, 255, 0.2);
+  --nav-btn-active: #FFFFFF;
+  --nav-btn-active-icon: #15803D;
+  --nav-btn-icon: #FFFFFF;
+  --nav-divider: rgba(255, 255, 255, 0.25);
+
+  /* Status Ribbon */
+  --remarks-bg: #E2E8F0;
+  --remarks-border: #CBD5E1;
+  --remarks-text: #334155;
+  --remarks-accent: #15803D;
+
+  /* Dialogs & Modals */
+  --modal-backdrop: rgba(15, 23, 42, 0.6);
+  --modal-bg: #FFFFFF;
+  --modal-header-bg: #F8FAFC;
+  --modal-header-border: #E2E8F0;
+  --modal-header-text: #0F172A;
+  --modal-footer-bg: #F8FAFC;
+  --modal-footer-border: #E2E8F0;
+
+  /* Semantic Status Colors */
+  --color-success: #15803D;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+  --color-info: #0284C7;
+
+  /* Typography Scales */
+  --font-display: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   2. DARK THEME (Green Deck Authentic Void Dark Mode)
+   ========================================================================== */
+[data-theme="dark"],
+.dark-theme {
+  /* Surface & Canvas Hierarchy */
+  --color-bg: #121212;
+  --color-surface-1: #181818;
+  --color-surface-2: #242424;
+  --color-surface-3: #333333;
+  --color-surface-4: #404040;
+  --color-surface-hover: #1F1F1F;
+
+  /* Brand Accents */
+  --color-primary: #1DB954;
+  --color-primary-hover: #1ED760;
+  --color-primary-bg: rgba(29, 185, 84, 0.16);
+  --color-primary-border: #1DB954;
+
+  --color-secondary: #535353;
+  --color-neutral: #B3B3B3;
+
+  /* Typography */
+  --text-primary: #FFFFFF;
+  --text-secondary: #A7A7A7;
+  --text-muted: #B3B3B3;
+  --text-dim: #727272;
+  --text-on-primary: #FFFFFF;
+
+  /* Borders & Dividers */
+  --color-border: #282828;
+  --color-border-subtle: #1E1E1E;
+  --color-border-focus: #1DB954;
+
+  /* Table & Cadastral Grid */
+  --table-header-bg: #1A1A1A;
+  --table-header-text: #CCCCCC;
+  --table-header-border: #282828;
+  --table-row-border: #1E1E1E;
+  --table-row-hover: #1A1A1A;
+  --table-row-text: #E2E8F0;
+  --row-selected: rgba(29, 185, 84, 0.16);
+  --row-selected-border: #1DB954;
+  --row-selected-text: #FFFFFF;
+  --cell-assessed-color: #1DB954;
+
+  /* Form & Filter Controls */
+  --input-bg: #1F1F1F;
+  --input-border: #333333;
+  --input-text: #FFFFFF;
+  --input-placeholder: #666666;
+  --input-focus-border: #1DB954;
+  --input-focus-ring: rgba(29, 185, 84, 0.3);
+
+  /* Toolbar & Actions */
+  --toolbar-bg: linear-gradient(180deg, #181818 0%, #121212 100%);
+  --toolbar-border: #282828;
+  --toolbar-btn-bg: #242424;
+  --toolbar-btn-border: #383838;
+  --toolbar-btn-text: #FFFFFF;
+  --toolbar-btn-hover-bg: #303030;
+  --toolbar-btn-hover-text: #1DB954;
+
+  /* Status Badges */
+  --stat-bg: #0d2818;
+  --stat-border: #1DB954;
+  --stat-text: #1DB954;
+  --stat-num: #1DB954;
+
+  --badge-approved: #1DB954;
+  --badge-pending: #FFA726;
+  --badge-cancelled: #E22134;
+  --badge-validated: #00E5FF;
+
+  /* Side Navigation */
+  --nav-bg: #0d2818;
+  --nav-btn-hover: rgba(29, 185, 84, 0.3);
+  --nav-btn-active: #1DB954;
+  --nav-btn-active-icon: #000000;
+  --nav-btn-icon: #B3B3B3;
+  --nav-divider: #1E3A24;
+
+  /* Status Ribbon */
+  --remarks-bg: #141414;
+  --remarks-border: #282828;
+  --remarks-text: #A7A7A7;
+  --remarks-accent: #1DB954;
+
+  /* Dialogs & Modals */
+  --modal-backdrop: rgba(0, 0, 0, 0.75);
+  --modal-bg: #181818;
+  --modal-header-bg: #222222;
+  --modal-header-border: #333333;
+  --modal-header-text: #FFFFFF;
+  --modal-footer-bg: #141414;
+  --modal-footer-border: #282828;
+
+  /* Semantic Status Colors */
+  --color-success: #1DB954;
+  --color-warning: #FFA726;
+  --color-error: #E22134;
+  --color-info: #00E5FF;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Base Body Application */
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  background-color: var(--color-bg) !important;
+  color: var(--text-primary);
+  overflow: hidden;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Universal Theme Toggle Button in Header */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--toolbar-btn-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}

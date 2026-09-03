@@ -1,0 +1,55 @@
+﻿/* PRISMA STYLE SYSTEM TOKENS - "ENGINEER'S BLUEPRINT ON FROSTED GLASS" */
+:root {
+  /* Colors */
+  --color-prism-teal: #14b8a6;
+  --color-deep-teal: #0d9488;
+  --gradient-deep-teal: linear-gradient(180deg, rgba(13, 148, 136, 0.08) 0%, rgba(255, 255, 255, 1) 100%);
+  --gradient-wash: radial-gradient(circle at 10% 10%, rgba(20, 184, 166, 0.06) 0%, transparent 50%),
+                         radial-gradient(circle at 90% 90%, rgba(13, 148, 136, 0.04) 0%, transparent 50%);
+  --color-carbon-ink: #1d242f;
+  --color-graphite: #111827;
+  --color-slate: #6b7280;
+  --color-steel: #718096;
+  --color-fog: #9ca3af;
+  --color-mist: #e2e8f0;
+  --color-bone: #f3f4f6;
+  --color-paper: #ffffff;
+
+  /* Typography */
+  --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mona-sans: 'Mona Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono-code: 'JetBrains Mono', 'IBM Plex Mono', 'Mona Sans Mono VF', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Typography Scale */
+  --text-micro: 11px;
+  --text-caption: 14px;
+  --text-body-sm: 16px;
+  --text-body: 18px;
+  --text-body-lg: 22px;
+  --text-subheading: 24px;
+  --text-heading-sm: 30px;
+  --text-heading: 36px;
+  --text-heading-lg: 40px;
+  --text-display: 64px;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+
+  /* Border Radii */
+  --radius-nav: 6px;
+  --radius-cards: 10px;
+  --radius-icons: 6px;
+  --radius-buttons: 6px;
+  --radius-codeblocks: 10px;
+
+  /* Shadows */
+  --shadow-subtle: 0px 1px 2px 0px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+}
