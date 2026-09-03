@@ -637,7 +637,7 @@ class RPASApiHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_json({"error": str(e)}, status_code=500)
                 return
 
-        if parsed.path == '/api/status':
+        if parsed.path == '/api/status' or parsed.path == '/api/health':
             self.send_json({
                 "status": "online",
                 "engine": "Progress OpenEdge 9.1E",
