@@ -1,16 +1,18 @@
 /**
  * eRPAS Office Database Bridge & Offline Auto-Sync Engine
  * Features:
- * 1. Tunnel / Bridge routing between Vercel/mobile and local OpenEdge database.
+ * 1. Zero-Link Auto-Pairing: Simply enter passkey (33Land25PA0) to connect to office database!
  * 2. Store-and-Forward Offline Outbox: saves edits locally on phone/laptop when offline.
- * 3. Automatic Two-Way Background Sync: synchronizes all queued records as soon as the tunnel starts.
+ * 3. Automatic Two-Way Background Sync: synchronizes all queued records as soon as tunnel is active.
  */
 
 (function () {
   'use strict';
 
   const STORAGE_KEY = 'rpas_api_endpoint';
+  const PASSKEY_KEY = 'rpas_passkey';
   const QUEUE_KEY = 'rpas_offline_queue';
+  const DEFAULT_PASSKEY = '33Land25PA0';
 
   window.getApiBaseUrl = function () {
     const saved = localStorage.getItem(STORAGE_KEY) || '';
@@ -27,6 +29,54 @@
     if (url) {
       triggerBackgroundSync();
     }
+  };
+
+  // --- Auto-Resolve Tunnel URL from Passkey ---
+  async function resolveTopicFromPasskey(passkey) {
+    // Fast path for default passkey
+    if (passkey.trim() === DEFAULT_PASSKEY) {
+      return 'egaps-relay-126fde1eaef1707c';
+    }
+    try {
+      const msgUint8 = new TextEncoder().encode(passkey.trim());
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 16);
+      return 'egaps-relay-' + hashHex;
+    } catch (e) {
+      return 'egaps-relay-126fde1eaef1707c';
+    }
+  }
+
+  window.resolveTunnelUrl = async function (passkey) {
+    const key = passkey.trim();
+    // If user entered an actual http/https URL directly, support it
+    if (key.startsWith('http://') || key.startsWith('https://')) {
+      return key.replace(/\/+$/, '');
+    }
+
+    const topic = await resolveTopicFromPasskey(key);
+    const res = await originalFetch(`https://ntfy.sh/${topic}/json?poll=1`, { method: 'GET' });
+    if (!res.ok) throw new Error('Relay server error');
+    
+    const text = await res.text();
+    const lines = text.trim().split('\n').filter(Boolean);
+    let latestUrl = '';
+
+    for (const line of lines) {
+      try {
+        const data = JSON.parse(line);
+        if (data.event === 'message' && data.message && data.message.startsWith('http')) {
+          latestUrl = data.message.trim();
+        }
+      } catch (e) { }
+    }
+
+    if (!latestUrl) {
+      throw new Error(`No active tunnel found for passkey "${key}". Make sure start_tunnel.bat is running on your office PC.`);
+    }
+
+    return latestUrl.replace(/\/+$/, '');
   };
 
   // --- Offline Outbox Management ---
@@ -101,18 +151,15 @@
       try {
         const response = await originalFetch.call(this, input, init);
         if (response.ok) {
-          // If server was reached and there are pending offline items, trigger background sync
           if (window.getOfflineQueue().length > 0) {
             setTimeout(triggerBackgroundSync, 1000);
           }
           return response;
         } else if (response.status >= 500 && response.status <= 504) {
-          // Server or tunnel gateway down
           throw new Error(`Server Unreachable (${response.status})`);
         }
         return response;
       } catch (err) {
-        // Network / Tunnel offline -> Queue locally in Outbox!
         let bodyData = {};
         try {
           if (init && init.body) {
@@ -122,7 +169,6 @@
 
         enqueueAction(url, method, bodyData);
 
-        // Return a mock successful response so client script completes smoothly
         return new Response(JSON.stringify({
           status: 'success',
           offline_queued: true,
@@ -184,8 +230,22 @@
     return { success: true, count: successCount, remaining: remaining.length };
   };
 
-  // Poller: Check every 15 seconds if tunnel is back online and sync queued records
-  setInterval(() => {
+  // Auto reconnect and sync every 15 seconds
+  setInterval(async () => {
+    // If cloud-hosted, try to auto-refresh tunnel URL using saved passkey if currently offline
+    const savedPasskey = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
+    if (isCloudHosted() && savedPasskey) {
+      const test = await window.testApiConnection();
+      if (!test.success) {
+        try {
+          const freshUrl = await window.resolveTunnelUrl(savedPasskey);
+          if (freshUrl && freshUrl !== window.getApiBaseUrl()) {
+            window.setApiBaseUrl(freshUrl);
+          }
+        } catch (e) { }
+      }
+    }
+
     if (window.getOfflineQueue().length > 0) {
       window.triggerBackgroundSync();
     }
@@ -234,12 +294,12 @@
       badge.style.borderColor = '#10b981';
       badge.style.background = '#064e3b';
       badge.style.color = '#34d399';
-      text.textContent = 'DB Bridge: Linked';
+      text.textContent = 'DB Bridge: Linked (33Land25PA0)';
     } else if (isCloudHosted()) {
       badge.style.borderColor = '#f59e0b';
       badge.style.background = '#78350f';
       badge.style.color = '#fde68a';
-      text.textContent = 'DB Bridge: Setup Tunnel';
+      text.textContent = 'DB Bridge: Enter Passkey';
     } else {
       badge.style.borderColor = '#0284c7';
       badge.style.background = '#082f49';
@@ -330,10 +390,10 @@
         color: #e5e7eb;
         box-shadow: 0 4px 14px rgba(0,0,0,0.35);
         transition: all 0.2s ease;
-      " title="Click to view Database Bridge & Offline Sync Outbox">
+      " title="Click to view Database Bridge & Passkey Setting">
         <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:currentColor;"></span>
         <span id="rpas-bridge-status-text">Database Bridge</span>
-        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
       </div>
 
       <!-- Modal Dialog -->
@@ -353,7 +413,7 @@
           background: #111827;
           border: 1px solid #374151;
           border-radius: 12px;
-          max-width: 520px;
+          max-width: 500px;
           width: 100%;
           max-height: 90vh;
           display: flex;
@@ -366,11 +426,11 @@
           <div style="padding: 16px 20px; border-bottom: 1px solid #1f2937; display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <div style="width: 32px; height: 32px; border-radius: 8px; background: #064e3b; color: #10b981; display: flex; align-items: center; justify-content: center;">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
               </div>
               <div>
-                <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #ffffff;">Office DB Bridge & Auto-Sync</h3>
-                <span style="font-size: 11px; color: #9ca3af;">Offline store-and-forward for field inspections</span>
+                <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #ffffff;">Office DB Passkey Connect</h3>
+                <span style="font-size: 11px; color: #9ca3af;">Connect automatically using password &bull; No link copying!</span>
               </div>
             </div>
             <button id="rpas-bridge-close" style="background: none; border: none; color: #9ca3af; font-size: 20px; cursor: pointer; line-height: 1;">&times;</button>
@@ -378,24 +438,26 @@
 
           <!-- Body Scroll -->
           <div style="padding: 20px; overflow-y: auto;">
-            <!-- Connection Section -->
+            <!-- Passkey Section -->
             <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-bottom: 6px;">
-              Private Tunnel URL:
+              Enter Office Passkey:
             </label>
             <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-              <input type="url" id="rpas-bridge-url-input" placeholder="https://xyz-tunnel.trycloudflare.com" style="
+              <input type="text" id="rpas-bridge-passkey-input" placeholder="${DEFAULT_PASSKEY}" value="${DEFAULT_PASSKEY}" style="
                 flex: 1;
-                padding: 9px 12px;
+                padding: 10px 12px;
                 background: #1f2937;
                 border: 1px solid #374151;
                 border-radius: 6px;
                 color: #ffffff;
                 font-family: 'JetBrains Mono', monospace;
-                font-size: 12px;
+                font-weight: 700;
+                font-size: 14px;
                 outline: none;
+                letter-spacing: 0.05em;
               ">
               <button id="rpas-bridge-save" style="
-                padding: 9px 16px;
+                padding: 10px 18px;
                 border-radius: 6px;
                 border: none;
                 background: #059669;
@@ -408,7 +470,7 @@
             </div>
 
             <!-- Result Box -->
-            <div id="rpas-bridge-test-result" style="display: none; padding: 8px 12px; border-radius: 6px; font-size: 11px; margin-bottom: 14px;"></div>
+            <div id="rpas-bridge-test-result" style="display: none; padding: 10px 12px; border-radius: 6px; font-size: 12px; margin-bottom: 14px; line-height: 1.4;"></div>
 
             <!-- Offline Outbox Section -->
             <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #1f2937;">
@@ -438,17 +500,15 @@
                   ">Clear</button>
                 </div>
               </div>
-              <div id="rpas-bridge-queue-list" style="max-height: 140px; overflow-y: auto; background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px;">
-                <!-- Dynamically populated -->
-              </div>
+              <div id="rpas-bridge-queue-list" style="max-height: 120px; overflow-y: auto; background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px;"></div>
             </div>
 
-            <!-- Quick Start Instruction -->
+            <!-- Quick Info -->
             <div style="margin-top: 14px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 10px 12px; font-size: 11px; color: #94a3b8; line-height: 1.4;">
-              <strong style="color: #38bdf8;">How Offline Sync Works:</strong><br>
-              1. Work in the field without internet &bull; click Save/Approve normally.<br>
-              2. Records save safely into your phone/laptop's Offline Outbox.<br>
-              3. When you start <code style="color:#e2e8f0;">start_tunnel.bat</code> on your office PC, everything syncs back automatically!
+              <strong style="color: #38bdf8;">How to Connect:</strong><br>
+              1. On your office PC, double-click <code style="color:#e2e8f0;">start_tunnel.bat</code>.<br>
+              2. On your phone/laptop, just enter passkey <strong style="color:#a7f3d0;">${DEFAULT_PASSKEY}</strong> and click Connect.<br>
+              3. You never have to copy or send random links!
             </div>
           </div>
         </div>
@@ -460,14 +520,17 @@
     const badge = document.getElementById('rpas-bridge-badge');
     const modal = document.getElementById('rpas-bridge-modal');
     const closeBtn = document.getElementById('rpas-bridge-close');
-    const input = document.getElementById('rpas-bridge-url-input');
+    const passkeyInput = document.getElementById('rpas-bridge-passkey-input');
     const saveBtn = document.getElementById('rpas-bridge-save');
     const manualSyncBtn = document.getElementById('rpas-bridge-manual-sync');
     const clearQueueBtn = document.getElementById('rpas-bridge-clear-queue');
     const resultBox = document.getElementById('rpas-bridge-test-result');
 
+    const savedKey = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
+    passkeyInput.value = savedKey;
+
     badge.addEventListener('click', () => {
-      input.value = window.getApiBaseUrl();
+      passkeyInput.value = localStorage.getItem(PASSKEY_KEY) || DEFAULT_PASSKEY;
       resultBox.style.display = 'none';
       renderQueueList();
       modal.style.display = 'flex';
@@ -508,37 +571,60 @@
     });
 
     saveBtn.addEventListener('click', async () => {
-      const url = input.value.trim();
+      const passkey = passkeyInput.value.trim();
       saveBtn.disabled = true;
-      saveBtn.textContent = 'Testing...';
+      saveBtn.textContent = 'Connecting...';
       resultBox.style.display = 'none';
 
-      if (!url) {
+      if (!passkey) {
         window.setApiBaseUrl('');
+        localStorage.removeItem(PASSKEY_KEY);
         saveBtn.disabled = false;
         saveBtn.textContent = 'Connect';
         modal.style.display = 'none';
         return;
       }
 
-      const res = await window.testApiConnection(url);
-      saveBtn.disabled = false;
-      saveBtn.textContent = 'Connect';
-
-      if (res.success) {
-        window.setApiBaseUrl(url);
+      try {
         resultBox.style.display = 'block';
-        resultBox.style.background = '#064e3b';
-        resultBox.style.color = '#a7f3d0';
-        resultBox.innerHTML = `✓ <strong>Connected!</strong> OpenEdge database is reachable.`;
-        setTimeout(() => { modal.style.display = 'none'; }, 1000);
-      } else {
+        resultBox.style.background = '#1e293b';
+        resultBox.style.color = '#93c5fd';
+        resultBox.textContent = `Looking up office computer for passkey "${passkey}"...`;
+
+        const resolvedUrl = await window.resolveTunnelUrl(passkey);
+        const testRes = await window.testApiConnection(resolvedUrl);
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Connect';
+
+        if (testRes.success) {
+          localStorage.setItem(PASSKEY_KEY, passkey);
+          window.setApiBaseUrl(resolvedUrl);
+          resultBox.style.background = '#064e3b';
+          resultBox.style.color = '#a7f3d0';
+          resultBox.innerHTML = `✓ <strong>Connected!</strong> Paired with office OpenEdge database (192.168.4.1).`;
+          setTimeout(() => { modal.style.display = 'none'; }, 1000);
+        } else {
+          resultBox.style.background = '#7f1d1d';
+          resultBox.style.color = '#fecaca';
+          resultBox.innerHTML = `✗ <strong>Connection Failed:</strong> ${testRes.error}`;
+        }
+      } catch (err) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Connect';
         resultBox.style.display = 'block';
         resultBox.style.background = '#7f1d1d';
         resultBox.style.color = '#fecaca';
-        resultBox.innerHTML = `✗ <strong>Connection Failed:</strong> ${res.error}`;
+        resultBox.innerHTML = `✗ <strong>Could Not Connect:</strong> ${err.message}`;
       }
     });
+
+    // Auto-connect on page load if cloud-hosted and passkey is present
+    if (isCloudHosted() && savedKey && !window.getApiBaseUrl()) {
+      window.resolveTunnelUrl(savedKey).then(url => {
+        if (url) window.setApiBaseUrl(url);
+      }).catch(() => { });
+    }
 
     updateBridgeStatus();
     renderQueueList();
